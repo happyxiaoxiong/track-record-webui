@@ -6,7 +6,7 @@ import {HttpRes} from '@core/model/http-res';
 
 @Injectable()
 export class JsLoadService {
-    private count = 0;
+
     private scriptLoadingPromise = [];
 
     constructor(private http: HttpClient) {
