@@ -10,8 +10,6 @@ import { AppComponent } from './app.component';
 import { RoutesModule } from './routes/routes.module';
 import { LayoutModule } from './layout/layout.module';
 import { StartupService } from '@core/startup/startup.service';
-import { DefaultInterceptor } from '@core/net/default.interceptor';
-import { SimpleInterceptor } from '@delon/auth';
 // angular i18n
 import { registerLocaleData } from '@angular/common';
 import localeZhHans from '@angular/common/locales/zh-Hans';
@@ -21,6 +19,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
+import {TokenInterceptor} from "@core/interceptor/token-interceptor";
+import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -39,11 +39,12 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
-        DelonModule.forRoot(),
+        DelonModule,
         CoreModule,
         SharedModule,
         LayoutModule,
         RoutesModule,
+        LoggerModule.forRoot({level: NgxLoggerLevel.DEBUG, serverLogLevel: NgxLoggerLevel.ERROR}),
         // i18n
         TranslateModule.forRoot({
             loader: {
@@ -54,9 +55,8 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         })
     ],
     providers: [
-        { provide: LOCALE_ID, useValue: 'zh-Hans' },
-        { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true},
-        { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true},
+        { provide: LOCALE_ID, useValue: 'zh-CN' },
+        { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true},
         { provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false },
         StartupService,
         {

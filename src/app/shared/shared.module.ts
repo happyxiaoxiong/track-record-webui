@@ -12,12 +12,27 @@ import { TranslateModule } from '@ngx-translate/core';
 
 // region: third libs
 import { CountdownModule } from 'ngx-countdown';
+import {ByteFormatPipe} from '@core/pipe/byte-format.pipe';
+import {MeterFormatPipe} from '@core/pipe/meter-format.pipe';
+import {MoreComponent} from '../routes/widget/more/more.component';
+import {AqmModule} from 'angular-qq-maps';
+import {FixWindowDirective} from '@core/directive/fix-window.directive';
+import {MoveAnimateComponent} from '../routes/widget/move-animate/move-animate.component';
+
 const THIRDMODULES = [ CountdownModule ];
 // endregion
 
 // region: your componets & directives
-const COMPONENTS = [];
-const DIRECTIVES = [];
+const COMPONENTS = [
+    MoreComponent,
+    MoveAnimateComponent
+
+];
+const DIRECTIVES = [
+    ByteFormatPipe,
+    MeterFormatPipe,
+    FixWindowDirective
+];
 // endregion
 
 @NgModule({
@@ -32,12 +47,18 @@ const DIRECTIVES = [];
         ...ABCMODULES,
         AlainACLModule,
         // third libs
-        ...THIRDMODULES
+        ...THIRDMODULES,
+        AqmModule.forRoot({
+            apiKey: 'I3TBZ-QTN3J-MWPFI-FERMS-IBOCQ-LBBWY' // app key为必选项
+        })
     ],
     declarations: [
         // your components
         ...COMPONENTS,
         ...DIRECTIVES
+    ],
+    entryComponents: [
+        MoveAnimateComponent
     ],
     exports: [
         CommonModule,
@@ -54,7 +75,8 @@ const DIRECTIVES = [];
         ...THIRDMODULES,
         // your components
         ...COMPONENTS,
-        ...DIRECTIVES
+        ...DIRECTIVES,
+        AqmModule
     ]
 })
 export class SharedModule { }

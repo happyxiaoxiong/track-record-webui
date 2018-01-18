@@ -12,7 +12,10 @@ interface WebpackRequire {
 interface NodeRequire extends WebpackRequire {}
 declare var require: NodeRequire;
 
-// G2
-declare var G2: any;
-declare var Slider: any;
-declare var Cloud: any;
+// // G2
+// declare var G2: any;
+// declare var Slider: any;
+// declare var Cloud: any;
+
+// plupload
+declare var plupload: any;

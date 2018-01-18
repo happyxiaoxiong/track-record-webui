@@ -1,0 +1,79 @@
+<nz-card>
+    <form nz-form>
+        <div nz-row>
+            <div nz-col [nzSm]="5" class="pr-sm" nz-form-item>
+                <nz-input [(ngModel)]="params.name" [disabled]="loading" name="name" [nzId]="'name'" [nzPlaceHolder]="'轨迹名称'">
+                </nz-input>
+            </div>
+            <div nz-col [nzSm]="5" class="pr-sm" nz-form-item>
+                <nz-input [(ngModel)]="params.userName" [disabled]="loading" name="userName" [nzId]="'userName'" [nzPlaceHolder]="'记录人'"></nz-input>
+            </div>
+            <div nz-col [nzSm]="8" [nzXs]="12" class="pr-sm" nz-form-item>
+                <nz-rangepicker [(ngModel)]="dateRange" [disabled]="loading" name="dataRange" [nzPlaceholder]="['开始巡护时间', ['结束巡护时间']]"></nz-rangepicker>
+            </div>
+            <div nz-col [nzSm]="6" [nzXs]="12" nz-form-item class="text-right">
+                <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="search()"><i class="fa fa-search"></i><span>搜索</span></button>
+                <button nz-button [disabled]="loading" (click)="reset()">重置</button>
+            </div>
+        </div>
+    </form>
+    <nz-table #nzTable [nzAjaxData]="tracks" [nzTotal]="trackTotal" [nzSize]="'middle'" [nzCustomNoResult]="false"
+              [nzLoading]="loading" [nzIsPagination]="true" [nzShowSizeChanger]="true" [nzShowTotal]="true" [nzIsPageIndexReset]="false"
+              (nzPageIndexChangeClick)="pageIndexChangeClick($event)" (nzPageSizeChange)="pageSizeChange($event)">
+        <thead nz-thead>
+        <tr>
+            <th nz-th>
+                <nz-dropdown>
+                    <a class="ant-dropdown-link" nz-dropdown>
+                        操作<i class="anticon anticon-down"></i>
+                    </a>
+                    <ul nz-menu>
+                        <li nz-menu-item>
+                            <a (click)="selectAll()">全选</a>
+                        </li>
+                        <li nz-menu-item>
+                            <a (click)="toggleAll()">反选</a>
+                        </li>
+                        <li nz-menu-item>
+                            <a (click)="unSelectAll()">重置</a>
+                        </li>
+                    </ul>
+                </nz-dropdown>
+            </th>
+            <th nz-th><span>轨迹名称</span></th>
+            <th nz-th><span>上传人</span></th>
+            <th nz-th><span>开始巡护时间</span></th>
+            <th nz-th><span>结束巡护时间</span></th>
+            <th nz-th><span>长度</span></th>
+            <th nz-th><span>最高海拔</span></th>
+            <th nz-th><span>关键地点说明</span></th>
+            <th nz-th><span>文件大小</span></th>
+            <th nz-th><span>上传时间</span></th>
+            <th nz-th><span>注释说明</span></th>
+        </tr>
+        </thead>
+        <tbody nz-tbody>
+        <ng-container *ngFor="let track of nzTable.data">
+            <tr nz-tbody-tr>
+                <td nz-td>
+                    <nz-spin [nzSpinning]="track.loading">
+                        <nz-tooltip [nzTitle]="track.title || '选择在地图上显示'">
+                            <label nz-tooltip nz-checkbox [nzDisabled]="track.loadFailed" [(ngModel)]="track.checked" (ngModelChange)="toggle(track, $event)"></label>
+                        </nz-tooltip>
+                    </nz-spin>
+                </td>
+                <td nz-td><app-more [text]="track.name"></app-more></td>
+                <td nz-td>{{ track.userId }}</td>
+                <td nz-td>{{ track.startTime }}</td>
+                <td nz-td>{{ track.endTime }}</td>
+                <td nz-td>{{ track.length | meterFormat }}</td>
+                <td nz-td><app-more [text]="track.maxAltitude"></app-more></td>
+                <td nz-td><app-more [text]="track.keySitesList"></app-more></td>
+                <td nz-td>{{ track.fileSize | byteFormat }}</td>
+                <td nz-td>{{ track.uploadTime }}</td>
+                <td nz-td><app-more [text]="track.annotation"></app-more></td>
+            </tr>
+        </ng-container>
+        </tbody>
+    </nz-table>
+</nz-card>

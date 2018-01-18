@@ -9,7 +9,6 @@ import { SettingsService } from '@delon/theme';
 })
 export class LoginComponent {
   valForm: FormGroup;
-
   constructor(public settings: SettingsService, fb: FormBuilder, private router: Router) {
     this.valForm = fb.group({
       email: [null, Validators.compose([Validators.required, Validators.email])],
