@@ -1,9 +1,9 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {UserService} from "@core/service/user.service";
-import {NGXLogger} from "ngx-logger";
-import {AppService, server} from "@core/service/app.service";
-import {NzMessageService} from "ng-zorro-antd";
-import {FileUploadService} from "../file-upload.service";
+import {UserService} from '@core/service/user.service';
+import {NGXLogger} from 'ngx-logger';
+import {AppService, server} from '@core/service/app.service';
+import {NzMessageService} from 'ng-zorro-antd';
+import {FileUploadService} from '../file-upload.service';
 
 @Component({
   selector: 'app-track-file-upload',
@@ -77,6 +77,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
             runtimes : 'html5,flash,silverlight,html4',
             browse_button : 'select_files', // you can pass in id...
             url : server.apis.track.upload,
+            chunk_size : '5mb',
+            rename : false,
             flash_swf_url : 'Moxie.swf',
             silverlight_xap_url : 'Moxie.xap',
             headers: this.userSrv.getTokenHeader(),

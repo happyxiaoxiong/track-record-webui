@@ -1,4 +1,5 @@
 {
+    "theme": "g",
     "app": {
         "name": "轨迹管理系统",
         "description": "web端轨迹管理系统"

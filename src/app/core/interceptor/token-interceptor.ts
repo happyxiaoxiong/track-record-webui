@@ -17,29 +17,29 @@ export class TokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // process path variable
-
-        // clone http params
-        const params = {};
-        req.params.keys().forEach((key) => params[key] = req.params.get(key));
-        // replace path variable
-        const newUrl = req.url.replace(/:\w+/g, function (str) {
-            const val = params[str.substr(1)];
-            if (val) {
-                delete params[str.substr((1))];
-                return val;
-            }
-            return str;
-        });
         const userSer = this.injector.get(UserService);
         const log = this.injector.get(NGXLogger);
         const msg = this.injector.get(NzMessageService);
-        const appSrv = this.injector.get(AppService);
-        // clone req
-        req = req.clone({
-            setHeaders: userSer.getTokenHeader(),
-            url: newUrl,
-            params: new HttpParams({ fromObject: params })
-        });
+        // clone http params
+        if (req.url.indexOf(server.rootPath) !== -1) {
+            const params = {};
+            req.params.keys().forEach((key) => params[key] = req.params.get(key));
+            // replace path variable
+            const newUrl = req.url.replace(/:\w+/g, function (str) {
+                const val = params[str.substr(1)];
+                if (val) {
+                    delete params[str.substr((1))];
+                    return val;
+                }
+                return str;
+            });
+            // clone req
+            req = req.clone({
+                setHeaders: userSer.getTokenHeader(),
+                url: newUrl,
+                params: new HttpParams({fromObject: params})
+            });
+        }
         return next.handle(req).pipe(
             mergeMap((event: any) => {
                 return of(event);

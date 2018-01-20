@@ -8,9 +8,11 @@ function urlJoin(...params: string[]) {
 
 const noAuth = 'no_auth';
 const track = 'track';
+const HOST = 'http://localhost:8080';
 
 export const server = {
     rootPath: SERVER_ROOT_PATH,
+    host: HOST,
     successCode: 0,
     apis: {
         noAuth: {
@@ -23,10 +25,10 @@ export const server = {
             upload: urlJoin(track, 'file/upload'),
             uploadState: urlJoin(track, 'file/upload/state'),
             search: urlJoin(track, 'search'),
-            route: urlJoin(track, 'route/:id')
+            route: urlJoin(track, 'route/:id'),
         },
         extra: {
-            qqConvertor: urlJoin('extra', 'qq_convertor')
+            qqConvertor: urlJoin('extra', 'qq/convertor')
         }
     }
 };

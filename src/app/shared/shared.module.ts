@@ -18,6 +18,7 @@ import {MoreComponent} from '../routes/widget/more/more.component';
 import {AqmModule} from 'angular-qq-maps';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {MoveAnimateComponent} from '../routes/widget/move-animate/move-animate.component';
+import {AutoSizeHeightDirective} from '@core/directive/auto-size-height.directive';
 
 const THIRDMODULES = [ CountdownModule ];
 // endregion
@@ -31,7 +32,8 @@ const COMPONENTS = [
 const DIRECTIVES = [
     ByteFormatPipe,
     MeterFormatPipe,
-    FixWindowDirective
+    FixWindowDirective,
+    AutoSizeHeightDirective
 ];
 // endregion
 
@@ -49,7 +51,8 @@ const DIRECTIVES = [
         // third libs
         ...THIRDMODULES,
         AqmModule.forRoot({
-            apiKey: 'I3TBZ-QTN3J-MWPFI-FERMS-IBOCQ-LBBWY' // app key为必选项
+            apiKey: 'IMZBZ-S7VRW-NXERI-RLSJY-HHHCT-MBFI4', // app key为必选项
+            apiLibraries: ['convertor']
         })
     ],
     declarations: [

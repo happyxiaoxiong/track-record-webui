@@ -1,7 +1,6 @@
 import {Injectable, ViewChild} from '@angular/core';
-import {Subject} from "rxjs/Subject";
-import {Observable} from "rxjs/Observable";
-import {FixWindowDirective} from '@core/directive/fix-window.directive';
+import {Subject} from 'rxjs/Subject';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class HistoryService {

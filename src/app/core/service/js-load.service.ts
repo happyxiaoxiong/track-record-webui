@@ -20,22 +20,22 @@ export class JsLoadService {
             script.async = true;
             script.defer = true;
             script.src = jsSrc;
-            document.body.appendChild(script);
+            document.head.appendChild(script);
             me.scriptLoadingPromise[jsSrc] = true;
         }
     }
-
+    // trick to fix:Failed to execute 'write' on 'Document'. It isn't possible to write into a document from an asynchronously-loaded external script unless it is explicitly opened
     loadQqConvertor() {
         const me = this;
         const qqConvertor = server.apis.extra.qqConvertor;
         if (!me.scriptLoadingPromise[qqConvertor]) {
             me.scriptLoadingPromise[qqConvertor] = true;
-            me.http.get(qqConvertor).subscribe((res: HttpRes) => {
+            me.http.get('http://map.qq.com/api/js?v=2.exp&libraries=convertor&key=IMZBZ-S7VRW-NXERI-RLSJY-HHHCT-MBFI4', { responseType: 'text'}).subscribe((res ) => {
                 const script = document.createElement('script');
                 script.type = 'text/javascript';
                 script.async = true;
                 script.defer = true;
-                script.src = res.data.replace(/document.write([^;]);/g, function (str) {
+                script.text = res.replace(/document.write[^;]+;/g, function (str) {
                     return `var s = document.createElement('script');
                         s.type = 'text/javascript';
                         s.async = true;

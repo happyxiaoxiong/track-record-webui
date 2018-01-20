@@ -62,7 +62,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     }
 
     _onReuseInit() {
-        this.listComp.search();
+        // this.listComp.search();
     }
 
     ngAfterViewInit(): void {
@@ -74,6 +74,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     clear($event) {
         this.listComp.unSelectAll();
+        this.mapComp.clear();
         $event.stopPropagation();
     }
 }

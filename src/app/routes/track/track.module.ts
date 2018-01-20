@@ -11,6 +11,7 @@ import {FileUploadService} from './file-upload/file-upload.service';
 import {ListComponent} from './history/list/list.component';
 import {MapComponent} from './history/map/map.component';
 import {HistoryService} from './history/history.service';
+import { DescComponent } from './history/map/desc/desc.component';
 
 @NgModule({
     imports: [
@@ -18,10 +19,11 @@ import {HistoryService} from './history/history.service';
         TrackRoutingModule,
         SharedModule
     ],
+    entryComponents: [DescComponent],
     providers: [
         FileUploadService, HistoryService
     ],
-    declarations: [FileUploadComponent, UploadComponent, LastWeekStateComponent, HistoryComponent, ListComponent, MapComponent]
+    declarations: [FileUploadComponent, UploadComponent, LastWeekStateComponent, HistoryComponent, ListComponent, MapComponent, DescComponent]
 })
 export class TrackModule {
 }

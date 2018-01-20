@@ -41,6 +41,7 @@ export class StartupService {
                 const res: any = appData;
                 // 应用信息：包括站点名、描述、年份
                 this.settingService.setApp(res.app);
+                this.settingService.setLayout('theme', res.theme);
                 // ACL：设置权限为全量
                 // this.aclService.setFull(true);
                 // 初始化菜单
