@@ -19,8 +19,17 @@ import {AqmModule} from 'angular-qq-maps';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {MoveAnimateComponent} from '../routes/widget/move-animate/move-animate.component';
 import {AutoSizeHeightDirective} from '@core/directive/auto-size-height.directive';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgCoreModule} from 'videogular2/core';
+import {VgBufferingModule} from 'videogular2/buffering';
 
-const THIRDMODULES = [ CountdownModule ];
+const THIRDMODULES = [
+    CountdownModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule ];
 // endregion
 
 // region: your componets & directives

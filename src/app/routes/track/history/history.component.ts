@@ -8,7 +8,7 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
     selector: 'app-history',
     template: `
         <full-content>
-        <nz-row>
+            <nz-row>
                 <nz-tabset [nzType]="'line'">
                     <ng-template #nzTabBarExtraContent>
                         <nz-switch full-toggle (click)="fullToggle()">
@@ -36,15 +36,14 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
                         <app-track-history-map #historyMap></app-track-history-map>
                     </nz-tab>
                 </nz-tabset>
-           
-        </nz-row>
+            </nz-row>
         </full-content>`,
     styles: [
-        `
+            `
             :host ::ng-deep app-track-history-list {
                 display: block;
                 overflow: auto;
-              }
+            }
         `
     ]
 })

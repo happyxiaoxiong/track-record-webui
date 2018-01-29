@@ -38,7 +38,6 @@ export class MapComponent implements OnDestroy, AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-
         this.historySrv.getSwitchObservable().subscribe((track) => {
             if (track.checked) {
                 this.showTrack(track);
@@ -49,14 +48,14 @@ export class MapComponent implements OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy(): void {
-        ['click'].forEach(eventName => {
-            qq.maps.event.clearListeners(this.map, eventName);
-        });
         for (const i in this.trackOverlays) {
             this.trackOverlays[i].forEach(overlay => overlay.setMap(null));
             delete this.trackOverlays[i];
         }
         this.count = 0;
+        ['click'].forEach(eventName => {
+            qq.maps.event.clearListeners(this.map, eventName);
+        });
     }
 
     clear() {
@@ -67,22 +66,26 @@ export class MapComponent implements OnDestroy, AfterViewInit {
     }
 
     hideTrack(track) {
-        const overlays = this.trackOverlays[track.id];
-        if (overlays) {
-            this.setOverlaysMap(overlays, null);
+        const trackOverlays = this.trackOverlays[track.id];
+        if (trackOverlays && trackOverlays.visible) {
+            this.setOverlaysMap(trackOverlays, null);
+            trackOverlays.visible = false;
             this.count--;
         }
     }
 
     showTrack(track) {
-        track.loading = true;
-        const overlays = this.trackOverlays[track.id];
-        if (overlays) {
-            this.setOverlaysMap(overlays, this.map);
-            this.fitBounds(overlays);
-            this.count++;
-            track.loading = false;
+        const trackOverlays = this.trackOverlays[track.id];
+        if (trackOverlays) {
+            if (!trackOverlays.visible) {
+                trackOverlays.visible = true;
+                this.setOverlaysMap(trackOverlays.overlays, this.map);
+                this.fitBounds(trackOverlays.overlays);
+                this.count++;
+                track.loading = false;
+            }
         } else {
+            track.loading = true;
             this.getTrackRoute(track);
         }
     }
@@ -130,7 +133,10 @@ export class MapComponent implements OnDestroy, AfterViewInit {
                         overlays.push(me.startMarker(path[0])); // 起点
                         overlays.push(me.endMarker(path[path.length - 1])); // 中点
                     });
-                    me.trackOverlays[track.id] = overlays;
+                    me.trackOverlays[track.id] = {
+                        overlays: overlays,
+                        visible: false
+                    };
                     me.showTrack(track); // 在地图上显示
                 });
             } else {

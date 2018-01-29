@@ -5,21 +5,59 @@ import {server} from '@core/service/app.service';
 @Component({
     selector: 'app-track-desc',
     template: `        
-        <nz-tabset [nzTabPosition]="'right'" [nzShowPagination]="desc.length > 5">
+        <nz-tabset [nzTabPosition]="'bottom'">
+            <ng-template #nzTabBarExtraContent>
+                <a [href]="curSrc" title="下载" [ngStyle]="{ display : isImage ?  'none' : 'inline' }">
+                    <button nz-button [nzShape]="'circle'" >
+                        <i class="anticon anticon-download"></i>
+                    </button>
+                </a>
+                <!--<button nz-button [nzType]="'default'" [nzSize]="'small'"  class="mr-lg">左旋</button>-->
+                <!--<button nz-button [nzType]="'default'" [nzSize]="'small'">右旋</button>-->
+            </ng-template>
             <nz-tab *ngFor="let _desc of desc; index as i">
                 <ng-template #nzTabHeading>
                     <span>{{getName(_desc)}}</span>
                     <!--<span>{{i + 1}}. </span><i class="fa fa-file-{{getType(_desc)}}-o" aria-hidden="true"></i>-->
                 </ng-template>
-                <div *ngIf="_desc.indexOf('photo') != -1" class="custom-image">
-                    <img alt="" width="100%" [src]="getSrc(_desc)"/>
-                </div>
-                <video autoSizeHeight style="width: 100%" [ratio]="0.75" *ngIf="_desc.indexOf('video') != -1" [src]="getSrc(_desc)" controls="controls">
-                    您的浏览器不支持 video 标签。
-                </video>
-                <audio autoSizeHeight style="width: 100%" [ratio]="0.75" *ngIf="_desc.indexOf('audio') != -1" [src]="getSrc(_desc)">
-                    您的浏览器不支持 audio 标签。
-                </audio>
+                <nz-card>
+                    <ng-template #body>
+                        <div *ngIf="_desc.indexOf('photo') != -1">
+                            <img alt="图片无法显示" width="100%" [src]="getSrc(_desc)"/>
+                        </div>
+                        <vg-player autoSizeHeight style="width: 100%" [ratio]="0.6" *ngIf="_desc.indexOf('video') != -1">
+                            <vg-overlay-play></vg-overlay-play>
+                            <vg-buffering></vg-buffering>
+
+                            <vg-scrub-bar>
+                                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
+                                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
+                            </vg-scrub-bar>
+
+                            <vg-controls>
+                                <vg-play-pause></vg-play-pause>
+                                <vg-playback-button></vg-playback-button>
+
+                                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+
+                                <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+
+                                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+
+                                <vg-mute></vg-mute>
+                                <vg-volume></vg-volume>
+                                <vg-fullscreen></vg-fullscreen>
+                            </vg-controls>
+                            
+                            <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
+                                <source [src]="getSrc(_desc)" type="video/mp4">
+                            </video>
+                        </vg-player>
+                        <audio autoSizeHeight style="width: 100%" [ratio]="0.6" *ngIf="_desc.indexOf('audio') != -1" [src]="getSrc(_desc)">
+                            您的浏览器不支持 audio 标签。
+                        </audio>
+                    </ng-template>
+                </nz-card>
             </nz-tab>
         </nz-tabset>
         
@@ -63,7 +101,8 @@ export class DescComponent implements OnInit {
     @Input() desc = [];
     @Input() gpsPoint;
     @Input() id = 0;
-
+    curSrc = '';
+    isImage = false;
     constructor(private subject: NzModalSubject) {
     }
 
@@ -75,19 +114,10 @@ export class DescComponent implements OnInit {
         this.subject.destroy('onCancel');
     }
 
-    getType(desc: string) {
-        const s = desc.toLowerCase();
-        if (s.indexOf('photo') !== -1) {
-            return 'photo';
-        }
-        if (s.indexOf('audio') !== -1) {
-            return 'audio';
-        }
-        return 'video';
-    }
-
     getSrc(desc: string) {
-        return `${server.host}${server.rootPath}track/${this.id}/${desc}`;
+        this.isImage = desc.indexOf('photo') !== -1;
+        this.curSrc = `${server.host}${server.rootPath}track/${this.id}/${desc}`;
+        return this.curSrc;
     }
 
     getName(desc: string) {

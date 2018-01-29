@@ -37,7 +37,7 @@ export class UserService {
 
     logout(redirectUrl?: string) {
         // clear cache
-        localStorage.clear();
+        // localStorage.clear();
         this.removeUser();
         this.router.navigate(['passport/login'], {
             queryParams: {redirectUrl: redirectUrl || this.router.url}

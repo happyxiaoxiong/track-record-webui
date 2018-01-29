@@ -1,4 +1,4 @@
-import { NgModule, LOCALE_ID, APP_INITIALIZER, Injector } from '@angular/core';
+import { NgModule, LOCALE_ID, APP_INITIALIZER} from '@angular/core';
 import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +21,10 @@ import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
 import {TokenInterceptor} from "@core/interceptor/token-interceptor";
 import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
+import {VgCoreModule} from 'videogular2/core';
+import {VgControlsModule} from 'videogular2/controls';
+import {VgOverlayPlayModule} from 'videogular2/overlay-play';
+import {VgBufferingModule} from 'videogular2/buffering';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
