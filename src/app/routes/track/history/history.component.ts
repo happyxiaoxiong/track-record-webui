@@ -11,6 +11,11 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
             <nz-row>
                 <nz-tabset [nzType]="'line'">
                     <ng-template #nzTabBarExtraContent>
+                        <nz-badge *ngIf="mapComp.clickPoint" [nzStatus]="'processing'" [nzText]="choosePointText()">
+                        </nz-badge>
+                        <button *ngIf="mapComp.clickPoint" nz-button [nzType]="'dashed'" (click)="positionCenterClick()" [disabled]="!listComp.positionExpand"
+                                [nzSize]="'small'" class="mr-lg">作为中心点
+                        </button>
                         <nz-switch full-toggle (click)="fullToggle()">
                             <span checked>取消全屏</span>
                             <span unchecked>全屏</span>
@@ -69,6 +74,15 @@ export class HistoryComponent implements OnInit, AfterViewInit {
 
     fullToggle() {
         this.fixWindowDirective.onResize();
+    }
+
+    positionCenterClick() {
+        this.listComp.params.latitude = this.mapComp.clickPoint.latitude;
+        this.listComp.params.longitude = this.mapComp.clickPoint.longitude;
+    }
+
+    choosePointText() {
+        return `当前选中位置(经度:${this.mapComp.clickPoint.latitude},纬度:${this.mapComp.clickPoint.longitude})`;
     }
 
     clear($event) {

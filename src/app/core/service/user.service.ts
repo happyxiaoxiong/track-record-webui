@@ -7,6 +7,7 @@ import {isString} from 'util';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SettingsService} from '@delon/theme';
 import {NzModalService} from 'ng-zorro-antd';
+import {ReuseTabService} from '@delon/abc';
 
 @Injectable()
 export class UserService {
@@ -14,7 +15,7 @@ export class UserService {
     private storage: Storage = sessionStorage;
 
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
-                private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService) {
+                private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService, private reuseTabSrv: ReuseTabService) {
     }
 
     login(account: string, password: string, success: Function, fail: Function): void {
@@ -38,6 +39,7 @@ export class UserService {
     logout(redirectUrl?: string) {
         // clear cache
         // localStorage.clear();
+        this.reuseTabSrv.clear();
         this.removeUser();
         this.router.navigate(['passport/login'], {
             queryParams: {redirectUrl: redirectUrl || this.router.url}

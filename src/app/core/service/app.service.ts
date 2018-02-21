@@ -27,6 +27,9 @@ export const server = {
             search: urlJoin(track, 'search'),
             route: urlJoin(track, 'route/:id'),
         },
+        rt: {
+            all: urlJoin('rt', 'all')
+        },
         extra: {
             qqConvertor: urlJoin('extra', 'qq/convertor')
         }

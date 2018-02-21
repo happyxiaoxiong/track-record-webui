@@ -1,22 +1,38 @@
 <nz-card>
-    <form nz-form>
-        <div nz-row>
-            <div nz-col [nzSm]="5" class="pr-sm" nz-form-item>
-                <nz-input [(ngModel)]="params.name" [disabled]="loading" name="name" [nzId]="'name'" [nzPlaceHolder]="'轨迹名称'">
-                </nz-input>
-            </div>
-            <div nz-col [nzSm]="5" class="pr-sm" nz-form-item>
-                <nz-input [(ngModel)]="params.userName" [disabled]="loading" name="userName" [nzId]="'userName'" [nzPlaceHolder]="'记录人'"></nz-input>
-            </div>
-            <div nz-col [nzSm]="8" [nzXs]="12" class="pr-sm" nz-form-item>
-                <nz-rangepicker [(ngModel)]="dateRange" [disabled]="loading" name="dataRange" [nzPlaceholder]="['开始巡护时间', ['结束巡护时间']]"></nz-rangepicker>
-            </div>
-            <div nz-col [nzSm]="6" [nzXs]="12" nz-form-item class="text-right">
-                <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="search()"><i class="fa fa-search"></i><span>搜索</span></button>
-                <button nz-button [disabled]="loading" (click)="reset()">重置</button>
-            </div>
+    <div nz-row>
+        <div nz-col [nzSm]="positionExpand ? 12 : 10" [nzXs]="24" class="pr-sm mb-sm">
+            <nz-input [(ngModel)]="params.keyword" name="keyword" [nzId]="'keyword'" [nzPlaceHolder]="'关键字(轨迹名称、记录人、关键地点、说明)'">
+            </nz-input>
         </div>
-    </form>
+        <div nz-col [nzSm]="positionExpand ? 12 : 8" [nzXs]="24" class="pr-sm mb-sm">
+            <nz-rangepicker [(ngModel)]="dateRange" name="dataRange" [nzPlaceholder]="['开始巡护时间', ['结束巡护时间']]"></nz-rangepicker>
+        </div>
+        <div *ngIf="positionExpand" nz-col [nzSm]="12" [nzXs]="16" class="pr-sm mb-sm">
+            <nz-input-group nzCompact>
+                <input [(ngModel)]="params.longitude" style="width: 50%;" placeholder="中心点经度" nz-input (blur)="positiveNumberBlur('longitude', '')">
+                <input [(ngModel)]="params.latitude" style="width: 50%;" placeholder="中心点纬度" nz-input (blur)="positiveNumberBlur('latitude', '')">
+            </nz-input-group>
+        </div>
+        <div *ngIf="positionExpand" nz-col [nzSm]="6" [nzXs]="8" class="pr-sm mb-sm">
+            <nz-input [(ngModel)]="params.distance" name="distance" [nzId]="'distance'" [nzPlaceHolder]="'请输入数字'" (nzBlur)="positiveNumberBlur('distance')">
+                <ng-template #addOnBefore>
+                    距中心点
+                </ng-template>
+                <ng-template #addOnAfter>
+                    km
+                </ng-template>
+            </nz-input>
+        </div>
+        <div nz-col [nzSm]="6" [nzXs]="24" class="text-right mb-sm">
+            <a (click)="positionExpand = !positionExpand">
+                范围选择
+                <i class="anticon" [class.anticon-down]="!positionExpand" [class.anticon-up]="positionExpand"></i>
+            </a>
+            <button nz-button [disabled]="loading" [nzType]="'primary'" [nzLoading]="loading" (click)="search()" class="mx-sm"><span>搜索</span></button>
+            <button nz-button [disabled]="loading" (click)="reset()">重置</button>
+        </div>
+    </div>
+
     <nz-table #nzTable [nzAjaxData]="tracks" [nzTotal]="trackTotal" [nzSize]="'middle'" [nzCustomNoResult]="false"
               [nzLoading]="loading" [nzIsPagination]="true" [nzShowSizeChanger]="true" [nzShowTotal]="true" [nzIsPageIndexReset]="false"
               (nzPageIndexChangeClick)="pageIndexChangeClick($event)" (nzPageSizeChange)="pageSizeChange($event)">

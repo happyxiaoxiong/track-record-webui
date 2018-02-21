@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, HostListener, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {AqmComponent} from 'angular-qq-maps';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {HistoryService} from '../history.service';
@@ -7,6 +7,7 @@ import {HttpClient} from '@angular/common/http';
 import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
 import {DescComponent} from './desc/desc.component';
+import {MapService} from '@core/service/map.service';
 
 declare const qq: any;
 
@@ -18,6 +19,7 @@ declare const qq: any;
 })
 export class MapComponent implements OnDestroy, AfterViewInit {
 
+    clickPoint;
     count = 0;
     private map: any;
     private trackOverlays = [];
@@ -26,15 +28,25 @@ export class MapComponent implements OnDestroy, AfterViewInit {
     @ViewChild(FixWindowDirective) fixWindowDirective;
 
     constructor(private el: ElementRef, private http: HttpClient, private historySrv: HistoryService, private zone: NgZone,
-                private msg: NzMessageService, private modal: NzModalService) {
+                private msg: NzMessageService, private modal: NzModalService, private mapSrv: MapService) {
     }
 
     onReady(mapNative: any) {
         mapNative.setOptions({
             zoom: 12,
-            center: new qq.maps.LatLng(39.916527, 116.397128)
+            center: this.latLng({ latitude: 39.916527, longitude: 116.397128 })
         });
         this.map = mapNative;
+        this.mapSrv.locateByIp(this.map, function () {
+            qq.maps.event.addListener(this.map, 'click', function (event) {
+                this.zone.run(() => {
+                    this.clickPoint = {
+                        latitude: event.latLng.getLat(),
+                        longitude: event.latLng.getLng()
+                    };
+                });
+            }.bind(this));
+        }.bind(this));
     }
 
     ngAfterViewInit(): void {
@@ -163,7 +175,7 @@ export class MapComponent implements OnDestroy, AfterViewInit {
         let count = placeMarks.length;
         // 路线转换
         placeMarks.filter(placeMark => placeMark.points).forEach(placeMark => {
-            gps2Tx(placeMark.points.map(point => latLng(point)), (resPoints) => {
+            this.mapSrv.gps2Tx(placeMark.points.map(point => this.latLng(point)), (resPoints) => {
                 count--;
                 if (resPoints.length > 0) {
                     placeMark.resPoints = resPoints;
@@ -174,8 +186,8 @@ export class MapComponent implements OnDestroy, AfterViewInit {
             });
         });
         // 关键点转换
-        const keyGpsPoints = placeMarks.filter(placeMark => placeMark.point).map(placeMark => latLng(placeMark.point));
-        gps2Tx(keyGpsPoints, (resPoints) => {
+        const keyGpsPoints = placeMarks.filter(placeMark => placeMark.point).map(placeMark => this.latLng(placeMark.point));
+        this.mapSrv.gps2Tx(keyGpsPoints, (resPoints) => {
             count -= keyGpsPoints.length;
             if (resPoints.length === keyGpsPoints.length) {// 转换成功
                 let ind = 0;
@@ -195,7 +207,7 @@ export class MapComponent implements OnDestroy, AfterViewInit {
         return this.tagMarker(point, 0, 34);
     }
 
-    private tagMarker(point, x, y, zIndex = -2) {
+    tagMarker(point, x, y, zIndex = -2) {
         return new qq.maps.Marker(
             {
                 position: point,
@@ -204,20 +216,9 @@ export class MapComponent implements OnDestroy, AfterViewInit {
                 zIndex: zIndex
             });
     }
-}
 
-
-function latLng(point) {
-    return new qq.maps.LatLng(point.latitude, point.longitude);
-}
-
-function gps2Tx(gpsPoints, fn: Function) {
-    if (!gpsPoints || gpsPoints.length === 0) {// 不需要转换
-        fn([]);
-        return;
+    latLng(point) {
+        return new qq.maps.LatLng(point.latitude, point.longitude);
     }
-    qq.maps.convertor.translate(gpsPoints, 1, function(res){
-        fn(res);
-    });
 }
 

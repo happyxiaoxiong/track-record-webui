@@ -131,6 +131,8 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
                         this.trackFiles = res.data;
                         this.search();
                     }));
+                }, () => {
+                    this.stopSyncDt();
                 });
         }
     }
