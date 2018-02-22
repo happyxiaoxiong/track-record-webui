@@ -6,6 +6,16 @@
             </ng-template>
             <form nz-form [formGroup]="valForm" (ngSubmit)="submit()" role="form">
                 <div nz-form-item>
+                    <div nz-form-control [nzValidateStatus]="valForm.controls.account">
+                        <nz-input formControlName="account" [nzPlaceHolder]="'用户名'">
+                            <ng-template #suffix>
+                                <i class="anticon anticon-mail"></i>
+                            </ng-template>
+                        </nz-input>
+                        <div nz-form-explain *ngIf="valForm.controls.email.dirty&&valForm.controls.email.hasError('required')">邮箱必填</div>
+                    </div>
+                </div>
+                <div nz-form-item>
                     <div nz-form-control [nzValidateStatus]="valForm.controls.email">
                         <nz-input formControlName="email" [nzPlaceHolder]="'邮箱'" [nzSize]="'large'">
                             <ng-template #suffix>

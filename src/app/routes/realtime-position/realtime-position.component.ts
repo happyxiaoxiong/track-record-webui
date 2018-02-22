@@ -343,6 +343,10 @@ export class RealtimePositionComponent implements OnInit, AfterViewInit, OnDestr
         this.rightClose = !this.rightClose;
     }
 
+    // _onReuseDestroy() {
+    //     this.ngOnDestroy();
+    // }
+
     ngOnDestroy(): void {
         this.timerAlive = false;
         if (this.queryTimer) {

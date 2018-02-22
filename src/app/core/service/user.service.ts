@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {AppService, server} from './app.service';
 import {HttpRes} from '../model/http-res';
 import {isString} from 'util';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
 import {SettingsService} from '@delon/theme';
 import {NzModalService} from 'ng-zorro-antd';
 import {ReuseTabService} from '@delon/abc';
@@ -14,16 +14,17 @@ export class UserService {
     private readonly userKey = 'user';
     private storage: Storage = sessionStorage;
 
+
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
-                private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService, private reuseTabSrv: ReuseTabService) {
+                private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService,
+                private reuseTabSrv: ReuseTabService) {
     }
 
     login(account: string, password: string, success: Function, fail: Function): void {
-        this.http.post(server.apis.noAuth.login, JSON.stringify({
+        this.http.post(server.apis.noAuth.login, {
             account: account,
             password: password
-        }))
-            .subscribe((res: HttpRes) => {
+        }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
                     const user = res.data.user;
                     user.token = res.data.token;
@@ -39,11 +40,14 @@ export class UserService {
     logout(redirectUrl?: string) {
         // clear cache
         // localStorage.clear();
-        this.reuseTabSrv.clear();
         this.removeUser();
         this.router.navigate(['passport/login'], {
-            queryParams: {redirectUrl: redirectUrl || this.router.url}
+            queryParams: {redirectUrl: redirectUrl || this.router.url},
+            relativeTo: this.route
         });
+        setTimeout(() => {
+            this.reuseTabSrv.clear();
+        }, 500);
     }
 
     needLogin() {

@@ -90,4 +90,8 @@ export class HistoryComponent implements OnInit, AfterViewInit {
         this.mapComp.clear();
         $event.stopPropagation();
     }
+    //
+    // _onReuseDestroy() {
+    //     this.mapComp.ngOnDestroy();
+    // }
 }

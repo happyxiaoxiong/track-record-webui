@@ -9,14 +9,14 @@
                 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
                     <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
                     <div nz-form-item>
-                        <div nz-form-control [nzValidateStatus]="userName">
-                            <nz-input formControlName="userName" [nzPlaceHolder]="'用户名'" [nzSize]="'large'">
+                        <div nz-form-control [nzValidateStatus]="account">
+                            <nz-input formControlName="account" [nzPlaceHolder]="'用户名'" [nzSize]="'large'">
                                 <ng-template #prefix>
                                     <i class="anticon anticon-user"></i>
                                 </ng-template>
                             </nz-input>
-                            <ng-container *ngIf="userName.dirty || userName.touched">
-                                <p nz-form-explain *ngIf="userName.errors?.required">请输入账户名！</p>
+                            <ng-container *ngIf="account.dirty || account.touched">
+                                <p nz-form-explain *ngIf="account.errors?.required">请输入账户名！</p>
                             </ng-container>
                         </div>
                     </div>

@@ -1,11 +1,8 @@
-import { SettingsService } from '@delon/theme';
-import { Component, OnDestroy, Inject } from '@angular/core';
+import { Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NzMessageService } from 'ng-zorro-antd';
-import { SocialService, SocialOpenType, ITokenService, DA_SERVICE_TOKEN } from '@delon/auth';
-import { environment } from '@env/environment';
-import {UserService} from "@core/service/user.service";
+import {UserService} from '@core/service/user.service';
 
 @Component({
     selector: 'passport-login',
@@ -26,7 +23,7 @@ export class UserLoginComponent implements OnDestroy {
         public msg: NzMessageService,
         public userService: UserService) {
         this.form = fb.group({
-            userName: [null, [Validators.required]],
+            account: [null, [Validators.required]],
             password: [null, Validators.required],
             remember: [true]
         });
@@ -35,17 +32,20 @@ export class UserLoginComponent implements OnDestroy {
 
     // region: fields
 
-    get userName() { return this.form.controls.userName; }
+    get account() { return this.form.controls.account; }
     get password() { return this.form.controls.password; }
 
     submit() {
-        this.userName.markAsDirty();
-        this.password.markAsDirty();
-        if (this.userName.invalid || this.password.invalid) return;
+        for (const i in this.form.controls) {
+            this.form.controls[i].markAsDirty();
+        }
+        if (this.form.invalid) {
+            return;
+        }
 
         this.loading = true;
         this.error = '';
-        this.userService.login(this.userName.value, this.password.value, () => {
+        this.userService.login(this.account.value, this.password.value, () => {
             this.router.navigate([this.redirectUrl]);
         }, () => {
             this.error = '账号或者密码不正确';
