@@ -1,6 +1,5 @@
 <h3>注册</h3>
 <form nz-form [formGroup]="form" (ngSubmit)="submit()" role="form">
-    <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
     <!--防止自动填充-->
     <input type="password" style="display:none">
     <div nz-form-item>
@@ -155,9 +154,11 @@
         </div>
     </div>
     <div nz-form-item>
-        <button nz-button [nzType]="'primary'" [nzLoading]="loading" [nzSize]="'large'" class="submit">
+        <button nz-button [nzType]="'primary'" [disabled]="success" [nzLoading]="loading" [nzSize]="'large'" class="submit">
             <span>注册</span>
         </button>
         <a class="login" routerLink="/passport/login">使用已有账户登录</a>
     </div>
+    <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+    <nz-alert *ngIf="success" [nzType]="'success'" [nzMessage]="success" [nzShowIcon]="true" class="mb-lg"></nz-alert>
 </form>

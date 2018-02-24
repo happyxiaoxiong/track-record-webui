@@ -5,7 +5,7 @@
             </nz-input>
         </div>
         <div nz-col [nzSm]="positionExpand ? 12 : 8" [nzXs]="24" class="pr-sm mb-sm">
-            <nz-rangepicker [(ngModel)]="dateRange" name="dataRange" [nzPlaceholder]="['开始巡护时间', ['结束巡护时间']]"></nz-rangepicker>
+            <nz-rangepicker [(ngModel)]="dateRange" name="dataRange" [nzPlaceholder]="['开始时间', ['结束时间']]"></nz-rangepicker>
         </div>
         <div *ngIf="positionExpand" nz-col [nzSm]="12" [nzXs]="16" class="pr-sm mb-sm">
             <nz-input-group nzCompact>
@@ -28,8 +28,8 @@
                 范围选择
                 <i class="anticon" [class.anticon-down]="!positionExpand" [class.anticon-up]="positionExpand"></i>
             </a>
-            <button nz-button [disabled]="loading" [nzType]="'primary'" [nzLoading]="loading" (click)="search()" class="mx-sm"><span>搜索</span></button>
-            <button nz-button [disabled]="loading" (click)="reset()">重置</button>
+            <button nz-button [nzType]="'primary'" [nzLoading]="loading" (click)="search()" class="mx-sm"><span>搜索</span></button>
+            <button nz-button [nzLoading]="loading" (click)="reset()">重置</button>
         </div>
     </div>
 
@@ -58,14 +58,15 @@
             </th>
             <th nz-th><span>轨迹名称</span></th>
             <th nz-th><span>上传人</span></th>
-            <th nz-th><span>开始巡护时间</span></th>
-            <th nz-th><span>结束巡护时间</span></th>
+            <th nz-th><span>开始时间</span></th>
+            <th nz-th><span>结束时间</span></th>
             <th nz-th><span>长度</span></th>
             <th nz-th><span>最高海拔</span></th>
             <th nz-th><span>关键地点说明</span></th>
             <th nz-th><span>文件大小</span></th>
             <th nz-th><span>上传时间</span></th>
             <th nz-th><span>注释说明</span></th>
+            <th nz-th><span>下载</span></th>
         </tr>
         </thead>
         <tbody nz-tbody>
@@ -88,6 +89,12 @@
                 <td nz-td>{{ track.fileSize | byteFormat }}</td>
                 <td nz-td>{{ track.uploadTime }}</td>
                 <td nz-td><app-more [text]="track.annotation"></app-more></td>
+                <td nz-td>
+                    <a routerLink="/track/download/{{track.id}}" nz-button [nzSize]="'small'">
+                        <i class="anticon anticon-download"></i>
+                        <!--<span>下载</span>-->
+                    </a>
+                </td>
             </tr>
         </ng-container>
         </tbody>

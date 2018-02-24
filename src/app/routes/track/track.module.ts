@@ -12,6 +12,7 @@ import {ListComponent} from './history/list/list.component';
 import {MapComponent} from './history/map/map.component';
 import {HistoryService} from './history/history.service';
 import { DescComponent } from './history/map/desc/desc.component';
+import {StatComponent} from './stat/stat.component';
 
 @NgModule({
     imports: [
@@ -23,7 +24,7 @@ import { DescComponent } from './history/map/desc/desc.component';
     providers: [
         FileUploadService, HistoryService
     ],
-    declarations: [FileUploadComponent, UploadComponent, LastWeekStateComponent, HistoryComponent, ListComponent, MapComponent, DescComponent]
+    declarations: [FileUploadComponent, UploadComponent, LastWeekStateComponent, HistoryComponent, ListComponent, MapComponent, DescComponent, StatComponent]
 })
 export class TrackModule {
 }

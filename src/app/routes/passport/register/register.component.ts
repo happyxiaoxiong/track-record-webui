@@ -1,12 +1,10 @@
 import {Component, OnDestroy} from '@angular/core';
 import {Router} from '@angular/router';
 import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {HttpClient} from '@angular/common/http';
 import {HttpRes} from '@core/model/http-res';
 import {server} from '@core/service/app.service';
-import {map} from 'rxjs/operators';
-import {ValidationErrors} from '@angular/forms/src/directives/validators';
 
 @Component({
     selector: 'passport-register',
@@ -17,6 +15,7 @@ export class UserRegisterComponent implements OnDestroy {
 
     form: FormGroup;
     error = '';
+    success = '';
     type = 0;
     loading = false;
     visible = false;
@@ -135,6 +134,7 @@ export class UserRegisterComponent implements OnDestroy {
 
     submit() {
         this.error = '';
+        this.success = '';
         for (const i in this.form.controls) {
             this.form.controls[i].markAsDirty();
         }
@@ -150,9 +150,12 @@ export class UserRegisterComponent implements OnDestroy {
 
         this.http.post(server.apis.noAuth.register, params).subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
-
+                this.success = '注册成功,账号可以使用了';
+            } else {
+                this.error = '注册失败,请重试';
             }
         }, () => {
+            this.error = '服务器返回错误，请稍后重试';
         }, () => {
             this.loading = false;
         });
