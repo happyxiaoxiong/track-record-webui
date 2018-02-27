@@ -21,6 +21,11 @@
                 "text": "历史轨迹",
                 "link": "/track/history",
                 "icon": "icon-history"
+            }, {
+                "translate": "track-stat",
+                "text": "轨迹统计",
+                "link": "/track/stat",
+                "icon": "icon-chart"
             }]
         },{
             "text": "实时位置",

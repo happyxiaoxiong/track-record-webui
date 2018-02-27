@@ -28,7 +28,7 @@ import {FileUploadService} from '../file-upload.service';
                     </div>
                 </form>
             </ng-template>
-            <nz-table #nzTable [nzDataSource]="_displayTrackFiles" [nzSize]="'middle'" [nzCustomNoResult]="false" [nzLoading]="loading"
+            <nz-table #nzTable [nzDataSource]="_displayTrackFiles" [nzSize]="'small'" [nzCustomNoResult]="false" [nzLoading]="loading"
                       [nzIsPagination]="true" [nzShowSizeChanger]="true" [nzShowTotal]="true" [nzIsPageIndexReset]="false">
                 <thead nz-thead>
                 <tr>

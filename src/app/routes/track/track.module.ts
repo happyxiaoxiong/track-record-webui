@@ -13,12 +13,14 @@ import {MapComponent} from './history/map/map.component';
 import {HistoryService} from './history/history.service';
 import { DescComponent } from './history/map/desc/desc.component';
 import {StatComponent} from './stat/stat.component';
+import {NgxEchartsModule} from 'ngx-echarts';
 
 @NgModule({
     imports: [
         CommonModule,
         TrackRoutingModule,
-        SharedModule
+        SharedModule,
+        NgxEchartsModule
     ],
     entryComponents: [DescComponent],
     providers: [

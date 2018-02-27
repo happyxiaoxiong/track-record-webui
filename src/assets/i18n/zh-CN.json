@@ -100,5 +100,6 @@
     "track": "轨迹管理",
     "track-file-upload": "轨迹上传",
     "track-history": "历史轨迹",
-    "realtime-position": "实时位置"
+    "realtime-position": "实时位置",
+    "track-stat": "轨迹统计"
 }

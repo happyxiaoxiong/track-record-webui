@@ -2,12 +2,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 import {Utils} from 'app/shared/utils';
 
 @Pipe({
-  name: 'meterFormat'
+  name: 'timeFormat'
 })
-export class MeterFormatPipe implements PipeTransform {
+export class TimeFormatPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return Utils.formatMeterEn(value);
+    return Utils.formatTimeEn(value);
   }
 
 }

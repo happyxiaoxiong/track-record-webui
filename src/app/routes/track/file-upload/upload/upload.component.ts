@@ -8,7 +8,7 @@ import {FileUploadService} from '../file-upload.service';
 @Component({
   selector: 'app-track-file-upload',
   template: `<nz-card nzTitle="轨迹文件上传">
-      <nz-table id="track-table" #nzTable [nzDataSource]="uploader.files" [nzSize]="'middle'" [nzCustomNoResult]="true"
+      <nz-table id="track-table" #nzTable [nzDataSource]="uploader.files" [nzSize]="'small'" [nzCustomNoResult]="true"
                 [nzIsPagination]="false" >
           <div noResult>把文件拖到这里。</div>
           <thead nz-thead>

@@ -25,13 +25,16 @@ export const server = {
             upload: urlJoin(track, 'file/upload'),
             uploadState: urlJoin(track, 'file/upload/state'),
             search: urlJoin(track, 'search'),
+            statMonth: urlJoin(track, 'stat/month'),
+            statDay: urlJoin(track, 'stat/day'),
             route: urlJoin(track, 'route/:id'),
         },
         rt: {
             all: urlJoin('rt', 'all')
         },
-        extra: {
-            qqConvertor: urlJoin('extra', 'qq/convertor')
+        user: {
+            changePassword: urlJoin('user', 'change/password'),
+            all: urlJoin('user', 'all')
         }
     }
 };

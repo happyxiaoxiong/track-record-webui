@@ -267,7 +267,7 @@ export class RealtimePositionComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     isOffLine(user) {
-        return moment() > moment(user.time).add(this.selectedTime.value, 'minute');
+        return moment().valueOf() > moment(user.time).add(this.selectedTime.value, 'minute').valueOf();
     }
 
     processUser(user: any) {

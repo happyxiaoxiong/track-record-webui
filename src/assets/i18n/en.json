@@ -96,5 +96,10 @@
     "pro-user": "Account",
     "pro-login": "Login",
     "pro-register": "Register",
-    "pro-register-result": "Register Result"
+    "pro-register-result": "Register Result",
+    "track": "track",
+    "track-file-upload": "file-upload",
+    "track-history": "history",
+    "realtime-position": "realtime-position",
+    "track-stat": "stat"
 }

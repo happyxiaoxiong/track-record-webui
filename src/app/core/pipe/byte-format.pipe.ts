@@ -7,7 +7,7 @@ import {Utils} from 'app/shared/utils';
 export class ByteFormatPipe implements PipeTransform {
 
   transform(value: any, args?: any): any {
-    return Utils.formatByte(value);
+    return Utils.formatByteEn(value);
   }
 
 }

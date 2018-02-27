@@ -23,6 +23,7 @@ import {VgControlsModule} from 'videogular2/controls';
 import {VgOverlayPlayModule} from 'videogular2/overlay-play';
 import {VgCoreModule} from 'videogular2/core';
 import {VgBufferingModule} from 'videogular2/buffering';
+import {TimeFormatPipe} from '@core/pipe/time-format.pipe';
 
 const THIRDMODULES = [
     CountdownModule,
@@ -41,6 +42,7 @@ const COMPONENTS = [
 const DIRECTIVES = [
     ByteFormatPipe,
     MeterFormatPipe,
+    TimeFormatPipe,
     FixWindowDirective,
     AutoSizeHeightDirective
 ];

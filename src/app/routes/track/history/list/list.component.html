@@ -33,7 +33,7 @@
         </div>
     </div>
 
-    <nz-table #nzTable [nzAjaxData]="tracks" [nzTotal]="trackTotal" [nzSize]="'middle'" [nzCustomNoResult]="false"
+    <nz-table #nzTable [nzAjaxData]="tracks" [nzTotal]="trackTotal" [nzSize]="'small'" [nzCustomNoResult]="false"
               [nzLoading]="loading" [nzIsPagination]="true" [nzShowSizeChanger]="true" [nzShowTotal]="true" [nzIsPageIndexReset]="false"
               (nzPageIndexChangeClick)="pageIndexChangeClick($event)" (nzPageSizeChange)="pageSizeChange($event)">
         <thead nz-thead>

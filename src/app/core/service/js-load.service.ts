@@ -25,26 +25,26 @@ export class JsLoadService {
         }
     }
     // trick to fix:Failed to execute 'write' on 'Document'. It isn't possible to write into a document from an asynchronously-loaded external script unless it is explicitly opened
-    loadQqConvertor() {
-        const me = this;
-        const qqConvertor = server.apis.extra.qqConvertor;
-        if (!me.scriptLoadingPromise[qqConvertor]) {
-            me.scriptLoadingPromise[qqConvertor] = true;
-            me.http.get('http://map.qq.com/api/js?v=2.exp&libraries=convertor&key=IMZBZ-S7VRW-NXERI-RLSJY-HHHCT-MBFI4', { responseType: 'text'}).subscribe((res ) => {
-                const script = document.createElement('script');
-                script.type = 'text/javascript';
-                script.async = true;
-                script.defer = true;
-                script.text = res.replace(/document.write[^;]+;/g, function (str) {
-                    return `var s = document.createElement('script');
-                        s.type = 'text/javascript';
-                        s.async = true;
-                        s.defer = true;
-                        s.src=src;
-                        document.body.appendChild(s);`;
-                });
-                document.body.appendChild(script);
-            });
-        }
-    }
+    // loadQqConvertor() {
+    //     const me = this;
+    //     const qqConvertor = server.apis.extra.qqConvertor;
+    //     if (!me.scriptLoadingPromise[qqConvertor]) {
+    //         me.scriptLoadingPromise[qqConvertor] = true;
+    //         me.http.get('http://map.qq.com/api/js?v=2.exp&libraries=convertor&key=IMZBZ-S7VRW-NXERI-RLSJY-HHHCT-MBFI4', { responseType: 'text'}).subscribe((res ) => {
+    //             const script = document.createElement('script');
+    //             script.type = 'text/javascript';
+    //             script.async = true;
+    //             script.defer = true;
+    //             script.text = res.replace(/document.write[^;]+;/g, function (str) {
+    //                 return `var s = document.createElement('script');
+    //                     s.type = 'text/javascript';
+    //                     s.async = true;
+    //                     s.defer = true;
+    //                     s.src=src;
+    //                     document.body.appendChild(s);`;
+    //             });
+    //             document.body.appendChild(script);
+    //         });
+    //     }
+    // }
 }
