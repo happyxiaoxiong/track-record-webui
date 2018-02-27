@@ -32,6 +32,11 @@
             "translate": "realtime-position",
             "link": "/realtime-position",
             "icon": "fa fa-location-arrow"
+        },{
+            "text": "实时位置",
+            "translate": "profile",
+            "link": "/profile",
+            "icon": "fa fa-user"
         }]
     }]
 }

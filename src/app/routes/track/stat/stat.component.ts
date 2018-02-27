@@ -9,7 +9,7 @@ import {NzDatePickerComponent} from 'ng-zorro-antd';
 @Component({
     selector: 'app-stat',
     template: `
-        <div nz-row nzGutter="16">
+        <div nz-row nzGutter="16" class="pt-lg">
             <div nz-col [nzLg]="12" [nzXs]="24">
                 <nz-card [nzTitle]="monthChartTitle">
                     <ng-template #monthChartTitle> 月份

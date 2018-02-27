@@ -28,7 +28,6 @@ export class UserService {
                 if (server.successCode === res.code) {
                     const user = res.data.user;
                     user.token = res.data.token;
-                    this.settingsService.setUser(user);
                     this.setUser(user);
                     success();
                 } else {
@@ -86,7 +85,8 @@ export class UserService {
         return this.getUser().name || '';
     }
 
-    private setUser(user: any) {
+    setUser(user: any) {
+        this.settingsService.setUser(user);
         this.storage.setItem(this.userKey, JSON.stringify(user));
     }
 

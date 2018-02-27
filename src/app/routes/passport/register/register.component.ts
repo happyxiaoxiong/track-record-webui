@@ -1,7 +1,6 @@
-import {Component, OnDestroy} from '@angular/core';
-import {Router} from '@angular/router';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
-import {NzMessageService, NzModalService} from 'ng-zorro-antd';
+import {NzMessageService} from 'ng-zorro-antd';
 import {HttpClient} from '@angular/common/http';
 import {HttpRes} from '@core/model/http-res';
 import {server} from '@core/service/app.service';
@@ -11,7 +10,7 @@ import {server} from '@core/service/app.service';
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.less']
 })
-export class UserRegisterComponent implements OnDestroy {
+export class UserRegisterComponent implements OnInit, OnDestroy {
 
     form: FormGroup;
     error = '';
@@ -27,12 +26,15 @@ export class UserRegisterComponent implements OnDestroy {
         pool: 'exception'
     };
 
-    constructor(fb: FormBuilder, private router: Router, private msg: NzMessageService, private http: HttpClient) {
-        this.form = fb.group({
+    constructor(private fb: FormBuilder, private msg: NzMessageService, private http: HttpClient) {
+    }
+
+    ngOnInit(): void {
+        this.form = this.fb.group({
             account: [null, [Validators.required], [this.accountUniqueValidate.bind(this)]],
             email: [null, [Validators.email]],
-            password: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.checkPassword.bind(this)]],
-            confirm: [null, [Validators.required, Validators.minLength(6), UserRegisterComponent.passwordEquar]],
+            password: [null, [Validators.required, Validators.minLength(6), this.checkPassword.bind(this)]],
+            confirm: [null, [Validators.required, Validators.minLength(6), this.passwordEquar]],
             name: [null, [Validators.required]],
             gender: [null, [Validators.required]],
             birthday: [null, [Validators.required]],
@@ -45,13 +47,14 @@ export class UserRegisterComponent implements OnDestroy {
         });
     }
 
-    static checkPassword(control: FormControl) {
+    checkPassword(control: FormControl) {
         if (!control) return null;
         const self: any = this;
         self.visible = !!control.value;
-        if (control.value && control.value.length > 9)
+        const alphaNum = /\w/.test(control.value) && /\d/.test(control.value);
+        if (alphaNum && control.value.length > 9)
             self.status = 'ok';
-        else if (control.value && control.value.length > 5)
+        else if (alphaNum && control.value.length > 5)
             self.status = 'pass';
         else
             self.status = 'pool';
@@ -59,7 +62,7 @@ export class UserRegisterComponent implements OnDestroy {
         if (self.visible) self.progress = control.value.length * 10 > 100 ? 100 : control.value.length * 10;
     }
 
-    static passwordEquar(control: FormControl) {
+    passwordEquar(control: FormControl) {
         if (!control || !control.parent) return null;
         if (control.value !== control.parent.get('password').value) {
             return {equar: true};

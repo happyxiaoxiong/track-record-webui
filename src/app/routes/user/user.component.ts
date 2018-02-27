@@ -3,7 +3,11 @@ import {HttpClient} from '@angular/common/http';
 
 @Component({
   selector: 'app-user',
-  templateUrl: './user.component.html',
+  template: `
+      <nz-card [nzTitle]="'密码修改'">
+          
+      </nz-card>
+  `,
 })
 export class UserComponent implements OnInit {
 

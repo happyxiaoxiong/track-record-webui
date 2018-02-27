@@ -8,7 +8,7 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
     selector: 'app-history',
     template: `
         <full-content>
-            <nz-row>
+            <nz-row [ngClass]="{'mt-sm': !fullScreen}" >
                 <nz-tabset [nzType]="'line'">
                     <ng-template #nzTabBarExtraContent>
                         <nz-badge *ngIf="mapComp.clickPoint" [nzStatus]="'processing'" [nzText]="choosePointText()">
@@ -54,6 +54,7 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
 })
 export class HistoryComponent implements OnInit, AfterViewInit {
 
+    fullScreen = false;
     @ViewChild('historyMap') mapComp: MapComponent;
     @ViewChild('historyList') listComp: ListComponent;
     @ViewChild(FixWindowDirective) fixWindowDirective;
@@ -73,6 +74,7 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     }
 
     fullToggle() {
+        this.fullScreen = !this.fullScreen;
         this.fixWindowDirective.onResize();
     }
 

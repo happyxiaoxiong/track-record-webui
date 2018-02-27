@@ -154,7 +154,7 @@
         </div>
     </div>
     <div nz-form-item>
-        <button nz-button [nzType]="'primary'" [disabled]="success" [nzLoading]="loading" [nzSize]="'large'" class="submit">
+        <button nz-button [nzType]="'primary'" [disabled]="form.invalid || success" [nzLoading]="loading" [nzSize]="'large'" class="submit">
             <span>注册</span>
         </button>
         <a class="login" routerLink="/passport/login">使用已有账户登录</a>
