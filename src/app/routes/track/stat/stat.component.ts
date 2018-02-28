@@ -16,7 +16,7 @@ import {NzDatePickerComponent} from 'ng-zorro-antd';
                         <nz-datepicker #datePicker [nzSize]="'small'" [(ngModel)]="selectedMonth" [nzMode]="'month'"
                                        [nzDisabledDate]="_disabledMonth" [nzFormat]="'YYYY-MM'"></nz-datepicker>
                     </ng-template>
-                    <div echarts [options]="usersMonthOption" [initOpts]="initOpts" [loading]="monthLoading"
+                    <div echarts [ngStyle]="initOpts" [options]="usersMonthOption" [initOpts]="initOpts" [loading]="monthLoading"
                          (chartClick)="monthChartClick($event)"></div>
                 </nz-card>
             </div>
@@ -110,7 +110,7 @@ export class StatComponent implements OnInit, AfterViewInit {
     selectedUser;
     selectedMonth = moment().startOf('month').subtract(1, 'months').toDate();
     initOpts = {
-        height: '400px'
+        height: '300px'
     };
     usersMonthOption = {};
     userDayOption: any;

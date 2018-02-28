@@ -33,7 +33,7 @@
             "link": "/realtime-position",
             "icon": "fa fa-location-arrow"
         },{
-            "text": "实时位置",
+            "text": "个人资料",
             "translate": "profile",
             "link": "/profile",
             "icon": "fa fa-user"
