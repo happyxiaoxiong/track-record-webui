@@ -110,7 +110,7 @@ export class StatComponent implements OnInit, AfterViewInit {
     selectedUser;
     selectedMonth = moment().startOf('month').subtract(1, 'months').toDate();
     initOpts = {
-        height: '300px'
+        height: '400px'
     };
     usersMonthOption = {};
     userDayOption: any;
