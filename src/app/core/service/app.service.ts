@@ -28,7 +28,7 @@ export const server = {
             statMonth: urlJoin(track, 'stat/month'),
             statDay: urlJoin(track, 'stat/day'),
             route: urlJoin(track, 'route/:id'),
-            download: urlJoin(track, 'download/'),
+            download: urlJoin(track, 'download/:id'),
         },
         rt: {
             all: urlJoin('rt', 'all')

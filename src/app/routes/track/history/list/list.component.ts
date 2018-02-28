@@ -4,6 +4,8 @@ import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
 import * as moment from 'moment';
 import {HistoryService} from '../history.service';
+import { saveAs } from 'file-saver/FileSaver';
+import 'rxjs/add/operator/map';
 
 @Component({
     selector: 'app-track-history-list',
@@ -108,7 +110,16 @@ export class ListComponent implements OnInit {
         }
     }
 
-    downloadUrl(trackId) {
-        return server.apis.track.download + trackId;
+    download(track) {
+        return this.http.get(server.apis.track.download, {
+            params: { id: track.id },
+            responseType: 'blob'
+        }).subscribe((res) => {
+            // const contentDispositionHeader: string = res.headers.get('Content-Disposition');
+            // const parts: string[] = contentDispositionHeader.split(';');
+            // const filename = parts[1].split('=')[1];
+            const blob = new Blob([res], { type: 'application/octet-stream' });
+            saveAs(blob, track.filename);
+        });
     }
 }

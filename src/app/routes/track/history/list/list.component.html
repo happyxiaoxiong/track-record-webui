@@ -90,10 +90,9 @@
                 <td nz-td>{{ track.uploadTime }}</td>
                 <td nz-td><app-more [text]="track.annotation"></app-more></td>
                 <td nz-td>
-                    <a routerLink="{{downloadUrl(track.id)}}" nz-button [nzSize]="'small'">
+                    <button fileSaver nz-button [nzType]="'primary'" [nzSize]="'small'" [nzShape]="'circle'" [http]="download(track)">
                         <i class="anticon anticon-download"></i>
-                        <!--<span>下载</span>-->
-                    </a>
+                    </button>
                 </td>
             </tr>
         </ng-container>
