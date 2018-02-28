@@ -90,7 +90,7 @@
                 <td nz-td>{{ track.uploadTime }}</td>
                 <td nz-td><app-more [text]="track.annotation"></app-more></td>
                 <td nz-td>
-                    <a routerLink="/track/download/{{track.id}}" nz-button [nzSize]="'small'">
+                    <a routerLink="{{downloadUrl(track.id)}}" nz-button [nzSize]="'small'">
                         <i class="anticon anticon-download"></i>
                         <!--<span>下载</span>-->
                     </a>

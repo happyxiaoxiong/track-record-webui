@@ -107,4 +107,8 @@ export class ListComponent implements OnInit {
             this.params[key] = errorValue;
         }
     }
+
+    downloadUrl(trackId) {
+        return server.apis.track.download + trackId;
+    }
 }

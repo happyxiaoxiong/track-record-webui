@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 const SERVER_ROOT_PATH = '/api/v1/';
 
 function urlJoin(...params: string[]) {
-    return SERVER_ROOT_PATH + params.join('/');
+    return HOST + SERVER_ROOT_PATH + params.join('/');
 }
 
 const noAuth = 'no_auth';
@@ -28,6 +28,7 @@ export const server = {
             statMonth: urlJoin(track, 'stat/month'),
             statDay: urlJoin(track, 'stat/day'),
             route: urlJoin(track, 'route/:id'),
+            download: urlJoin(track, 'download/'),
         },
         rt: {
             all: urlJoin('rt', 'all')

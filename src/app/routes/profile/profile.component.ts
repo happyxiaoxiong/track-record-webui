@@ -11,7 +11,7 @@ import {HttpRes} from '@core/model/http-res';
     template: `
         <div nz-row [nzGutter]="16" class="py-lg">
             <div nz-col [nzSpan]="6">
-                <nz-card nzTitle="Personal settings" nzNoPadding>
+                <nz-card nzTitle="个人设置" nzNoPadding>
                     <a (click)="active=1" class="d-block py-sm px-md"
                        [ngClass]="{'bg-primary-light text-white':active===1}">个人资料</a>
                     <a (click)="active=2" class="d-block py-sm px-md"
