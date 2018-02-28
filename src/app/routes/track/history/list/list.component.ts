@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import {HistoryService} from '../history.service';
 import { saveAs } from 'file-saver/FileSaver';
 import 'rxjs/add/operator/map';
+import {NzMessageService} from 'ng-zorro-antd';
 
 @Component({
     selector: 'app-track-history-list',
@@ -26,7 +27,8 @@ export class ListComponent implements OnInit {
     constructor(
         private ref: ElementRef,
         private http: HttpClient,
-        private historySrv: HistoryService
+        private historySrv: HistoryService,
+        private msg: NzMessageService
     ) { }
 
     ngOnInit() {
@@ -121,7 +123,9 @@ export class ListComponent implements OnInit {
             // const filename = parts[1].split('=')[1];
             const blob = new Blob([res], { type: 'application/octet-stream' });
             saveAs(blob, track.filename);
-        }, () => {}, () => {
+        }, () => {
+            this.msg.error(`${track.name} 下载出错`);
+        }, () => {
             track.downloadLoading = false;
         });
     }
