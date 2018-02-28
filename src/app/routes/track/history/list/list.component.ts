@@ -111,7 +111,8 @@ export class ListComponent implements OnInit {
     }
 
     download(track) {
-        return this.http.get(server.apis.track.download, {
+        track.downloadLoading = true;
+        this.http.get(server.apis.track.download, {
             params: { id: track.id },
             responseType: 'blob'
         }).subscribe((res) => {
@@ -120,10 +121,8 @@ export class ListComponent implements OnInit {
             // const filename = parts[1].split('=')[1];
             const blob = new Blob([res], { type: 'application/octet-stream' });
             saveAs(blob, track.filename);
+        }, () => {}, () => {
+            track.downloadLoading = false;
         });
-    }
-
-    downloadUrl(track) {
-        return server.host + server.rootPath + 'track/download/' + track.id;
     }
 }
