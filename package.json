@@ -11,7 +11,7 @@
   "scripts": {
     "precommit": "npm run lint-staged",
     "ng": "ng",
-    "start": "ng serve",
+    "start": "ng serve  --proxy-config proxy.config.json",
     "serve:hmr": "ng serve -o --hmr -e=hmr",
     "build": "ng build --prod --build-optimizer",
     "analyze": "ng build --prod --build-optimizer --stats-json",
@@ -65,6 +65,7 @@
     "ngx-color-picker": "^5.0.0",
     "ngx-countdown": "^2.0.0",
     "ngx-echarts": "^2.0.2",
+    "ngx-filesaver": "^1.0.0",
     "ngx-logger": "^1.1.2",
     "ngx-tinymce": "^1.0.1",
     "ngx-ueditor": "^1.1.0",

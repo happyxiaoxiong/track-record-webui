@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 const SERVER_ROOT_PATH = '/api/v1/';
 
 function urlJoin(...params: string[]) {
-    return HOST + SERVER_ROOT_PATH + params.join('/');
+    return SERVER_ROOT_PATH + params.join('/');
 }
 
 const noAuth = 'no_auth';
