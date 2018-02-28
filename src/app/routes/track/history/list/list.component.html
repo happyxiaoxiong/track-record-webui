@@ -90,9 +90,12 @@
                 <td nz-td>{{ track.uploadTime }}</td>
                 <td nz-td><app-more [text]="track.annotation"></app-more></td>
                 <td nz-td>
-                    <button fileSaver nz-button [nzType]="'primary'" [nzSize]="'small'" [nzShape]="'circle'" [http]="download(track)">
+                    <button nz-button [nzSize]="'small'" [nzShape]="'circle'" (click)="download(track)">
                         <i class="anticon anticon-download"></i>
                     </button>
+                    <a nz-button [nzSize]="'small'" [nzShape]="'circle'" href="{{downloadUrl(track)}}">
+                        <i class="anticon anticon-download"></i>
+                    </a>
                 </td>
             </tr>
         </ng-container>

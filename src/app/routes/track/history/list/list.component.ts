@@ -122,4 +122,8 @@ export class ListComponent implements OnInit {
             saveAs(blob, track.filename);
         });
     }
+
+    downloadUrl(track) {
+        return server.host + server.rootPath + 'track/download/' + track.id;
+    }
 }
