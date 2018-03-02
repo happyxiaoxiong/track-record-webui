@@ -19,12 +19,8 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { I18NService } from '@core/i18n/i18n.service';
-import {TokenInterceptor} from "@core/interceptor/token-interceptor";
-import {LoggerModule, NgxLoggerLevel} from "ngx-logger";
-import {VgCoreModule} from 'videogular2/core';
-import {VgControlsModule} from 'videogular2/controls';
-import {VgOverlayPlayModule} from 'videogular2/overlay-play';
-import {VgBufferingModule} from 'videogular2/buffering';
+import {TokenInterceptor} from '@core/interceptor/token-interceptor';
+import {LoggerModule, NgxLoggerLevel} from 'ngx-logger';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {

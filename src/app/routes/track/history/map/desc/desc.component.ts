@@ -25,36 +25,40 @@ import {server} from '@core/service/app.service';
                         <div *ngIf="_desc.indexOf('photo') != -1">
                             <img alt="图片无法显示" width="100%" [src]="getSrc(_desc)"/>
                         </div>
-                        <vg-player autoSizeHeight style="width: 100%" [ratio]="0.6" *ngIf="_desc.indexOf('video') != -1">
-                            <vg-overlay-play></vg-overlay-play>
-                            <vg-buffering></vg-buffering>
+                        <!--<vg-player autoSizeHeight style="width: 100%" [ratio]="0.6" *ngIf="_desc.indexOf('video') != -1">-->
+                            <!--<vg-overlay-play></vg-overlay-play>-->
+                            <!--<vg-buffering></vg-buffering>-->
 
-                            <vg-scrub-bar>
-                                <vg-scrub-bar-current-time></vg-scrub-bar-current-time>
-                                <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
-                            </vg-scrub-bar>
+                            <!--<vg-scrub-bar>-->
+                                <!--<vg-scrub-bar-current-time></vg-scrub-bar-current-time>-->
+                                <!--<vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>-->
+                            <!--</vg-scrub-bar>-->
 
-                            <vg-controls>
-                                <vg-play-pause></vg-play-pause>
-                                <vg-playback-button></vg-playback-button>
+                            <!--<vg-controls>-->
+                                <!--<vg-play-pause></vg-play-pause>-->
+                                <!--<vg-playback-button></vg-playback-button>-->
 
-                                <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>
+                                <!--<vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>-->
 
-                                <vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>
+                                <!--<vg-scrub-bar style="pointer-events: none;"></vg-scrub-bar>-->
 
-                                <vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>
+                                <!--<vg-time-display vgProperty="total" vgFormat="mm:ss"></vg-time-display>-->
 
-                                <vg-mute></vg-mute>
-                                <vg-volume></vg-volume>
-                                <vg-fullscreen></vg-fullscreen>
-                            </vg-controls>
-                            
-                            <video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>
-                                <source [src]="getSrc(_desc)" type="video/mp4">
-                            </video>
-                        </vg-player>
+                                <!--<vg-mute></vg-mute>-->
+                                <!--<vg-volume></vg-volume>-->
+                                <!--<vg-fullscreen></vg-fullscreen>-->
+                            <!--</vg-controls>-->
+                            <!---->
+                            <!--<video [vgMedia]="media" #media id="singleVideo" preload="auto" crossorigin>-->
+                                <!--<source [src]="getSrc(_desc)" type="video/mp4">-->
+                            <!--</video>-->
+                        <!--</vg-player>-->
+                        <video autoSizeHeight style="width: 100%" [ratio]="0.6" *ngIf="_desc.indexOf('video') != -1" controls>
+                            <source [src]="getSrc(_desc)" type="video/mp4">
+                            您的浏览器不支持 video 标签.
+                        </video>
                         <audio autoSizeHeight style="width: 100%" [ratio]="0.6" *ngIf="_desc.indexOf('audio') != -1" [src]="getSrc(_desc)">
-                            您的浏览器不支持 audio 标签。
+                            您的浏览器不支持 audio 标签.
                         </audio>
                     </ng-template>
                 </nz-card>
