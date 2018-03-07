@@ -119,9 +119,7 @@ export class DescComponent implements OnInit {
     }
 
     getSrc(desc: string) {
-        this.isImage = desc.indexOf('photo') !== -1;
-        this.curSrc = `${server.host}${server.rootPath}track/${this.id}/${desc}`;
-        return this.curSrc;
+        return server.apis.track.media.replace(':id', this.id.toString()).replace(':name', desc);
     }
 
     getName(desc: string) {

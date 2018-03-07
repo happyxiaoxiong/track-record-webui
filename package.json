@@ -11,7 +11,7 @@
   "scripts": {
     "precommit": "npm run lint-staged",
     "ng": "ng",
-    "start": "ng serve  --proxy-config proxy.config.json",
+    "start": "ng serve  --proxy-config proxy.config.json --host=159.226.195.106 -o",
     "serve:hmr": "ng serve -o --hmr -e=hmr",
     "build": "ng build --prod --build-optimizer",
     "analyze": "ng build --prod --build-optimizer --stats-json",

@@ -1,4 +1,4 @@
-import {Component, ElementRef, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
@@ -7,6 +7,7 @@ import {HistoryService} from '../history.service';
 import { saveAs } from 'file-saver/FileSaver';
 import 'rxjs/add/operator/map';
 import {NzMessageService} from 'ng-zorro-antd';
+import {UserService} from '@core/service/user.service';
 
 @Component({
     selector: 'app-track-history-list',
@@ -25,8 +26,8 @@ export class ListComponent implements OnInit {
     positionExpand = false;
 
     constructor(
-        private ref: ElementRef,
         private http: HttpClient,
+        private userSrv: UserService,
         private historySrv: HistoryService,
         private msg: NzMessageService
     ) { }
@@ -112,21 +113,32 @@ export class ListComponent implements OnInit {
         }
     }
 
-    download(track) {
-        track.downloadLoading = true;
-        this.http.get(server.apis.track.download, {
-            params: { id: track.id },
-            responseType: 'blob'
-        }).subscribe((res) => {
-            // const contentDispositionHeader: string = res.headers.get('Content-Disposition');
-            // const parts: string[] = contentDispositionHeader.split(';');
-            // const filename = parts[1].split('=')[1];
-            const blob = new Blob([res], { type: 'application/octet-stream' });
-            saveAs(blob, track.filename);
-        }, () => {
-            this.msg.error(`${track.name} 下载出错`);
-        }, () => {
-            track.downloadLoading = false;
-        });
+    // download(track) {
+    //     track.downLoading = true;
+    //     this.http.get(server.apis.track.download, {
+    //         params: { id: track.id },
+    //         responseType: 'arraybuffer'
+    //     }).subscribe((res) => {
+    //         // const contentDispositionHeader: string = res.headers.get('Content-Disposition');
+    //         // const parts: string[] = contentDispositionHeader.split(';');
+    //         // const filename = parts[1].split('=')[1];
+    //         const blob = new Blob([res], { type: 'application/octet-stream' });
+    //         saveAs(blob, track.filename);
+    //     }, () => {
+    //         this.msg.error(`${track.name} 下载出错`);
+    //     }, () => {
+    //         track.downLoading = false;
+    //     });
+    // }
+
+    downloadUrl(track) {
+        const header = this.userSrv.getTokenHeader();
+        let url = server.apis.track.download.replace(':id', track.id) + '?';
+        for (const param in header) {
+            if (header.hasOwnProperty(param)) {
+                url += param + '=' + header[param];
+            }
+        }
+        return url;
     }
 }

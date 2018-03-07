@@ -29,6 +29,7 @@ export const server = {
             statDay: urlJoin(track, 'stat/day'),
             route: urlJoin(track, 'route/:id'),
             download: urlJoin(track, 'download/:id'),
+            media: urlJoin(track, ':id/:name')
         },
         rt: {
             all: urlJoin('rt', 'all')

@@ -13,7 +13,6 @@ import {Exception404Component} from './exception/404.component';
 import {Exception500Component} from './exception/500.component';
 import { TrackModule } from './track/track.module';
 import { RealtimePositionModule } from './realtime-position/realtime-position.module';
-import { UserComponent } from './user/user.component';
 
 @NgModule({
     imports: [ SharedModule, RouteRoutingModule, TrackModule, RealtimePositionModule ],
@@ -26,7 +25,6 @@ import { UserComponent } from './user/user.component';
         Exception403Component,
         Exception404Component,
         Exception500Component,
-        UserComponent,
     ],
     providers: [
         NGXLogger

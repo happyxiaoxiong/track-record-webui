@@ -65,7 +65,8 @@ import {HttpRes} from '@core/model/http-res';
                                         <label for="birthday" nz-form-item-required>生日</label>
                                     </div>
                                     <div nz-form-control nz-col [nzValidateStatus]="birthday">
-                                        <nz-datepicker formControlName="birthday" [nzPlaceHolder]="'生日'" style="width: 100%;"></nz-datepicker>
+                                        <nz-datepicker formControlName="birthday" [nzPlaceHolder]="'生日'"
+                                                       style="width: 100%;"></nz-datepicker>
                                         <ng-container *ngIf="birthday.dirty || birthday.touched">
                                             <p nz-form-explain *ngIf="birthday.errors?.required">请选择生日日期！</p>
                                         </ng-container>
@@ -76,7 +77,8 @@ import {HttpRes} from '@core/model/http-res';
                                         <label for="organization" nz-form-item-required>工作单位</label>
                                     </div>
                                     <div nz-form-control nz-col [nzValidateStatus]="organization">
-                                        <nz-input formControlName="organization" [nzId]="'organization'" required></nz-input>
+                                        <nz-input formControlName="organization" [nzId]="'organization'"
+                                                  required></nz-input>
                                         <ng-container *ngIf="organization.dirty || organization.touched">
                                             <p nz-form-explain *ngIf="organization.errors?.required">请输入工作单位！</p>
                                         </ng-container>
@@ -138,7 +140,9 @@ import {HttpRes} from '@core/model/http-res';
                                     </div>
                                 </div>
                                 <div nz-row>
-                                    <button nz-button [nzType]="'primary'" [disabled]="profileForm.invalid" [nzLoading]="loading">更新</button>
+                                    <button nz-button [nzType]="'primary'" [disabled]="profileForm.invalid"
+                                            [nzLoading]="loading">更新
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -168,9 +172,15 @@ import {HttpRes} from '@core/model/http-res';
                                         <label for="newPassword" nz-form-item-required>新密码</label>
                                     </div>
                                     <div nz-form-control [nzValidateStatus]="newPassword">
-                                        <nz-popover [nzPlacement]="'right'" [nzTrigger]="'focus'" [(nzVisible)]="visible" nzOverlayClassName="register-password-cdk" [nzOverlayStyle]="{'width.px': 240}">
-                                            <nz-input nz-popover formControlName="newPassword" [nzPlaceHolder]="'至少6位密码，区分大小写'" [nzType]="'password'"></nz-input>
-                                            <div nz-form-explain *ngIf="(newPassword.dirty || newPassword.touched) && newPassword.errors?.required">请输入新密码！</div>
+                                        <nz-popover [nzPlacement]="'right'" [nzTrigger]="'focus'"
+                                                    [(nzVisible)]="visible" nzOverlayClassName="register-password-cdk"
+                                                    [nzOverlayStyle]="{'width.px': 240}">
+                                            <nz-input nz-popover formControlName="newPassword" (nzBlur)="visible=false" (nzFocus)="visible=true"
+                                                      [nzPlaceHolder]="'至少6位密码，区分大小写'" [nzType]="'password'"></nz-input>
+                                            <div nz-form-explain
+                                                 *ngIf="(newPassword.dirty || newPassword.touched) && newPassword.errors?.required">
+                                                请输入新密码！
+                                            </div>
                                             <ng-template #nzTemplate>
                                                 <div style="padding: 4px 0">
                                                     <ng-container [ngSwitch]="status">
@@ -205,7 +215,9 @@ import {HttpRes} from '@core/model/http-res';
                                     </div>
                                 </div>
                                 <div nz-row>
-                                    <button nz-button [nzType]="'primary'" [disabled]="pwdForm.invalid" [nzLoading]="loading">更新</button>
+                                    <button nz-button [nzType]="'primary'" [disabled]="pwdForm.invalid"
+                                            [nzLoading]="loading">更新
+                                    </button>
                                 </div>
                             </form>
                         </div>
@@ -236,13 +248,13 @@ export class ProfileComponent implements OnInit {
     ngOnInit() {
         this.pwdForm = this.fb.group({
             oldPassword: [null, [Validators.required]],
-            newPassword: [null, [Validators.required, Validators.minLength(6), this.checkPassword.bind(this)]],
+            newPassword: [null,  [Validators.required, Validators.minLength(6), this.checkPassword.bind(this)]],
             confirmNewPassword: [null, [Validators.required, Validators.minLength(6), this.passwordEquar]],
         });
         const user = this.userSrv.getUser();
         this.profileForm = this.fb.group({
-            account: [{ value: user.account, disabled: true}, [Validators.required]],
-            name: [{ value: user.name, disabled: true}, [Validators.required]],
+            account: [{value: user.account, disabled: true}, [Validators.required]],
+            name: [{value: user.name, disabled: true}, [Validators.required]],
             gender: [user.gender, [Validators.required]],
             birthday: [user.birthday, [Validators.required]],
             organization: [user.organization, [Validators.required]],
@@ -254,7 +266,7 @@ export class ProfileComponent implements OnInit {
         });
     }
 
-     checkPassword(control: FormControl) {
+    checkPassword(control: FormControl) {
         if (!control) return null;
         const self: any = this;
         self.visible = !!control.value;
@@ -276,7 +288,6 @@ export class ProfileComponent implements OnInit {
         }
         return null;
     }
-
 
 // region: fields
     get oldPassword() {
