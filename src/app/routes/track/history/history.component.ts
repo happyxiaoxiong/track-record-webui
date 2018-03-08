@@ -14,8 +14,12 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
                         <nz-badge *ngIf="mapComp.clickPoint" [nzStatus]="'processing'" [nzText]="choosePointText()">
                         </nz-badge>
                         <button *ngIf="mapComp.clickPoint" nz-button [nzType]="'dashed'" (click)="positionCenterClick()" [disabled]="!listComp.positionExpand"
-                                [nzSize]="'small'" class="mr-lg">作为中心点
+                                [nzSize]="'small'">作为中心点
                         </button>
+                        <nz-switch [(ngModel)]="mapComp.autoAdjust" class="mx-sm">
+                            <span checked>取消视野自动调整</span>
+                            <span unchecked>视野自动调整</span>
+                        </nz-switch>
                         <nz-switch full-toggle (click)="fullToggle()">
                             <span checked>取消全屏</span>
                             <span unchecked>全屏</span>

@@ -19,6 +19,7 @@ declare const qq: any;
 })
 export class MapComponent implements OnDestroy, AfterViewInit {
 
+    autoAdjust = true;
     clickPoint;
     count = 0;
     private map: any;
@@ -73,26 +74,28 @@ export class MapComponent implements OnDestroy, AfterViewInit {
     clear() {
         this.count = 0;
         for (const i in this.trackOverlays) {
-            this.trackOverlays[i].forEach(overlay => overlay.setMap(null));
+            this.setOverlaysMap(this.trackOverlays[i].overlays, null);
+            this.trackOverlays[i].visible = false;
         }
     }
 
     hideTrack(track) {
-        const trackOverlays = this.trackOverlays[track.id];
-        if (trackOverlays && trackOverlays.visible) {
-            this.setOverlaysMap(trackOverlays, null);
-            trackOverlays.visible = false;
+        const trackOverlay = this.trackOverlays[track.id];
+        if (trackOverlay && trackOverlay.visible) {
+            this.setOverlaysMap(trackOverlay.overlays, null);
+            trackOverlay.visible = false;
             this.count--;
+            this.fitBounds();
         }
     }
 
     showTrack(track) {
-        const trackOverlays = this.trackOverlays[track.id];
-        if (trackOverlays) {
-            if (!trackOverlays.visible) {
-                trackOverlays.visible = true;
-                this.setOverlaysMap(trackOverlays.overlays, this.map);
-                this.fitBounds(trackOverlays.overlays);
+        const trackOverlay = this.trackOverlays[track.id];
+        if (trackOverlay) {
+            if (!trackOverlay.visible) {
+                trackOverlay.visible = true;
+                this.setOverlaysMap(trackOverlay.overlays, this.map);
+                this.fitBounds();
                 this.count++;
                 track.loading = false;
             }
@@ -159,15 +162,21 @@ export class MapComponent implements OnDestroy, AfterViewInit {
         });
     }
 
-    private fitBounds(overlays: Array<any>) {
-        let bounds;
-        overlays.forEach(overlay => {
-            if (overlay.getBounds) {
-                bounds = bounds ? bounds.union(overlay.getBounds()) : overlay.getBounds();
+    private fitBounds() {
+        if (this.autoAdjust) {
+            let bounds;
+            for (const i in this.trackOverlays) {
+                if (this.trackOverlays[i].visible) {
+                    this.trackOverlays[i].overlays.forEach(overlay => {
+                        if (overlay.getBounds) {
+                            bounds = bounds ? bounds.union(overlay.getBounds()) : overlay.getBounds();
+                        }
+                    });
+                }
             }
-        });
-        if (bounds) {
-            this.map.fitBounds(bounds);
+            if (bounds) {
+                this.map.fitBounds(bounds);
+            }
         }
     }
     // 坐标转换
