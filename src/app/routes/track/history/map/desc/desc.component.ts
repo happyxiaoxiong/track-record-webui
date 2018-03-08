@@ -6,15 +6,15 @@ import {server} from '@core/service/app.service';
     selector: 'app-track-desc',
     template: `        
         <nz-tabset [nzTabPosition]="'bottom'">
-            <ng-template #nzTabBarExtraContent>
-                <a [href]="curSrc" title="下载" [ngStyle]="{ display : isImage ?  'none' : 'inline' }">
-                    <button nz-button [nzShape]="'circle'" >
-                        <i class="anticon anticon-download"></i>
-                    </button>
-                </a>
+            <!--<ng-template #nzTabBarExtraContent>-->
+                <!--<a [href]="curSrc" title="下载" [ngStyle]="{ display : isImage ?  'none' : 'inline' }">-->
+                    <!--<button nz-button [nzShape]="'circle'" >-->
+                        <!--<i class="anticon anticon-download"></i>-->
+                    <!--</button>-->
+                <!--</a>-->
                 <!--<button nz-button [nzType]="'default'" [nzSize]="'small'"  class="mr-lg">左旋</button>-->
                 <!--<button nz-button [nzType]="'default'" [nzSize]="'small'">右旋</button>-->
-            </ng-template>
+            <!--</ng-template>-->
             <nz-tab *ngFor="let _desc of desc; index as i">
                 <ng-template #nzTabHeading>
                     <span>{{getName(_desc)}}</span>
@@ -105,8 +105,8 @@ export class DescComponent implements OnInit {
     @Input() desc = [];
     @Input() gpsPoint;
     @Input() id = 0;
-    curSrc = '';
-    isImage = false;
+    // curSrc = '';
+    // isImage = false;
     constructor(private subject: NzModalSubject) {
     }
 
@@ -119,6 +119,7 @@ export class DescComponent implements OnInit {
     }
 
     getSrc(desc: string) {
+        // this.isImage = desc.indexOf('photo') !== -1;
         return server.apis.track.media.replace(':id', this.id.toString()).replace(':name', desc);
     }
 
