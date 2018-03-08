@@ -29,6 +29,7 @@ export class UserService {
                     const user = res.data.user;
                     user.token = res.data.token;
                     this.setUser(user);
+                    this.appService.onlineError = false;
                     success();
                 } else {
                     fail();
@@ -58,14 +59,17 @@ export class UserService {
     }
 
     errorMask(content: string, onOk: () => void) {
-        this.modalSrv.error({
-            title: '错误',
-            closable: false,
-            content: content,
-            maskClosable: false,
-            okText: '确定',
-            onOk: onOk
-        });
+        if (!this.appService.onlineError) {
+            this.appService.onlineError = true;
+            this.modalSrv.error({
+                title: '错误',
+                closable: false,
+                content: content,
+                maskClosable: false,
+                okText: '确定',
+                onOk: onOk
+            });
+        }
     }
 
     isLogin(): boolean {

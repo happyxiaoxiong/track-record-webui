@@ -45,7 +45,7 @@ export const server = {
 @Injectable()
 export class AppService {
     private config: any = null;
-
+    onlineError = false;
     constructor() {
     }
 

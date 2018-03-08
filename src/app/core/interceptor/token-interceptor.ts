@@ -17,7 +17,7 @@ export class TokenInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // process path variable
-        const userSer = this.injector.get(UserService);
+        const userSrv = this.injector.get(UserService);
         const log = this.injector.get(NGXLogger);
         const msg = this.injector.get(NzMessageService);
         // clone http params
@@ -35,7 +35,7 @@ export class TokenInterceptor implements HttpInterceptor {
             });
             // clone req
             req = req.clone({
-                setHeaders: userSer.getTokenHeader(),
+                setHeaders: userSrv.getTokenHeader(),
                 url: newUrl,
                 params: new HttpParams({fromObject: params})
             });
@@ -47,9 +47,9 @@ export class TokenInterceptor implements HttpInterceptor {
             catchError((err: any) => {
                 log.error(err);
                 if (err.status === 440) {
-                    userSer.timeout();
+                    userSrv.timeout();
                 } else if (err.status === 403) {
-                    userSer.needLogin();
+                    userSrv.needLogin();
                 } else if (err.status === 500) {
                     msg.error('服务器内部错误');
                 }
