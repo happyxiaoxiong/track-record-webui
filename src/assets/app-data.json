@@ -5,36 +5,31 @@
         "description": "web端轨迹管理系统"
     },
     "menu": [{
-        "text": "导航",
+        "i18n": "main_navigation",
         "group": true,
         "children": [{
-            "text": "轨迹管理",
             "link": "/track",
             "icon": "fa fa-folder",
+            "i18n": "track",
             "children": [{
-                "translate": "track-file-upload",
-                "text": "轨迹上传",
+                "i18n": "track-file-upload",
                 "link": "/track/file-upload",
                 "icon": "fa fa-upload"
             }, {
-                "translate": "track-history",
-                "text": "历史轨迹",
+                "i18n": "track-history",
                 "link": "/track/history",
                 "icon": "icon-history"
             }, {
-                "translate": "track-stat",
-                "text": "轨迹统计",
+                "i18n": "track-stat",
                 "link": "/track/stat",
                 "icon": "icon-chart"
             }]
         },{
-            "text": "实时位置",
-            "translate": "realtime-position",
+            "i18n": "realtime-position",
             "link": "/realtime-position",
             "icon": "fa fa-location-arrow"
         },{
-            "text": "个人资料",
-            "translate": "profile",
+            "i18n": "profile",
             "link": "/profile",
             "icon": "fa fa-user"
         }]

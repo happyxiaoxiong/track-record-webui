@@ -8,7 +8,6 @@ import { LayoutPassportComponent } from '../layout/passport/passport.component';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 // single pages
 import {AuthGuard} from '@core/guard/auth.guard';
 import {Exception403Component} from './exception/403.component';
@@ -32,14 +31,13 @@ const routes: Routes = [
         path: 'passport',
         component: LayoutPassportComponent,
         children: [
-            { path: 'login', component: UserLoginComponent },
-            { path: 'register', component: UserRegisterComponent },
-            { path: 'register-result', component: UserRegisterResultComponent }
+            { path: 'login', component: UserLoginComponent, data: { titleI18n: 'login' } },
+            { path: 'register', component: UserRegisterComponent, data: { titleI18n: 'register' } }
         ]
     },
-    { path: '403', component: Exception403Component },
-    { path: '404', component: Exception404Component },
-    { path: '500', component: Exception500Component },
+    { path: '403', component: Exception403Component, data: { title: '403' }  },
+    { path: '404', component: Exception404Component, data: { title: '404' } },
+    { path: '500', component: Exception500Component, data: { title: '500' } },
     { path: '**', redirectTo: '404' }
 ];
 

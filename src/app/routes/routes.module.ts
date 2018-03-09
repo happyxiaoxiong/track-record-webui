@@ -6,7 +6,6 @@ import { RouteRoutingModule } from './routes-routing.module';
 // passport pages
 import { UserLoginComponent } from './passport/login/login.component';
 import { UserRegisterComponent } from './passport/register/register.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
 import {NGXLogger} from 'ngx-logger';
 import {Exception403Component} from './exception/403.component';
 import {Exception404Component} from './exception/404.component';
@@ -20,7 +19,6 @@ import { RealtimePositionModule } from './realtime-position/realtime-position.mo
         // passport pages
         UserLoginComponent,
         UserRegisterComponent,
-        UserRegisterResultComponent,
         // single pages
         Exception403Component,
         Exception404Component,

@@ -152,7 +152,6 @@ export class ListComponent implements OnInit, AfterViewInit {
     addressSearchChange(keyword) {
         this.http.jsonp(`http://apis.map.qq.com/ws/place/v1/suggestion?key=${QQ_MAP_KEY}&keyword=${keyword}&output=jsonp`, 'callback')
            .subscribe((res: any) => {
-            console.log(res);
             this.searchAddressOptions = res.data || [];
         });
     }
