@@ -1,19 +1,19 @@
-import {Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {server} from '@core/service/app.service';
+import {QQ_MAP_KEY, server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
 import * as moment from 'moment';
 import {HistoryService} from '../history.service';
-import { saveAs } from 'file-saver/FileSaver';
+import {saveAs} from 'file-saver/FileSaver';
 import 'rxjs/add/operator/map';
-import {NzMessageService} from 'ng-zorro-antd';
+import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
 
 @Component({
     selector: 'app-track-history-list',
     templateUrl: './list.component.html',
 })
-export class ListComponent implements OnInit {
+export class ListComponent implements OnInit, AfterViewInit {
 
     dateRange = [null, null];
     params: any = {
@@ -25,15 +25,17 @@ export class ListComponent implements OnInit {
     loading = false;
     positionExpand = false;
 
-    constructor(
-        private http: HttpClient,
-        private userSrv: UserService,
-        private historySrv: HistoryService,
-        private msg: NzMessageService
-    ) { }
+    constructor(private http: HttpClient,
+                private userSrv: UserService,
+                private historySrv: HistoryService,
+                private msg: NzMessageService) {
+    }
 
     ngOnInit() {
         this.search();
+    }
+
+    ngAfterViewInit(): void {
     }
 
     search() {
@@ -47,13 +49,15 @@ export class ListComponent implements OnInit {
             delete params.longitude;
             delete params.distance;
         }
-        this.http.get(server.apis.track.search, {params: params}).subscribe({ next: (res: HttpRes) => {
+        this.http.get(server.apis.track.search, {params: params}).subscribe({
+            next: (res: HttpRes) => {
                 const data = res.data || {};
                 this.tracks = data.list || [];
                 this.trackTotal = data.total || 0;
             }, complete: () => {
                 this.loading = false;
-            } });
+            }
+        });
     }
 
     reset() {
@@ -140,5 +144,28 @@ export class ListComponent implements OnInit {
             }
         }
         return url;
+    }
+
+    searchAddressOptions = [];
+    @ViewChild(NzSelectComponent) addressComp;
+
+    addressSearchChange(keyword) {
+        this.http.jsonp(`http://apis.map.qq.com/ws/place/v1/suggestion?key=${QQ_MAP_KEY}&keyword=${keyword}&output=jsonp`, 'callback')
+           .subscribe((res: any) => {
+            console.log(res);
+            this.searchAddressOptions = res.data || [];
+        });
+    }
+
+    positionExpandChange() {
+        this.positionExpand = !this.positionExpand;
+        if (this.positionExpand) {
+            setTimeout(() => {
+                this.addressComp.registerOnChange((poi: any) => {
+                    this.params.latitude = poi.location.lat;
+                    this.params.longitude = poi.location.lng;
+                });
+            }, 1000);
+        }
     }
 }

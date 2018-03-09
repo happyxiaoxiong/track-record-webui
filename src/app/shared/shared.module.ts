@@ -20,6 +20,7 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {MoveAnimateComponent} from '../routes/widget/move-animate/move-animate.component';
 import {AutoSizeHeightDirective} from '@core/directive/auto-size-height.directive';
 import {TimeFormatPipe} from '@core/pipe/time-format.pipe';
+import {QQ_MAP_KEY} from '@core/service/app.service';
 
 const THIRDMODULES = [
     CountdownModule,
@@ -59,7 +60,7 @@ const DIRECTIVES = [
         // third libs
         ...THIRDMODULES,
         AqmModule.forRoot({
-            apiKey: 'IMZBZ-S7VRW-NXERI-RLSJY-HHHCT-MBFI4', // app key为必选项
+            apiKey: QQ_MAP_KEY, // app key为必选项
             apiLibraries: ['convertor']
         })
     ],

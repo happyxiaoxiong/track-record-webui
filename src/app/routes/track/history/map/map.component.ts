@@ -33,31 +33,33 @@ export class MapComponent implements OnDestroy, AfterViewInit {
     }
 
     onReady(mapNative: any) {
+        const me = this;
         mapNative.setOptions({
             zoom: 12,
-            center: this.latLng({ latitude: 39.916527, longitude: 116.397128 })
+            center: me.latLng({ latitude: 39.916527, longitude: 116.397128 })
         });
-        this.map = mapNative;
-        this.mapSrv.locateByIp(this.map, function () {
-            qq.maps.event.addListener(this.map, 'click', function (event) {
-                this.zone.run(() => {
-                    this.clickPoint = {
+        me.map = mapNative;
+        me.mapSrv.locateByIp(me.map, function () {
+            me.historySrv.getSwitchObservable().subscribe((track) => {
+                if (track.checked) {
+                    me.showTrack(track);
+                } else {
+                    me.hideTrack(track);
+                }
+            });
+
+            qq.maps.event.addListener(me.map, 'click', function (event) {
+                me.zone.run(() => {
+                    me.clickPoint = {
                         latitude: event.latLng.getLat(),
                         longitude: event.latLng.getLng()
                     };
                 });
-            }.bind(this));
-        }.bind(this));
+            });
+        });
     }
 
     ngAfterViewInit(): void {
-        this.historySrv.getSwitchObservable().subscribe((track) => {
-            if (track.checked) {
-                this.showTrack(track);
-            } else {
-                this.hideTrack(track);
-            }
-        });
     }
 
     ngOnDestroy(): void {

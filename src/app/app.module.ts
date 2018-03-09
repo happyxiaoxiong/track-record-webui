@@ -1,5 +1,5 @@
 import { NgModule, LOCALE_ID, APP_INITIALIZER} from '@angular/core';
-import { HttpClient, HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import {HttpClient, HTTP_INTERCEPTORS, HttpClientModule, HttpClientJsonpModule} from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -39,6 +39,7 @@ export function StartupServiceFactory(startupService: StartupService): Function 
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
+        HttpClientJsonpModule,
         DelonModule,
         CoreModule,
         SharedModule,

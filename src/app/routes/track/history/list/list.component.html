@@ -7,7 +7,16 @@
         <div nz-col [nzSm]="positionExpand ? 12 : 8" [nzXs]="24" class="pr-sm mb-sm">
             <nz-rangepicker [(ngModel)]="dateRange" name="dataRange" [nzPlaceholder]="['开始时间', ['结束时间']]"></nz-rangepicker>
         </div>
-        <div *ngIf="positionExpand" nz-col [nzSm]="12" [nzXs]="16" class="pr-sm mb-sm">
+        <div *ngIf="positionExpand" nz-col [nzSm]="6" [nzXs]="8" class="pr-sm mb-sm">
+            <nz-select #mapAddressSelect style="width: 100%" nzAllowClear [nzPlaceHolder]="'地点'" (nzSearchChange)="addressSearchChange($event)" [nzNotFoundContent]="'未查找到相关地点'" nzShowSearch>
+                <nz-option
+                    *ngFor="let option of searchAddressOptions"
+                    [nzLabel]="option.title"
+                    [nzValue]="option">
+                </nz-option>
+            </nz-select>
+        </div>
+         <div *ngIf="positionExpand" nz-col [nzSm]="6" [nzXs]="8" class="pr-sm mb-sm">
             <nz-input-group nzCompact>
                 <input [(ngModel)]="params.longitude" style="width: 50%;" placeholder="中心点经度" nz-input (blur)="positiveNumberBlur('longitude', '')">
                 <input [(ngModel)]="params.latitude" style="width: 50%;" placeholder="中心点纬度" nz-input (blur)="positiveNumberBlur('latitude', '')">
@@ -24,7 +33,7 @@
             </nz-input>
         </div>
         <div nz-col [nzSm]="6" [nzXs]="24" class="text-right mb-sm">
-            <a (click)="positionExpand = !positionExpand">
+            <a (click)="positionExpandChange()">
                 范围选择
                 <i class="anticon" [class.anticon-down]="!positionExpand" [class.anticon-up]="positionExpand"></i>
             </a>
