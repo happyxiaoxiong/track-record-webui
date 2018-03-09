@@ -19,3 +19,5 @@ declare var require: NodeRequire;
 
 // plupload
 declare var plupload: any;
+// coordtransform
+declare var coordtransform: any;

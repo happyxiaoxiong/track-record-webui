@@ -8,6 +8,7 @@ import {saveAs} from 'file-saver/FileSaver';
 import 'rxjs/add/operator/map';
 import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
+import {MapService} from '@core/service/map.service';
 
 @Component({
     selector: 'app-track-history-list',
@@ -28,6 +29,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     constructor(private http: HttpClient,
                 private userSrv: UserService,
                 private historySrv: HistoryService,
+                private mapSrv: MapService,
                 private msg: NzMessageService) {
     }
 
@@ -161,8 +163,9 @@ export class ListComponent implements OnInit, AfterViewInit {
         if (this.positionExpand) {
             setTimeout(() => {
                 this.addressComp.registerOnChange((poi: any) => {
-                    this.params.latitude = poi.location.lat;
-                    this.params.longitude = poi.location.lng;
+                    const [gpsLng, gpsLat] = coordtransform.gcj02towgs84(poi.location.lng, poi.location.lat);
+                    this.params.latitude = gpsLat;
+                    this.params.longitude = gpsLng;
                 });
             }, 1000);
         }

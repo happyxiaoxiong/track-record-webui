@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 declare const qq: any;
 
+
 @Injectable()
 export class MapService {
     gps2Tx(gpsPoints, callback: Function) {

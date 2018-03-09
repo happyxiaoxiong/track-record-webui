@@ -14,9 +14,9 @@ import {FileUploadService} from '../file-upload.service';
                 <form nz-form [nzLayout]="'inline'">
                     <div nz-form-item>
                         <div nz-form-control>
-                            <nz-input  [disabled]="loading" [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}">
+                            <nz-input [ngClass]="{ 'ng-ant-input': searchValue.length > 0}"  [disabled]="loading" [(ngModel)]="searchValue" [ngModelOptions]="{standalone: true}" (keydown.enter)="search()">
                                 <ng-template #suffix>
-                                    <i class="fa fa-close" *ngIf="searchValue.length > 0" (click)="reset()"></i>
+                                    <i class="ng-ant-input-clear anticon anticon-cross-circle" *ngIf="searchValue.length > 0" (click)="reset()"></i>
                                 </ng-template>
                             </nz-input>
                         </div>
@@ -54,7 +54,23 @@ import {FileUploadService} from '../file-upload.service';
                 </tbody>
             </nz-table>
         </nz-card>`,
-    styles: []
+    styles: [`
+        .ng-ant-input-clear {
+            opacity: 0;
+            z-index: 1;
+            color: rgba(0, 0, 0, 0.25);
+            background: #fff;
+            pointer-events: none;
+            cursor: pointer;
+        }
+        .ng-ant-input-clear:hover {
+            color: rgba(0, 0, 0, 0.43);
+        }
+        .ng-ant-input:hover .ng-ant-input-clear {
+            opacity: 1;
+            pointer-events: auto;
+        }
+    `]
 })
 export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy {
 

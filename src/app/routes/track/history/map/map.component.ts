@@ -49,10 +49,11 @@ export class MapComponent implements OnDestroy, AfterViewInit {
             });
 
             qq.maps.event.addListener(me.map, 'click', function (event) {
+                const [gpsLng, gpsLat] = coordtransform.gcj02towgs84(event.latLng.getLng(), event.latLng.getLat());
                 me.zone.run(() => {
                     me.clickPoint = {
-                        latitude: event.latLng.getLat(),
-                        longitude: event.latLng.getLng()
+                        latitude: gpsLat,
+                        longitude: gpsLng
                     };
                 });
             });
