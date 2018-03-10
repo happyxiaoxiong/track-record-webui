@@ -15,7 +15,7 @@ declare const qq: any;
 @Component({
     selector: 'app-track-history-qq-map',
     template: `
-        <aqm-map #qqMap fixWindow [minWidth]="0" (ready)="onReady($event)" ngClass="ant-card-bordered"></aqm-map>
+        <aqm-map #historyQqMap fixWindow [minWidth]="0" (ready)="onReady($event)" ngClass="ant-card-bordered"></aqm-map>
     `
 })
 export class QqMapComponent implements OnDestroy, AfterViewInit {
@@ -26,7 +26,7 @@ export class QqMapComponent implements OnDestroy, AfterViewInit {
     private map: any;
     private trackOverlays = [];
 
-    @ViewChild('qqMap') mapComp: AqmComponent;
+    @ViewChild('historyQqMap') mapComp: AqmComponent;
     @ViewChild(FixWindowDirective) fixWindowDirective;
 
     constructor(private el: ElementRef, private http: HttpClient, private historySrv: HistoryService, private zone: NgZone,
