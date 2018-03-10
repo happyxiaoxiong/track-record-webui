@@ -43,7 +43,7 @@ export const server = {
 };
 
 export const QQ_MAP_KEY = 'IMZBZ-S7VRW-NXERI-RLSJY-HHHCT-MBFI4';
-
+export const DEFAULT_MAP_CENTER = { lat: 39.916527, lng: 116.397128 };
 @Injectable()
 export class AppService {
     private config: any = null;

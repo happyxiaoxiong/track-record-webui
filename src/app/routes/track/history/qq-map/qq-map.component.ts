@@ -4,20 +4,21 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {HistoryService} from '../history.service';
 import {NzMessageService, NzModalService} from 'ng-zorro-antd';
 import {HttpClient} from '@angular/common/http';
-import {server} from '@core/service/app.service';
+import {DEFAULT_MAP_CENTER, server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
-import {DescComponent} from './desc/desc.component';
+import {DescComponent} from '../desc/desc.component';
 import {MapService} from '@core/service/map.service';
+import {Observable} from 'rxjs/Observable';
 
 declare const qq: any;
 
 @Component({
-    selector: 'app-track-history-map',
+    selector: 'app-track-history-qq-map',
     template: `
         <aqm-map #qqMap fixWindow [minWidth]="0" (ready)="onReady($event)" ngClass="ant-card-bordered"></aqm-map>
     `
 })
-export class MapComponent implements OnDestroy, AfterViewInit {
+export class QqMapComponent implements OnDestroy, AfterViewInit {
 
     autoAdjust = true;
     clickPoint;
@@ -36,27 +37,21 @@ export class MapComponent implements OnDestroy, AfterViewInit {
         const me = this;
         mapNative.setOptions({
             zoom: 12,
-            center: me.latLng({ latitude: 39.916527, longitude: 116.397128 })
+            center: this.mapSrv.latLng(DEFAULT_MAP_CENTER)
         });
         me.map = mapNative;
-        me.mapSrv.locateByIp(me.map, function () {
-            me.historySrv.getSwitchObservable().subscribe((track) => {
-                if (track.checked) {
-                    me.showTrack(track);
-                } else {
-                    me.hideTrack(track);
-                }
-            });
+        me.mapSrv.locate(me.map);
 
-            qq.maps.event.addListener(me.map, 'click', function (event) {
-                const [gpsLng, gpsLat] = coordtransform.gcj02towgs84(event.latLng.getLng(), event.latLng.getLat());
-                me.zone.run(() => {
-                    me.clickPoint = {
-                        latitude: gpsLat,
-                        longitude: gpsLng
-                    };
-                });
-            });
+        me.historySrv.getSwitchObservable().subscribe((track) => {
+            if (track.checked) {
+                me.showTrack(track);
+            } else {
+                me.hideTrack(track);
+            }
+        });
+
+        qq.maps.event.addListener(me.map, 'click', function (event) {
+            me.mapSrv.mapLatLng2Gps(event.latLng).subscribe(res => me.clickPoint = res);
         });
     }
 
@@ -118,17 +113,17 @@ export class MapComponent implements OnDestroy, AfterViewInit {
         this.http.get(server.apis.track.route, {params: {id: track.id}}).subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
                 const placeMarks = res.data.placeMarks || [];
-                this.gps2Tx(placeMarks, function () {
+                this.gps2Tx(placeMarks).subscribe(() => {
                     const overlays = [];
                     placeMarks.filter(placeMark => placeMark.resPoint).forEach(placeMark => {
                         const marker = new qq.maps.Marker({position: placeMark.resPoint});
                         overlays.push(marker);
                         qq.maps.event.addListener(marker, 'click', function () {
                             me.modal.open( {
-                                width: '50%',
-                                title: placeMark.name,
-                                footer: false,
-                                content: DescComponent,
+                                    width: '50%',
+                                    title: placeMark.name,
+                                    footer: false,
+                                    content: DescComponent,
                                     componentParams: {
                                         desc: placeMark.desc,
                                         gpsPoint: placeMark.point,
@@ -148,8 +143,8 @@ export class MapComponent implements OnDestroy, AfterViewInit {
                             strokeWeight: parseInt(style.width || '3', 10)
                         };
                         overlays.push(new qq.maps.Polyline(polyLineOptions));
-                        overlays.push(me.startMarker(path[0])); // 起点
-                        overlays.push(me.endMarker(path[path.length - 1])); // 中点
+                        overlays.push(me.mapSrv.startMarker(path[0])); // 起点
+                        overlays.push(me.mapSrv.endMarker(path[path.length - 1])); // 中点
                     });
                     me.trackOverlays[track.id] = {
                         overlays: overlays,
@@ -183,54 +178,34 @@ export class MapComponent implements OnDestroy, AfterViewInit {
         }
     }
     // 坐标转换
-    gps2Tx(placeMarks, fn: Function) {
-        let count = placeMarks.length;
-        // 路线转换
-        placeMarks.filter(placeMark => placeMark.points).forEach(placeMark => {
-            this.mapSrv.gps2Tx(placeMark.points.map(point => this.latLng(point)), (resPoints) => {
-                count--;
-                if (resPoints.length > 0) {
-                    placeMark.resPoints = resPoints;
+    gps2Tx(placeMarks): Observable<void> {
+        return Observable.fromPromise<void>(new Promise((resolve, reject) => {
+            let count = placeMarks.length;
+            // 路线转换
+            placeMarks.filter(placeMark => placeMark.points).forEach(placeMark => {
+                this.mapSrv.gps2MapLatLng(placeMark.points.map(point => this.mapSrv.latLng(point))).subscribe((resPoints) => {
+                    count--;
+                    if (resPoints.length > 0) {
+                        placeMark.resPoints = resPoints;
+                    }
+                    if (count <= 0) {// 所有坐标转换完毕
+                        resolve();
+                    }
+                });
+            });
+            // 关键点转换
+            const keyGpsPoints = placeMarks.filter(placeMark => placeMark.point).map(placeMark => this.mapSrv.latLng(placeMark.point));
+            this.mapSrv.gps2MapLatLng(keyGpsPoints).subscribe((resPoints) => {
+                count -= keyGpsPoints.length;
+                if (resPoints.length === keyGpsPoints.length) {// 转换成功
+                    let ind = 0;
+                    placeMarks.filter(placeMark => placeMark.point).forEach(placeMark => placeMark.resPoint = resPoints[ind++]);
                 }
                 if (count <= 0) {// 所有坐标转换完毕
-                    fn();
+                    resolve();
                 }
             });
-        });
-        // 关键点转换
-        const keyGpsPoints = placeMarks.filter(placeMark => placeMark.point).map(placeMark => this.latLng(placeMark.point));
-        this.mapSrv.gps2Tx(keyGpsPoints, (resPoints) => {
-            count -= keyGpsPoints.length;
-            if (resPoints.length === keyGpsPoints.length) {// 转换成功
-                let ind = 0;
-                placeMarks.filter(placeMark => placeMark.point).forEach(placeMark => placeMark.resPoint = resPoints[ind++]);
-            }
-            if (count <= 0) {// 所有坐标转换完毕
-                fn();
-            }
-        });
-    }
-
-    startMarker(point) {
-        return this.tagMarker(point, 0, 0, -1);
-    }
-
-    endMarker(point) {
-        return this.tagMarker(point, 0, 34);
-    }
-
-    tagMarker(point, x, y, zIndex = -2) {
-        return new qq.maps.Marker(
-            {
-                position: point,
-                icon: new qq.maps.MarkerImage('/assets/img/markers.png', new qq.maps.Size(42, 34),
-                    new qq.maps.Point(x, y)),
-                zIndex: zIndex
-            });
-    }
-
-    latLng(point) {
-        return new qq.maps.LatLng(point.latitude, point.longitude);
+        }));
     }
 }
 

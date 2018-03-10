@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild, ViewChildren} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {MapComponent} from './map/map.component';
 import {ListComponent} from './list/list.component';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
+import {QqMapComponent} from './qq-map/qq-map.component';
 
 @Component({
     selector: 'app-history',
@@ -42,7 +42,7 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
                                 </nz-tooltip>
                             </nz-tag>
                         </ng-template>
-                        <app-track-history-map #historyMap></app-track-history-map>
+                        <app-track-history-google-map #historyMap></app-track-history-google-map>
                     </nz-tab>
                 </nz-tabset>
             </nz-row>
@@ -59,7 +59,7 @@ import {FixWindowDirective} from '@core/directive/fix-window.directive';
 export class HistoryComponent implements OnInit, AfterViewInit {
 
     fullScreen = false;
-    @ViewChild('historyMap') mapComp: MapComponent;
+    @ViewChild('historyMap') mapComp: QqMapComponent;
     @ViewChild('historyList') listComp: ListComponent;
     @ViewChild(FixWindowDirective) fixWindowDirective;
 
@@ -83,12 +83,12 @@ export class HistoryComponent implements OnInit, AfterViewInit {
     }
 
     positionCenterClick() {
-        this.listComp.params.latitude = this.mapComp.clickPoint.latitude;
-        this.listComp.params.longitude = this.mapComp.clickPoint.longitude;
+        this.listComp.params.lat = this.mapComp.clickPoint.lat;
+        this.listComp.params.lng = this.mapComp.clickPoint.lng;
     }
 
     choosePointText() {
-        return `当前选中位置(经度:${this.mapComp.clickPoint.latitude},纬度:${this.mapComp.clickPoint.longitude})`;
+        return `当前选中位置(经度:${this.mapComp.clickPoint.lng},纬度:${this.mapComp.clickPoint.lat})`;
     }
 
     clear($event) {

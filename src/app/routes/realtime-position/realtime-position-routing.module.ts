@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {RealtimePositionComponent} from "./realtime-position.component";
+import {QqMapComponent} from './qq-map/qq-map.component';
+import {GoogleMapComponent} from './google-map/google-map.component';
 
 const routes: Routes = [
     {
         path: '',
-        component: RealtimePositionComponent
+        component: GoogleMapComponent
     }
 ];
 

@@ -29,7 +29,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     constructor(private http: HttpClient,
                 private userSrv: UserService,
                 private historySrv: HistoryService,
-                private mapSrv: MapService,
+                private mapSrc: MapService,
                 private msg: NzMessageService) {
     }
 
@@ -47,8 +47,8 @@ export class ListComponent implements OnInit, AfterViewInit {
 
         const params = Object.assign({}, this.params);
         if (!this.positionExpand) {
-            delete params.latitude;
-            delete params.longitude;
+            delete params.lat;
+            delete params.lng;
             delete params.distance;
         }
         this.http.get(server.apis.track.search, {params: params}).subscribe({
@@ -119,24 +119,6 @@ export class ListComponent implements OnInit, AfterViewInit {
         }
     }
 
-    // download(track) {
-    //     track.downLoading = true;
-    //     this.http.get(server.apis.track.download, {
-    //         params: { id: track.id },
-    //         responseType: 'arraybuffer'
-    //     }).subscribe((res) => {
-    //         // const contentDispositionHeader: string = res.headers.get('Content-Disposition');
-    //         // const parts: string[] = contentDispositionHeader.split(';');
-    //         // const filename = parts[1].split('=')[1];
-    //         const blob = new Blob([res], { type: 'application/octet-stream' });
-    //         saveAs(blob, track.filename);
-    //     }, () => {
-    //         this.msg.error(`${track.name} 下载出错`);
-    //     }, () => {
-    //         track.downLoading = false;
-    //     });
-    // }
-
     downloadUrl(track) {
         const header = this.userSrv.getTokenHeader();
         let url = server.apis.track.download.replace(':id', track.id) + '?';
@@ -152,9 +134,8 @@ export class ListComponent implements OnInit, AfterViewInit {
     @ViewChild(NzSelectComponent) addressComp;
 
     addressSearchChange(keyword) {
-        this.http.jsonp(`http://apis.map.qq.com/ws/place/v1/suggestion?key=${QQ_MAP_KEY}&keyword=${keyword}&output=jsonp`, 'callback')
-           .subscribe((res: any) => {
-            this.searchAddressOptions = res.data || [];
+        this.mapSrc.textSearch(keyword, this.http, this.historySrv.getMap()).subscribe((res: any) => {
+            this.searchAddressOptions = res;
         });
     }
 
@@ -163,9 +144,8 @@ export class ListComponent implements OnInit, AfterViewInit {
         if (this.positionExpand) {
             setTimeout(() => {
                 this.addressComp.registerOnChange((poi: any) => {
-                    const [gpsLng, gpsLat] = coordtransform.gcj02towgs84(poi.location.lng, poi.location.lat);
-                    this.params.latitude = gpsLat;
-                    this.params.longitude = gpsLng;
+                    this.params.lat = poi.location.lat;
+                    this.params.lng = poi.location.lng;
                 });
             }, 1000);
         }

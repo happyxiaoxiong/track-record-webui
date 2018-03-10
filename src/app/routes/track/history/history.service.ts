@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class HistoryService {
+    private map;
     private switchSubject = new Subject<any>();
     constructor() {
     }
@@ -16,4 +17,11 @@ export class HistoryService {
         return this.switchSubject.asObservable();
     }
 
+    setMap(map) {
+        this.map = map;
+    }
+
+    getMap() {
+        return this.map;
+    }
 }

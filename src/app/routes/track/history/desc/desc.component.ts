@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {NzModalSubject} from 'ng-zorro-antd';
-import {server} from '@core/service/app.service';
+import {server} from 'app/core/service/app.service';
 
 @Component({
     selector: 'app-track-desc',
@@ -69,7 +69,7 @@ import {server} from '@core/service/app.service';
             <nz-row>
                 <div nz-col [nzSpan]="16">
                     <i class="fa fa-map-marker"></i>
-                    <span> 经纬度:({{gpsPoint.latitude}}, {{gpsPoint.longitude}})</span>
+                    <span> 经纬度:({{gpsPoint.lat}}, {{gpsPoint.lat}})</span>
                 </div>
                 <div nz-col class="text-right" [nzSpan]="8">
                     <button nz-button (click)="ok()">

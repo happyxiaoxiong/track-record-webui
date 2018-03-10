@@ -6,15 +6,22 @@ import {AppService} from '@core/service/app.service';
 import {UserService} from '@core/service/user.service';
 import {AuthGuard} from '@core/guard/auth.guard';
 import {JsLoadService} from '@core/service/js-load.service';
-import {MapService} from '@core/service/map.service';
 import {ColorService} from '@core/service/color.service';
+import {MapService} from '@core/service/map.service';
+import {GoogleMapHelper} from '@core/map/google-map-helper';
+import {QqMapHelper} from '@core/map/qq-map-helper';
 
 @NgModule({
     providers: [
         I18NService,
         AppService,
         UserService,
-        MapService,
+        {
+            provide: MapService,
+            useFactory: () => {
+                return new MapService(new GoogleMapHelper());
+            }
+        },
         ColorService,
         JsLoadService,
         AuthGuard

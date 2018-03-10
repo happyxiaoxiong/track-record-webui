@@ -9,11 +9,12 @@ import { UploadComponent } from './file-upload/upload/upload.component';
 import { LastWeekStateComponent } from './file-upload/last-week-state/last-week-state.component';
 import {FileUploadService} from './file-upload/file-upload.service';
 import {ListComponent} from './history/list/list.component';
-import {MapComponent} from './history/map/map.component';
 import {HistoryService} from './history/history.service';
-import { DescComponent } from './history/map/desc/desc.component';
 import {StatComponent} from './stat/stat.component';
 import {NgxEchartsModule} from 'ngx-echarts';
+import {DescComponent} from './history/desc/desc.component';
+import {QqMapComponent} from './history/qq-map/qq-map.component';
+import { GoogleMapComponent } from './history/google-map/google-map.component';
 
 @NgModule({
     imports: [
@@ -26,7 +27,7 @@ import {NgxEchartsModule} from 'ngx-echarts';
     providers: [
         FileUploadService, HistoryService
     ],
-    declarations: [FileUploadComponent, UploadComponent, LastWeekStateComponent, HistoryComponent, ListComponent, MapComponent, DescComponent, StatComponent]
+    declarations: [FileUploadComponent, UploadComponent, LastWeekStateComponent, HistoryComponent, ListComponent, QqMapComponent, DescComponent, StatComponent, GoogleMapComponent]
 })
 export class TrackModule {
 }

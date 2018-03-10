@@ -18,8 +18,8 @@
         </div>
          <div *ngIf="positionExpand" nz-col [nzSm]="6" [nzXs]="8" class="pr-sm mb-sm">
             <nz-input-group nzCompact>
-                <input [(ngModel)]="params.longitude" style="width: 50%;" placeholder="中心点经度" nz-input (blur)="positiveNumberBlur('longitude', '')">
-                <input [(ngModel)]="params.latitude" style="width: 50%;" placeholder="中心点纬度" nz-input (blur)="positiveNumberBlur('latitude', '')">
+                <input [(ngModel)]="params.lng" style="width: 50%;" placeholder="中心点经度" nz-input (blur)="positiveNumberBlur('lat', '')">
+                <input [(ngModel)]="params.lat" style="width: 50%;" placeholder="中心点纬度" nz-input (blur)="positiveNumberBlur('lat', '')">
             </nz-input-group>
         </div>
         <div *ngIf="positionExpand" nz-col [nzSm]="6" [nzXs]="8" class="pr-sm mb-sm">

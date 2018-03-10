@@ -4,7 +4,7 @@ import 'rxjs/add/operator/map';
 import {AppService, server} from './app.service';
 import {HttpRes} from '../model/http-res';
 import {isString} from 'util';
-import {ActivatedRoute, ActivatedRouteSnapshot, Router} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {SettingsService} from '@delon/theme';
 import {NzModalService} from 'ng-zorro-antd';
 import {ReuseTabService} from '@delon/abc';

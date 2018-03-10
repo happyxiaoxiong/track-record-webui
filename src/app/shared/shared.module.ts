@@ -21,6 +21,7 @@ import {MoveAnimateComponent} from '../routes/widget/move-animate/move-animate.c
 import {AutoSizeHeightDirective} from '@core/directive/auto-size-height.directive';
 import {TimeFormatPipe} from '@core/pipe/time-format.pipe';
 import {QQ_MAP_KEY} from '@core/service/app.service';
+import {GoogleMapsModule} from 'google-maps-angular2';
 
 const THIRDMODULES = [
     CountdownModule,
@@ -62,6 +63,9 @@ const DIRECTIVES = [
         AqmModule.forRoot({
             apiKey: QQ_MAP_KEY, // app key为必选项
             apiLibraries: ['convertor']
+        }),
+        GoogleMapsModule.forRoot({
+            url: 'http://maps.google.cn/maps/api/js?key=AIzaSyCsCA2URDIMpFVDhPFI_irAyu5LTRtis70&libraries=places'
         })
     ],
     declarations: [
@@ -88,7 +92,8 @@ const DIRECTIVES = [
         // your components
         ...COMPONENTS,
         ...DIRECTIVES,
-        AqmModule
+        AqmModule,
+        GoogleMapsModule
     ]
 })
 export class SharedModule { }

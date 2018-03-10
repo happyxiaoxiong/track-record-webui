@@ -1,30 +1,54 @@
 import {Injectable} from '@angular/core';
-declare const qq: any;
-
+import {IMapHelper} from '@core/map/map-helper';
+import {GoogleMapHelper} from '@core/map/google-map-helper';
+import {QqMapHelper} from '@core/map/qq-map-helper';
+import {Observable} from 'rxjs/Observable';
+import {HttpClient} from '@angular/common/http';
 
 @Injectable()
-export class MapService {
-    gps2Tx(gpsPoints, callback: Function) {
-        if (!gpsPoints || gpsPoints.length === 0) {// 不需要转换
-            callback([]);
-            return;
-        }
-        qq.maps.convertor.translate(gpsPoints, 1, function(res){
-            callback(res);
-        });
+export class MapService implements IMapHelper {
+
+    constructor(private mapHelper: IMapHelper) {
+
     }
 
-    locateByIp(map, callback?: Function) {
-        // 获取城市列表接口设置中心点
-        const cityLocation = new qq.maps.CityService({
-            complete : function(result){
-                map.setCenter(result.detail.latLng);
-                if (callback) {
-                    callback();
-                }
-            }
-        });
-        // 根据用户IP查询城市信息。
-        cityLocation.searchLocalCity();
+    locate(map) {
+        this.mapHelper.locate(map);
+    }
+
+    latLng(point: { lat: number; lng: number }) {
+        return this.mapHelper.latLng(point);
+    }
+
+    getDefaultOptions() {
+        return this.mapHelper.getDefaultOptions();
+    }
+
+    gps2MapLatLng(gps: any | Array<any>): Observable<any | Array<any>> {
+        return this.mapHelper.gps2MapLatLng(gps);
+    }
+
+    mapLatLng2Gps(latLng: any | Array<any>): Observable<any | Array<any>> {
+        return this.mapHelper.mapLatLng2Gps(latLng);
+    }
+
+    startMarker(latLng: any) {
+        return this.mapHelper.startMarker(latLng);
+    }
+
+    endMarker(latLng: any) {
+        return this.mapHelper.endMarker(latLng);
+    }
+
+    textSearch(text: string, http?: HttpClient, map?: any): Observable<Array<any>> {
+        return this.mapHelper.textSearch(text, http, map);
+    }
+
+    isGoogle() {
+        return this.mapHelper instanceof GoogleMapHelper;
+    }
+
+    isQq() {
+        return this.mapHelper instanceof QqMapHelper;
     }
 }

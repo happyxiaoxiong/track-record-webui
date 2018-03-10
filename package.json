@@ -54,6 +54,7 @@
     "echarts": "^4.0.2",
     "file-saver": "^1.3.3",
     "font-awesome": "^4.7.0",
+    "google-maps-angular2": "^1.1.2",
     "moment": "^2.19.3",
     "ng-clipboard-antd": "^2.0.1",
     "ng-tree-antd": "^2.0.0",
