@@ -1,10 +1,9 @@
-import {IMapHelper} from '@core/map/map-helper';
-import {DEFAULT_MAP_CENTER, QQ_MAP_KEY} from '@core/service/app.service';
+import {AbstractMapHelper} from '@core/map/map-helper';
+import {DEFAULT_MAP_CENTER} from '@core/service/app.service';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/fromPromise';
-import {HttpClient} from '@angular/common/http';
 declare const qq: any;
-export class QqMapHelper implements IMapHelper {
+export class QqMapHelper extends AbstractMapHelper {
     locate(map) {
         // 获取城市列表接口设置中心点
         const cityLocation = new qq.maps.CityService({
@@ -71,14 +70,5 @@ export class QqMapHelper implements IMapHelper {
                     new qq.maps.Point(x, y)),
                 zIndex: zIndex
             });
-    }
-
-    textSearch(text: string, http?: HttpClient, map?: any): Observable<Array<{ location: { lat: number, lng: number }, title: string }>> {
-        return Observable.fromPromise(new Promise((resolve, reject) => {
-            http.jsonp(`http://apis.map.qq.com/ws/place/v1/suggestion?key=${QQ_MAP_KEY}&keyword=${text}&output=jsonp`, 'callback')
-                .subscribe((res: any) => {
-                    resolve((res.data || []).map((item) =>  ({ location: this.latLng2Gps(item.location), title: item.title })));
-                });
-        }));
     }
 }

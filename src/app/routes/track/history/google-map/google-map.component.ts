@@ -45,7 +45,6 @@ export class GoogleMapComponent implements OnDestroy, AfterViewInit {
     loadMap() {
         const me = this;
         me.map = new google.maps.Map(document.getElementById('historyGoogleMap'), me.mapSrv.getDefaultOptions());
-        me.historySrv.setMap(me.map);
         google.maps.event.addListener(me.map, 'click', function (event) {
             me.zone.run(() => {
                 console.log(event);

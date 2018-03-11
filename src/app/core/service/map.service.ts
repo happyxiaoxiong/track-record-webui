@@ -1,14 +1,14 @@
 import {Injectable} from '@angular/core';
-import {IMapHelper} from '@core/map/map-helper';
+import {AbstractMapHelper} from '@core/map/map-helper';
 import {GoogleMapHelper} from '@core/map/google-map-helper';
 import {QqMapHelper} from '@core/map/qq-map-helper';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 
 @Injectable()
-export class MapService implements IMapHelper {
+export class MapService implements AbstractMapHelper {
 
-    constructor(private mapHelper: IMapHelper) {
+    constructor(private mapHelper: AbstractMapHelper) {
 
     }
 
@@ -40,8 +40,8 @@ export class MapService implements IMapHelper {
         return this.mapHelper.endMarker(latLng);
     }
 
-    textSearch(text: string, http?: HttpClient, map?: any): Observable<Array<any>> {
-        return this.mapHelper.textSearch(text, http, map);
+    textSearch(text: string, http?: HttpClient): Observable<Array<any>> {
+        return this.mapHelper.textSearch(text, http);
     }
 
     isGoogle() {

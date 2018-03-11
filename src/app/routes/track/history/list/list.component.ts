@@ -136,7 +136,7 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     addressSearchChange(keyword) {
         this.searchTip = '正在查询中...';
-        this.mapSrc.textSearch(keyword, this.http, this.historySrv.getMap()).subscribe((res: any) => {
+        this.mapSrc.textSearch(keyword, this.http).subscribe((res: any) => {
             this.searchAddressOptions = res;
         }, () => {}, () => {
             this.searchTip =  '未查找到相关地点';

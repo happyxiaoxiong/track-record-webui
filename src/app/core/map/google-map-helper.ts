@@ -1,12 +1,11 @@
-import {IMapHelper} from '@core/map/map-helper';
-import {DEFAULT_MAP_CENTER, QQ_MAP_KEY} from '@core/service/app.service';
+import {AbstractMapHelper} from '@core/map/map-helper';
+import {DEFAULT_MAP_CENTER} from '@core/service/app.service';
 import 'rxjs/add/observable/of';
 import {Observable} from 'rxjs/Observable';
-import {HttpClient} from '@angular/common/http';
 
 declare const google: any;
 
-export class GoogleMapHelper implements IMapHelper {
+export class GoogleMapHelper extends AbstractMapHelper {
 
     private searchService;
 
@@ -76,21 +75,5 @@ export class GoogleMapHelper implements IMapHelper {
                 },
                 zIndex: zIndex
             });
-    }
-
-    textSearch(text: string, http?: HttpClient, map?: any): Observable<Array<{ location: { lat: number, lng: number }, title: string }>> {
-        if (!this.searchService) {
-            this.searchService = new google.maps.places.PlacesService(map);
-        }
-        return Observable.fromPromise(new Promise((resolve, reject) => {
-            this.searchService.textSearch({
-                query: text
-            }, (res, status) => {
-                resolve((status === google.maps.places.PlacesServiceStatus.OK ? res : []).map((item: any) => ({
-                    location: { lat: item.geometry.location.lat(), lng: item.geometry.location.lng() },
-                    title: item.name
-                })));
-            });
-        }));
     }
 }
