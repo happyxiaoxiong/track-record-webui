@@ -8,7 +8,7 @@
             <nz-rangepicker [(ngModel)]="dateRange" name="dataRange" [nzPlaceholder]="['开始时间', ['结束时间']]"></nz-rangepicker>
         </div>
         <div *ngIf="positionExpand" nz-col [nzSm]="6" [nzXs]="8" class="pr-sm mb-sm">
-            <nz-select #mapAddressSelect style="width: 100%" nzAllowClear [nzPlaceHolder]="'地点'" (nzSearchChange)="addressSearchChange($event)" [nzNotFoundContent]="'未查找到相关地点'" nzShowSearch>
+            <nz-select #mapAddressSelect style="width: 100%" nzAllowClear [nzPlaceHolder]="'地点'" (nzSearchChange)="addressSearchChange($event)" [nzNotFoundContent]="searchTip" nzShowSearch>
                 <nz-option
                     *ngFor="let option of searchAddressOptions"
                     [nzLabel]="option.title"

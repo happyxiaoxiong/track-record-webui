@@ -25,6 +25,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     trackTotal = 0;
     loading = false;
     positionExpand = false;
+    searchTip = '';
 
     constructor(private http: HttpClient,
                 private userSrv: UserService,
@@ -134,8 +135,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     @ViewChild(NzSelectComponent) addressComp;
 
     addressSearchChange(keyword) {
+        this.searchTip = '正在查询中...';
         this.mapSrc.textSearch(keyword, this.http, this.historySrv.getMap()).subscribe((res: any) => {
             this.searchAddressOptions = res;
+        }, () => {}, () => {
+            this.searchTip =  '未查找到相关地点';
         });
     }
 
