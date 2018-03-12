@@ -151,16 +151,13 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
             params[i] = this.form.controls[i].value;
         }
 
-        this.http.post(server.apis.noAuth.register, params).subscribe((res: HttpRes) => {
+        this.http.post(server.apis.noAuth.register, params).finally(() => this.loading = false)
+            .subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
                 this.success = '注册成功,账号可以使用了';
             } else {
                 this.error = '注册失败,请重试';
             }
-        }, () => {
-            this.error = '服务器返回错误，请稍后重试';
-        }, () => {
-            this.loading = false;
         });
     }
 

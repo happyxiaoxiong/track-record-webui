@@ -1,4 +1,4 @@
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpParams, HttpRequest} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Injectable, Injector} from '@angular/core';
 import { of } from 'rxjs/observable/of';
@@ -8,6 +8,7 @@ import {mergeMap} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators';
 import {NzMessageService} from 'ng-zorro-antd';
 import {server} from '@core/service/app.service';
+import {ErrorObservable} from 'rxjs/observable/ErrorObservable';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -53,7 +54,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 } else if (err.status === 500) {
                     msg.error('服务器内部错误');
                 }
-                return Observable.throw(err);
+                return ErrorObservable.create(event);
             })
         );
     }

@@ -9,6 +9,7 @@ import {HttpRes} from '@core/model/http-res';
 import * as moment from 'moment';
 import {GoogleMapsService} from 'google-maps-angular2';
 import {MapService} from '@core/service/map.service';
+import 'rxjs/add/operator/finally';
 
 declare const google: any;
 
@@ -242,7 +243,12 @@ export class GoogleMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
         this.queryTimer = TimerObservable.create(1000, this.queryInterval).takeWhile(() => this.timerAlive)
             .subscribe(() => {
-                this.http.get(server.apis.rt.all).subscribe((res: HttpRes) => {
+                let err = true;
+                this.http.get(server.apis.rt.all).finally(() => {
+                    if (err) {
+                        this.ngOnDestroy();
+                    }
+                }).subscribe((res: HttpRes) => {
                     if (res.code === server.successCode) {
                         // 下线检测
                         this.processOffLine();
@@ -250,9 +256,8 @@ export class GoogleMapComponent implements OnInit, AfterViewInit, OnDestroy {
                             this.processUser(res.data[i]);
                         }
                     }
+                    err = false;
                 });
-            }, () => {
-                this.ngOnDestroy();
             });
     }
 

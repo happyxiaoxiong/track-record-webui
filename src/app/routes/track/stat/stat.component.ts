@@ -198,8 +198,10 @@ export class StatComponent implements OnInit, AfterViewInit {
                     yAxis: {},
                 };
                 this.datePicker.registerOnChange((date) => {
-                    this.selectedMonth = date;
-                    this.monthCharts();
+                    if (date != null) {
+                        this.selectedMonth = date;
+                        this.monthCharts();
+                    }
                 });
                 this.monthCharts();
             }
@@ -212,6 +214,8 @@ export class StatComponent implements OnInit, AfterViewInit {
             params: {
                 month: moment(this.selectedMonth).format('YYYY-MM-DD')
             }
+        }).finally(() => {
+            this.monthLoading = false;
         }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
                     const stats = [];
@@ -244,9 +248,6 @@ export class StatComponent implements OnInit, AfterViewInit {
                     this.monthStats = stats;
                     this.search();
                 }
-            }, (error) => {
-            }, () => {
-                this.monthLoading = false;
             }
         );
     }
@@ -256,7 +257,8 @@ export class StatComponent implements OnInit, AfterViewInit {
         this.selectedUser = evt.name;
         this.http.get(server.apis.track.statDay, {
             params: this.getStatDayParams(evt.data[2])
-        }).subscribe((res: HttpRes) => {
+        }).finally(() => this.dayLoading = false)
+            .subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
                     const stats = res.data;
                     this.userDayOption = Object.assign({}, this.defaultOption, {
@@ -270,9 +272,6 @@ export class StatComponent implements OnInit, AfterViewInit {
                         dataZoom: this.dataZoom(stats),
                     });
                 }
-            }, (error) => {
-            }, () => {
-                this.dayLoading = false;
             }
         );
     }
@@ -288,13 +287,11 @@ export class StatComponent implements OnInit, AfterViewInit {
         if (!stat.days) {
             stat.loading = true;
             this.http.get(server.apis.track.statDay, { params: this.getStatDayParams(stat.userId)})
+                .finally(() => stat.loading = false)
                 .subscribe((res: HttpRes) => {
                     if (server.successCode === res.code) {
                         stat.days = res.data;
                     }
-                }, (error) => {
-                }, () => {
-                    stat.loading = false;
                 }
             );
         }

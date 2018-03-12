@@ -10,7 +10,7 @@ export class Utils {
     }
 
     static formatByteEn(len: number): string {
-        const units = ['bytes', 'kb', 'mb', 'gb'];
+        const units = ['B', 'KB', 'MB', 'GB'];
         return Utils.format(units, len, 1024, 2);
     }
 

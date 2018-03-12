@@ -127,7 +127,12 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
             this.alive = true;
             this.timer = TimerObservable.create(0, this.interval).takeWhile(() => this.alive)
                 .subscribe(() => {
-                    this.http.get(server.apis.track.uploadState).subscribe(((res: HttpRes) => {
+                    let err = true;
+                    this.http.get(server.apis.track.uploadState).finally(() => {
+                        if (err) {
+                            this.ngOnDestroy();
+                        }
+                    }).subscribe(((res: HttpRes) => {
                         res.data = res.data || [];
                         // 验证数据有无更新
                         if (this.trackFiles.length === res.data.length || this.trackFiles.length === 0) {
@@ -150,9 +155,8 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
                         }
                         this.trackFiles = res.data;
                         this.search();
+                        err = false;
                     }));
-                }, () => {
-                    this.ngOnDestroy();
                 });
         }
     }

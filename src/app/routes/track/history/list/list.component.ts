@@ -52,15 +52,13 @@ export class ListComponent implements OnInit, AfterViewInit {
             delete params.lng;
             delete params.distance;
         }
-        this.http.get(server.apis.track.search, {params: params}).subscribe({
-            next: (res: HttpRes) => {
-                const data = res.data || {};
-                this.tracks = data.list || [];
-                this.trackTotal = data.total || 0;
-            }, complete: () => {
-                this.loading = false;
-            }
-        });
+        this.http.get(server.apis.track.search, {params: params}).finally(() => this.loading = false)
+            .subscribe(
+                (res: HttpRes) => {
+                    const data = res.data || {};
+                    this.tracks = data.list || [];
+                    this.trackTotal = data.total || 0;
+                });
     }
 
     reset() {
@@ -136,11 +134,10 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     addressSearchChange(keyword) {
         this.searchTip = '正在查询中...';
-        this.mapSrc.textSearch(keyword, this.http).subscribe((res: any) => {
-            this.searchAddressOptions = res;
-        }, () => {}, () => {
-            this.searchTip =  '未查找到相关地点';
-        });
+        this.mapSrc.textSearch(keyword, this.http).finally(() => this.searchTip =  '未查找到相关地点')
+            .subscribe((res: any) => {
+                this.searchAddressOptions = res;
+            });
     }
 
     positionExpandChange() {

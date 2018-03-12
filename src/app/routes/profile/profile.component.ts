@@ -366,7 +366,7 @@ export class ProfileComponent implements OnInit {
             params[i] = form.controls[i].value;
         }
 
-        this.http.post(url, params).subscribe((res: HttpRes) => {
+        this.http.post(url, params).finally(() => this.loading = false).subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
                 const user = res.data.user;
                 user.token = res.data.token;
@@ -375,10 +375,6 @@ export class ProfileComponent implements OnInit {
             } else {
                 this.msg.error('更新失败');
             }
-        }, () => {
-            this.msg.error('服务器返回错误，请稍后重试');
-        }, () => {
-            this.loading = false;
         });
     }
 }
