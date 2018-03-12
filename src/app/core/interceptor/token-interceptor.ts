@@ -7,7 +7,7 @@ import {NGXLogger} from 'ngx-logger';
 import {mergeMap} from 'rxjs/operators';
 import {catchError} from 'rxjs/operators';
 import {NzMessageService} from 'ng-zorro-antd';
-import {AppService, server} from '@core/service/app.service';
+import {server} from '@core/service/app.service';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -53,7 +53,7 @@ export class TokenInterceptor implements HttpInterceptor {
                 } else if (err.status === 500) {
                     msg.error('服务器内部错误');
                 }
-                return of(<any>{ res: err });
+                return Observable.throw(err);
             })
         );
     }

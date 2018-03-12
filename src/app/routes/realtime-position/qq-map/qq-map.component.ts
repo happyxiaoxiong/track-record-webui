@@ -348,11 +348,12 @@ export class QqMapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.timerAlive = false;
         if (this.queryTimer) {
             this.queryTimer.unsubscribe();
+            this.queryTimer = null;
         }
         this.onlineUsers.forEach((user) => {
             user.setMap(null);
         });
-        this.onlineUsers.length = 0;
+        this.onlineUsers = [];
     }
 }
 

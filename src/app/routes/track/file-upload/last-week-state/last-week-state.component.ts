@@ -106,7 +106,11 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     ngOnDestroy(): void {
-        this.stopSyncDt();
+        this.alive = false;
+        if (this.timer) {
+            this.timer.unsubscribe();
+            this.timer = null;
+        }
     }
 
     stateTag(state: string) {
@@ -138,7 +142,7 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
                                 }
                             }
                             if (!needSync) {// 不需要在同步了
-                                this.stopSyncDt();
+                                this.ngOnDestroy();
                             }
                             if (!hasUpdate && this.trackFiles.length === res.data.length) {// 无更新
                                 return;
@@ -148,17 +152,11 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
                         this.search();
                     }));
                 }, () => {
-                    this.stopSyncDt();
+                    this.ngOnDestroy();
                 });
         }
     }
 
-    stopSyncDt() {
-        this.alive = false;
-        if (this.timer) {
-            this.timer.unsubscribe();
-        }
-    }
 
     sortChange(name, $event) {
         this.sortName = name;
