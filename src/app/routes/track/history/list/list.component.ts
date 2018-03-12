@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {QQ_MAP_KEY, server} from '@core/service/app.service';
+import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
 import * as moment from 'moment';
 import {HistoryService} from '../history.service';

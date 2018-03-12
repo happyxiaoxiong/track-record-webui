@@ -65,7 +65,7 @@ const DIRECTIVES = [
             apiLibraries: ['convertor']
         }),
         GoogleMapsModule.forRoot({
-            url: 'http://maps.google.cn/maps/api/js?key=AIzaSyCsCA2URDIMpFVDhPFI_irAyu5LTRtis70&libraries=places'
+            url: 'http://maps.google.cn/maps/api/js?key=AIzaSyCsCA2URDIMpFVDhPFI_irAyu5LTRtis70'
         })
     ],
     declarations: [
