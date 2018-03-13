@@ -27,7 +27,7 @@ export class UserLoginComponent implements OnDestroy {
             password: [null, Validators.required],
             remember: [true]
         });
-        this.redirectUrl = this.route.snapshot.queryParams['redirectUrl'] || '';
+        this.redirectUrl = this.route.snapshot.queryParams['redirectUrl'] || 'welcome';
     }
 
     // region: fields

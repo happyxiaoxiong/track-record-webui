@@ -12,6 +12,7 @@ import {Exception404Component} from './exception/404.component';
 import {Exception500Component} from './exception/500.component';
 import { TrackModule } from './track/track.module';
 import { RealtimePositionModule } from './realtime-position/realtime-position.module';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 @NgModule({
     imports: [ SharedModule, RouteRoutingModule, TrackModule, RealtimePositionModule ],
@@ -23,6 +24,7 @@ import { RealtimePositionModule } from './realtime-position/realtime-position.mo
         Exception403Component,
         Exception404Component,
         Exception500Component,
+        WelcomeComponent,
     ],
     providers: [
         NGXLogger

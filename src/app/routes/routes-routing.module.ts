@@ -13,6 +13,7 @@ import {AuthGuard} from '@core/guard/auth.guard';
 import {Exception403Component} from './exception/403.component';
 import {Exception404Component} from './exception/404.component';
 import {Exception500Component} from './exception/500.component';
+import {WelcomeComponent} from './welcome/welcome.component';
 
 const routes: Routes = [
     {
@@ -24,6 +25,8 @@ const routes: Routes = [
             { path: 'realtime-position', loadChildren: './realtime-position/realtime-position.module#RealtimePositionModule' },
             { path: 'user', loadChildren: './user/user.module#UserModule' },
             { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
+            { path: 'welcome', component: WelcomeComponent, data: { titleI18n: 'welcome' } },
+            { path: '', component: WelcomeComponent, data: { titleI18n: 'welcome' } },
         ]
     },
     // passport
