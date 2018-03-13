@@ -8,6 +8,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {SettingsService} from '@delon/theme';
 import {NzModalService} from 'ng-zorro-antd';
 import {ReuseTabService} from '@delon/abc';
+import * as moment from 'moment';
 
 @Injectable()
 export class UserService {
@@ -28,6 +29,8 @@ export class UserService {
                 if (server.successCode === res.code) {
                     const user = res.data.user;
                     user.token = res.data.token;
+                    // 设置登录系统时间
+                    user.loginSysTime = moment().format('YYYY-MM-DD HH:mm:ss');
                     this.setUser(user);
                     this.appService.onlineError = false;
                     success();
@@ -85,11 +88,8 @@ export class UserService {
         return header;
     }
 
-    getUsername(): string {
-        return this.getUser().name || '';
-    }
-
     setUser(user: any) {
+        user = Object.assign(this.getUser(), user);
         this.settingsService.setUser(user);
         this.storage.setItem(this.userKey, JSON.stringify(user));
     }

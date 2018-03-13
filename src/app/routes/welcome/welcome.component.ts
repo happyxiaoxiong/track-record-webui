@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
+import {UserService} from '@core/service/user.service';
 
 @Component({
     selector: 'app-welcome',
@@ -8,19 +8,20 @@ import * as moment from 'moment';
       `,
 })
 export class WelcomeComponent implements OnInit {
-
-    loginTime = moment().format('YYYY-MM-DD HH:mm:ss');
-    constructor() { }
+    private user;
+    constructor(private userSrv: UserService) {
+        this.user = this.userSrv.getUser();
+    }
 
     ngOnInit() {
     }
 
     message() {
-        return `欢迎登录到本系统`;
+        return `${this.user.name()},欢迎登录到本系统`;
     }
 
     description() {
-        return `登录时间:${this.loginTime}`;
+        return `本次登录系统时间是:${this.user.loginSysTime}`;
     }
 }
 
