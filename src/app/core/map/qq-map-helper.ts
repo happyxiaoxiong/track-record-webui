@@ -55,7 +55,7 @@ export class QqMapHelper extends AbstractMapHelper {
     }
 
     startMarker(latLng: any) {
-        return this.tagMarker(latLng, 0, 0, -1);
+        return this.tagMarker(latLng, 0, 0);
     }
 
     endMarker(latLng: any) {

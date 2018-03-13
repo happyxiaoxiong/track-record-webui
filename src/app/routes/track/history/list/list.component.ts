@@ -13,6 +13,11 @@ import {MapService} from '@core/service/map.service';
 @Component({
     selector: 'app-track-history-list',
     templateUrl: './list.component.html',
+    styles: [`
+       :host ::ng-deep  .ant-calendar-picker {
+            display: block;
+        }
+    `]
 })
 export class ListComponent implements OnInit, AfterViewInit {
 

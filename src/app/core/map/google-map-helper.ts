@@ -57,11 +57,11 @@ export class GoogleMapHelper extends AbstractMapHelper {
     }
 
     startMarker(latLng: any) {
-        return this.tagMarker(latLng, 's', 0);
+        return this.tagMarker(latLng, 's');
     }
 
     endMarker(latLng: any) {
-        return this.tagMarker(latLng, 'e', 34);
+        return this.tagMarker(latLng, 'e');
     }
 
     private tagMarker(point, tag, zIndex = -2) {

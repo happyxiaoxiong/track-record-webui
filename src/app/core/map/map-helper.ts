@@ -16,7 +16,8 @@ export abstract class AbstractMapHelper {
                 .subscribe((res: any) => {
                     resolve((res.data || []).map((item) =>  {
                         const [gpsLng, gpsLat] = coordtransform.gcj02towgs84(item.location.lng, item.location.lat);
-                        return { location: { lat: gpsLat, lng: gpsLng }, title: item.title };
+                        const title = `${item.title}(${item.address.indexOf(item.province) !== -1 ? item.address : `${item.province}${item.city}${item.district}${item.address}`})`;
+                        return { location: { lat: gpsLat, lng: gpsLng }, title: title};
                     }));
                 });
         }));
