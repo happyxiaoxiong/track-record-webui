@@ -1,7 +1,7 @@
 import { Component, HostBinding, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { ThemesService, SettingsService, TitleService } from '@delon/theme';
-import { filter, map } from 'rxjs/operators';
+import { filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',

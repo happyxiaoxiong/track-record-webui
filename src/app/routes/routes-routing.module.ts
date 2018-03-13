@@ -23,7 +23,6 @@ const routes: Routes = [
         children: [
             { path: 'track', loadChildren: './track/track.module#TrackModule' },
             { path: 'realtime-position', loadChildren: './realtime-position/realtime-position.module#RealtimePositionModule' },
-            { path: 'user', loadChildren: './user/user.module#UserModule' },
             { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
             { path: 'welcome', component: WelcomeComponent, data: { titleI18n: 'welcome' } },
             { path: '', component: WelcomeComponent, data: { titleI18n: 'welcome' } },

@@ -3,9 +3,11 @@ import * as screenfull from 'screenfull';
 
 @Component({
     selector: 'header-fullscreen',
-    template: `
-    <i class="anticon anticon-{{status ? 'shrink' : 'arrows-alt'}}"></i>
-    {{(status ? 'fullscreen-exit' : 'fullscreen') | translate }}
+    template: `<span style="display: block">
+        <i class="anticon anticon-{{status ? 'shrink' : 'arrows-alt'}}"></i>
+        {{(status ? 'fullscreen-exit' : 'fullscreen') | translate }}
+    </span>
+    
     `
 })
 export class HeaderFullScreenComponent {

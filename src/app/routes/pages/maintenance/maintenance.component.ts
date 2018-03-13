@@ -1,8 +1,23 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
-  selector: 'app-pages-maintenance',
-  templateUrl: './maintenance.component.html'
+    selector: 'app-pages-maintenance',
+    template: `
+        <div class="wrapper">
+            <div class="abs-center">
+                <div class="text-center mv-lg">
+                    <h1 class="mb-lg">
+                        <sup><em class="fa fa-cog fa-2x fa-spin text-info"></em></sup>
+                        <em class="fa fa-cog fa-5x fa-spin text-error"></em>
+                        <em class="fa fa-cog fa-lg fa-spin text-success"></em>
+                    </h1>
+                    <div class="text-bold text-lg mb-lg">SITE IS UNDER MAINTENANCE</div>
+                    <p class="lead m0">We'll back online shortly!</p>
+                </div>
+            </div>
+        </div>
+
+    `
 })
 export class MaintenanceComponent {
 }

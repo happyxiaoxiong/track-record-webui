@@ -5,7 +5,17 @@ import { ScrollService, MenuService, SettingsService } from '@delon/theme';
 
 @Component({
     selector: 'layout-default',
-    templateUrl: './default.component.html'
+    template: `
+        <div class="wrapper">
+            <div class="router-progress-bar" *ngIf="isFetching"></div>
+            <app-header class="header"></app-header>
+            <app-sidebar class="aside"></app-sidebar>
+            <section class="content">
+                <reuse-tab></reuse-tab>
+                <router-outlet></router-outlet>
+            </section>
+        </div>
+    `
 })
 export class LayoutDefaultComponent {
     isFetching = false;

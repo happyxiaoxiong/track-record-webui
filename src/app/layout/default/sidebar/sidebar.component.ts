@@ -15,9 +15,9 @@ import {UserService} from '@core/service/user.service';
               </div>
           </div>
           <ul nz-menu>
-              <li nz-menu-item (click)="msgSrv.success('profile')">{{ 'profile' | translate }}</li>
-              <li nz-menu-item (click)="msgSrv.success('settings')">{{ 'settings' | translate }}</li>
-              <li nz-menu-item (click)="logout()">{{ 'logout' | translate }}</li>
+              <li nz-menu-item><a [routerLink]="['/profile']" style="display: block"><i class="anticon anticon-user mr-sm"></i>{{ 'profile' | translate }}</a></li>
+              <li nz-menu-divider></li>
+              <li nz-menu-item (click)="logout()"><i class="anticon anticon-logout mr-sm"></i>{{ 'logout' | translate }}</li>
           </ul>
       </nz-dropdown>
       <sidebar-nav class="d-block py-lg"></sidebar-nav>

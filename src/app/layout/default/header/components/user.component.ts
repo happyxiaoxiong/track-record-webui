@@ -11,12 +11,11 @@ import {UserService} from "@core/service/user.service";
             <nz-avatar [nzIcon]="'user'" nzSize="small" class="mr-sm"></nz-avatar>
             {{user.name}}
         </div>
-        <div nz-menu class="width-sm">
-            <div nz-menu-item [nzDisable]="true"><i class="anticon anticon-user mr-sm"></i>个人中心</div>
-            <div nz-menu-item [nzDisable]="true"><i class="anticon anticon-setting mr-sm"></i>设置</div>
+        <ul nz-menu class="width-sm">
+            <li nz-menu-item><a [routerLink]="['/profile']" style="display: block"><i class="anticon anticon-user mr-sm"></i>{{ 'profile' | translate }}</a></li>
             <li nz-menu-divider></li>
-            <div nz-menu-item (click)="logout()"><i class="anticon anticon-setting mr-sm"></i>退出登录</div>
-        </div>
+            <li nz-menu-item (click)="logout()"><i class="anticon anticon-logout mr-sm"></i>{{ 'logout' | translate }}</li>
+        </ul>
     </nz-dropdown>
     `
 })
