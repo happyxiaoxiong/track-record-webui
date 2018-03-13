@@ -17,7 +17,7 @@ export class WelcomeComponent implements OnInit {
     }
 
     message() {
-        return `${this.user.name()},欢迎登录到本系统`;
+        return `${this.user.name},欢迎登录到本系统`;
     }
 
     description() {
