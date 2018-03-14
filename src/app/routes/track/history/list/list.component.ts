@@ -9,6 +9,7 @@ import 'rxjs/add/operator/map';
 import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
 import {MapService} from '@core/service/map.service';
+import {Utils} from '@shared/utils';
 
 @Component({
     selector: 'app-track-history-list',
@@ -124,14 +125,7 @@ export class ListComponent implements OnInit, AfterViewInit {
     }
 
     downloadUrl(track) {
-        const header = this.userSrv.getTokenHeader();
-        let url = server.apis.track.download.replace(':id', track.id) + '?';
-        for (const param in header) {
-            if (header.hasOwnProperty(param)) {
-                url += param + '=' + header[param];
-            }
-        }
-        return url;
+        return Utils.urlParams(server.apis.track.download.replace(':id', track.id), this.userSrv.getTokenQuery());
     }
 
     searchAddressOptions = [];

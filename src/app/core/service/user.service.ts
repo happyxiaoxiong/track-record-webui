@@ -88,6 +88,15 @@ export class UserService {
         return header;
     }
 
+    getTokenQuery(): any {
+        const params = {};
+        const token = this.appService.getTokenConfig();
+        if (token.header) {
+            params[`${token.queryParam}`] = `${token.head}${this.getToken()}`;
+        }
+        return params;
+    }
+
     setUser(user: any) {
         user = Object.assign(this.getUser(), user);
         this.settingsService.setUser(user);

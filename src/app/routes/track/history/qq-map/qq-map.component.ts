@@ -59,11 +59,7 @@ export class QqMapComponent implements OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy(): void {
-        for (const i in this.trackOverlays) {
-            this.trackOverlays[i].forEach(overlay => overlay.setMap(null));
-            delete this.trackOverlays[i];
-        }
-        this.count = 0;
+        this.clear();
         ['click'].forEach(eventName => {
             qq.maps.event.clearListeners(this.map, eventName);
         });

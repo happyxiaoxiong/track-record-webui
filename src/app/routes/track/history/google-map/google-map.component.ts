@@ -47,7 +47,6 @@ export class GoogleMapComponent implements OnDestroy, AfterViewInit {
         me.map = new google.maps.Map(document.getElementById('historyGoogleMap'), me.mapSrv.getDefaultOptions());
         google.maps.event.addListener(me.map, 'click', function (event) {
             me.zone.run(() => {
-                console.log(event);
                 me.clickPoint = {
                     lat: event.latLng.lat(),
                     lng: event.latLng.lng()
@@ -65,14 +64,18 @@ export class GoogleMapComponent implements OnDestroy, AfterViewInit {
     }
 
     ngOnDestroy(): void {
-        for (const i in this.trackOverlays) {
-            this.trackOverlays[i].forEach(overlay => overlay.setMap(null));
-            delete this.trackOverlays[i];
-        }
-        this.count = 0;
+        this.clear();
         ['click'].forEach(eventName => {
             google.maps.event.clearListeners(this.map, eventName);
         });
+    }
+
+    clear() {
+        this.count = 0;
+        for (const i in this.trackOverlays) {
+            this.setOverlaysMap(this.trackOverlays[i].overlays, null);
+            this.trackOverlays[i].visible = false;
+        }
     }
 
     hideTrack(track) {

@@ -34,4 +34,41 @@ export class Utils {
         }
         return (num <= 0 ? '0' : num.toFixed(fixed).replace(/\.0+$/, '')) + units[i === units.length ? i - 1 : i];
     }
+
+    static isImage(name: string): boolean {
+        return Utils.isMedia(name, ['jpg', 'png', 'jpeg']);
+    }
+
+    static isVideo(name: string): boolean {
+        return Utils.isMedia(name, ['mp4']);
+    }
+
+    static isAudio(name: string): boolean {
+        return Utils.isMedia(name, ['aac', 'mp3']);
+    }
+
+    private static isMedia(name: string, types: Array<string>): boolean {
+        const lowercaseName = name.toLowerCase();
+        for (const i in types) {
+            if (lowercaseName.endsWith(types[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    static urlParams(url: string, params: any) {
+        let res = url + (url.indexOf('?') === -1 ? '?' : '');
+        let first = true;
+        for (const param in params) {
+            if (params.hasOwnProperty(param)) {
+                if (!first) {
+                    res += '&';
+                    first = false;
+                }
+                res += param + '=' + params[param];
+            }
+        }
+        return res;
+    }
 }
