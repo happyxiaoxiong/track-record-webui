@@ -4,6 +4,7 @@ import {NzMessageService} from 'ng-zorro-antd';
 import {HttpClient} from '@angular/common/http';
 import {HttpRes} from '@core/model/http-res';
 import {server} from '@core/service/app.service';
+import * as moment from 'moment';
 
 @Component({
     selector: 'passport-register',
@@ -150,6 +151,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
         for (const i in this.form.controls) {
             params[i] = this.form.controls[i].value;
         }
+        params['birthday'] = moment(this.birthday.value).format('YYYY-MM-DD');
 
         this.http.post(server.apis.noAuth.register, params).finally(() => this.loading = false)
             .subscribe((res: HttpRes) => {

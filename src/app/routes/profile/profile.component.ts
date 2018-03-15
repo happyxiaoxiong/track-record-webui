@@ -5,6 +5,7 @@ import {NzMessageService} from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
 import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
+import * as moment from 'moment';
 
 @Component({
     selector: 'app-profile',
@@ -365,6 +366,7 @@ export class ProfileComponent implements OnInit {
         for (const i in form.controls) {
             params[i] = form.controls[i].value;
         }
+        params['birthday'] = moment(this.birthday.value).format('YYYY-MM-DD');
 
         this.http.post(url, params).finally(() => this.loading = false).subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
