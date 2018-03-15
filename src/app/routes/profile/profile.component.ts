@@ -368,7 +368,16 @@ export class ProfileComponent implements OnInit {
         }
         params['birthday'] = moment(this.birthday.value).format('YYYY-MM-DD');
 
-        this.http.post(url, params).finally(() => this.loading = false).subscribe((res: HttpRes) => {
+        this.http.post(url, params)
+            .finally(() => {
+                // 更新
+                const user = this.userSrv.getUser();
+                for (const i in form.controls) {
+                    form.controls[i].value = user[i];
+                }
+                this.loading = false;
+            })
+            .subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
                 const user = res.data.user;
                 user.token = res.data.token;
