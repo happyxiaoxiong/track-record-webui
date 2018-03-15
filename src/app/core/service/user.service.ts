@@ -13,7 +13,7 @@ import * as moment from 'moment';
 @Injectable()
 export class UserService {
     private readonly userKey = 'user';
-    private storage: Storage = sessionStorage;
+    private storage: Storage = localStorage;
 
 
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
