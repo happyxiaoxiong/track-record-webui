@@ -52,7 +52,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
         if (!control) return null;
         const self: any = this;
         self.visible = !!control.value;
-        const alphaNum = /\w/.test(control.value) && /\d/.test(control.value);
+        const alphaNum = /[a-zA-Z]/.test(control.value) && /\d/.test(control.value);
         if (alphaNum && control.value.length > 9)
             self.status = 'ok';
         else if (alphaNum && control.value.length > 5)
