@@ -23,17 +23,20 @@ import {UserService} from '@core/service/user.service';
                 </ng-template>
                 <nz-card>
                     <ng-template #body>
-                        <div [ngSwitch]="_desc.type">
-                            <img *ngSwitchCase="1" alt="图片无法显示" width="100%" [src]="_desc.src"/>
-                            <video *ngSwitchCase="2" autoSizeHeight class="media" [ratio]="0.6" [src]="_desc.src" controls>
-                                <!--<source [src]="getSrc(_desc)" type="video/mp4">-->
-                                您的浏览器不支持 video 标签.
-                            </video>
-                            <audio *ngSwitchCase="3" autoSizeHeight class="media" [ratio]="0.6" [src]="_desc.src">
-                                您的浏览器不支持 audio 标签.
-                            </audio>
-                            <div *ngSwitchDefault>{{_desc}}</div>
-                        </div>
+                        <ng-template [ngIf]="!_desc.error">
+                            <div [ngSwitch]="_desc.type">
+                                <img *ngSwitchCase="1"  alt="图片无法显示" width="100%" [src]="_desc.src" (error)="loadError(_desc)"/>
+                                <video *ngSwitchCase="2" autoSizeHeight class="media" [ratio]="0.6" [src]="_desc.src" controls (error)="loadError(_desc)">
+                                    <!--<source [src]="_desc.src" type="video/mp4">-->
+                                    您的浏览器不支持 video 标签.
+                                </video>
+                                <audio *ngSwitchCase="3" autoSizeHeight class="media" [ratio]="0.6" [src]="_desc.src" controls (error)="loadError(_desc)">
+                                    您的浏览器不支持 audio 标签.
+                                </audio>
+                                <div *ngSwitchDefault>{{_desc}}</div>
+                            </div>
+                        </ng-template>
+                        <nz-alert *ngIf="_desc.error" [nzType]="'error'" [nzMessage]="'文件加载错误'" [nzDescription]="_desc.name + '文件不存在或者格式错误'" nzShowIcon></nz-alert>
                     </ng-template>
                 </nz-card>
             </nz-tab>
@@ -128,5 +131,8 @@ export class DescComponent implements OnInit {
         };
     }
 
-
+    loadError(desc) {
+        desc.error = true;
+        console.log('error: ' + desc.name);
+    }
 }
