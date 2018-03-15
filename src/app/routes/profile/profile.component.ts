@@ -48,6 +48,22 @@ import * as moment from 'moment';
                                 </div>
                                 <div nz-form-item nz-row>
                                     <div nz-form-label nz-col>
+                                        <label for="email" nz-form-item-required>邮箱</label>
+                                    </div>
+                                    <div nz-form-control nz-col [nzValidateStatus]="email">
+                                        <nz-input formControlName="email" required>
+                                            <ng-template #prefix>
+                                                <i class="anticon anticon-mail"></i>
+                                            </ng-template>
+                                        </nz-input>
+                                        <ng-container *ngIf="email.dirty || email.touched">
+                                            <p nz-form-explain *ngIf="email.errors?.required">请输入邮箱地址！</p>
+                                            <p nz-form-explain *ngIf="email.errors?.email">邮箱地址格式错误！</p>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                                <div nz-form-item nz-row>
+                                    <div nz-form-label nz-col>
                                         <label for="gender" nz-form-item-required>性别</label>
                                     </div>
                                     <div nz-form-control nz-col [nzValidateStatus]="gender">
@@ -256,6 +272,7 @@ export class ProfileComponent implements OnInit {
         this.profileForm = this.fb.group({
             account: [{value: user.account, disabled: true}, [Validators.required]],
             name: [{value: user.name, disabled: true}, [Validators.required]],
+            email: [user.email, [Validators.email]],
             gender: [user.gender, [Validators.required]],
             birthday: [user.birthday, [Validators.required]],
             organization: [user.organization, [Validators.required]],
@@ -309,6 +326,10 @@ export class ProfileComponent implements OnInit {
 
     get name() {
         return this.profileForm.controls.name;
+    }
+
+    get email() {
+        return this.profileForm.controls.email;
     }
 
     get gender() {
