@@ -1,6 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators, FormControl} from '@angular/forms';
-import {NzMessageService} from 'ng-zorro-antd';
 import {HttpClient} from '@angular/common/http';
 import {HttpRes} from '@core/model/http-res';
 import {server} from '@core/service/app.service';
@@ -11,7 +10,7 @@ import * as moment from 'moment';
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.less']
 })
-export class UserRegisterComponent implements OnInit, OnDestroy {
+export class UserRegisterComponent {
 
     form: FormGroup;
     error = '';
@@ -27,10 +26,7 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
         pool: 'exception'
     };
 
-    constructor(private fb: FormBuilder, private msg: NzMessageService, private http: HttpClient) {
-    }
-
-    ngOnInit(): void {
+    constructor(private fb: FormBuilder, private http: HttpClient) {
         this.form = this.fb.group({
             account: [null, [Validators.required], [this.accountUniqueValidate.bind(this)]],
             email: [null, [Validators.email]],
@@ -161,8 +157,5 @@ export class UserRegisterComponent implements OnInit, OnDestroy {
                 this.error = '注册失败,请重试';
             }
         });
-    }
-
-    ngOnDestroy(): void {
     }
 }

@@ -5,6 +5,7 @@ import { RealtimePositionRoutingModule } from './realtime-position-routing.modul
 import {SharedModule} from '@shared/shared.module';
 import { QqMapComponent } from './qq-map/qq-map.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
+import {RealtimePositionComponent} from './realtime-position.component';
 
 @NgModule({
     imports: [
@@ -12,6 +13,6 @@ import { GoogleMapComponent } from './google-map/google-map.component';
         SharedModule,
         RealtimePositionRoutingModule
     ],
-    declarations: [QqMapComponent, GoogleMapComponent]
+    declarations: [RealtimePositionComponent, QqMapComponent, GoogleMapComponent]
 })
 export class RealtimePositionModule { }

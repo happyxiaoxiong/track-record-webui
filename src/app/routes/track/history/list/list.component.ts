@@ -20,7 +20,7 @@ import {Utils} from '@shared/utils';
         }
     `]
 })
-export class ListComponent implements OnInit, AfterViewInit {
+export class ListComponent implements OnInit {
 
     dateRange = [null, null];
     params: any = {
@@ -42,9 +42,6 @@ export class ListComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.search();
-    }
-
-    ngAfterViewInit(): void {
     }
 
     search() {

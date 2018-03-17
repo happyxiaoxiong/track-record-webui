@@ -99,7 +99,7 @@ declare const google: any;
   `,
 })
 
-export class GoogleMapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class GoogleMapComponent implements AfterViewInit, OnDestroy {
     lastTimes = [
         { value: 5, label: '显示最近5分钟在线', disabled: false },
         { value: 10, label: '显示最近10分钟在线', disabled: false },
@@ -125,9 +125,6 @@ export class GoogleMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private http: HttpClient, private colorSrv: ColorService, private gapi: GoogleMapsService, private mapSrv: MapService,
                 private msgSrv: NzMessageService, private zone: NgZone) {
-    }
-
-    ngOnInit() {
     }
 
     ngAfterViewInit(): void {

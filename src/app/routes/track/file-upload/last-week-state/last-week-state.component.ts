@@ -72,7 +72,7 @@ import {FileUploadService} from '../file-upload.service';
         }
     `]
 })
-export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy {
+export class LastWeekStateComponent implements AfterViewInit, OnDestroy {
 
     loading = false;
     alive = false;
@@ -93,9 +93,6 @@ export class LastWeekStateComponent implements OnInit, AfterViewInit, OnDestroy 
     sortValue = 'descend';
 
     constructor(private http: HttpClient, private appSrv: AppService, private fileUploadSrv: FileUploadService) {
-    }
-
-    ngOnInit() {
     }
 
     ngAfterViewInit(): void {

@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { NzMessageService } from 'ng-zorro-antd';
-import { SettingsService } from '@delon/theme';
 import {UserService} from '@core/service/user.service';
 
 @Component({
@@ -26,7 +24,7 @@ import {UserService} from '@core/service/user.service';
 })
 export class SidebarComponent {
     user: any;
-    constructor(public settings: SettingsService, public msgSrv: NzMessageService, private userSrv: UserService) {
+    constructor(private userSrv: UserService) {
         this.user = userSrv.getUser();
     }
 

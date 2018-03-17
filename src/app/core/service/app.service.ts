@@ -37,7 +37,9 @@ export const server = {
         user: {
             changePassword: urlJoin('user', 'change/password'),
             changeProfile: urlJoin('user', 'change/profile'),
-            all: urlJoin('user', 'all')
+            all: urlJoin('user', 'all'),
+            verifyToken: urlJoin('user', 'token/verify'),
+            refreshToken: urlJoin('user', 'token/refresh')
         }
     }
 };

@@ -9,13 +9,10 @@ import {Component, OnInit} from '@angular/core';
         </nz-row>`,
     styles: []
 })
-export class FileUploadComponent implements OnInit {
+export class FileUploadComponent {
 
     // @ViewChild(LastWeekStateComponent) lastWeekStateComp: LastWeekStateComponent;
     constructor() {
-    }
-
-    ngOnInit() {
     }
 
     // _onReuseDestroy() {

@@ -7,7 +7,6 @@ import { HeaderComponent } from './default/header/header.component';
 import { SidebarComponent } from './default/sidebar/sidebar.component';
 import { HeaderThemeComponent } from './default/header/components/theme.component';
 import { HeaderFullScreenComponent } from './default/header/components/fullscreen.component';
-import { HeaderStorageComponent } from './default/header/components/storage.component';
 import { HeaderUserComponent } from './default/header/components/user.component';
 
 const COMPONENTS = [
@@ -20,7 +19,6 @@ const COMPONENTS = [
 const HEADERCOMPONENTS = [
     HeaderFullScreenComponent,
     HeaderThemeComponent,
-    HeaderStorageComponent,
     HeaderUserComponent
 ];
 

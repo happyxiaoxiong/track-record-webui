@@ -23,9 +23,7 @@ export class LayoutDefaultComponent {
     constructor(
         router: Router,
         scroll: ScrollService,
-        private _message: NzMessageService,
-        public menuSrv: MenuService,
-        public settings: SettingsService) {
+        private msgSrv: NzMessageService) {
         // scroll to top in change page
         router.events.subscribe(evt => {
             if (!this.isFetching && evt instanceof RouteConfigLoadStart) {
@@ -33,7 +31,7 @@ export class LayoutDefaultComponent {
             }
             if (evt instanceof NavigationError) {
                 this.isFetching = false;
-                _message.error(`无法加载${evt.url}路由`, { nzDuration: 1000 * 3 });
+                msgSrv.error(`无法加载${evt.url}路由`, { nzDuration: 1000 * 3 });
                 return;
             }
             if (!(evt instanceof NavigationEnd)) {

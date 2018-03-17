@@ -7,13 +7,12 @@ import {UserService} from '@core/service/user.service';
         <nz-alert [nzType]="'info'" [nzMessage]="message()" [nzDescription]="description()" nzShowIcon class="pt-lg"></nz-alert>
       `,
 })
-export class WelcomeComponent implements OnInit {
-    private user;
+export class WelcomeComponent {
+    private user: any = {};
     constructor(private userSrv: UserService) {
-        this.user = this.userSrv.getUser();
-    }
-
-    ngOnInit() {
+        this.userSrv.verifyToken().subscribe((res) => {
+            this.user = res;
+        });
     }
 
     message() {
@@ -21,7 +20,7 @@ export class WelcomeComponent implements OnInit {
     }
 
     description() {
-        return `本次登录系统时间是:${this.user.loginSysTime}`;
+        return `本次登录系统时间是:${this.user.webLoginTime}`;
     }
 }
 

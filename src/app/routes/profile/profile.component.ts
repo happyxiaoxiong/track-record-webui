@@ -245,7 +245,7 @@ import * as moment from 'moment';
 
     `,
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
     loading = false;
     visible = false;
     status = 'pool';
@@ -256,31 +256,29 @@ export class ProfileComponent implements OnInit {
         pool: 'exception'
     };
     active = 1;
-    pwdForm: FormGroup;
-    profileForm: FormGroup;
+    pwdForm;
+    profileForm;
 
-    constructor(private fb: FormBuilder, private msg: NzMessageService, private http: HttpClient, private userSrv: UserService) {
-    }
-
-    ngOnInit() {
-        this.pwdForm = this.fb.group({
-            oldPassword: [null, [Validators.required]],
-            newPassword: [null,  [Validators.required, Validators.minLength(6), this.checkPassword.bind(this)]],
-            confirmNewPassword: [null, [Validators.required, Validators.minLength(6), this.passwordEquar]],
-        });
-        const user = this.userSrv.getUser();
-        this.profileForm = this.fb.group({
-            account: [{value: user.account, disabled: true}, [Validators.required]],
-            name: [{value: user.name, disabled: true}, [Validators.required]],
-            email: [user.email, [Validators.email]],
-            gender: [user.gender, [Validators.required]],
-            birthday: [user.birthday, [Validators.required]],
-            organization: [user.organization, [Validators.required]],
-            country: [user.country, [Validators.required]],
-            province: [user.province, [Validators.required]],
-            city: [user.city, [Validators.required]],
-            county: [user.county, [Validators.required]],
-            township: [user.township, [Validators.required]],
+    constructor(private fb: FormBuilder, private msgSrv: NzMessageService, private http: HttpClient, private userSrv: UserService) {
+        this.userSrv.verifyToken().subscribe((user) => {
+            this.pwdForm = this.fb.group({
+                oldPassword: [null, [Validators.required]],
+                newPassword: [null,  [Validators.required, Validators.minLength(6), this.checkPassword.bind(this)]],
+                confirmNewPassword: [null, [Validators.required, Validators.minLength(6), this.passwordEquar]],
+            });
+            this.profileForm = this.fb.group({
+                account: [{value: user.account, disabled: true}, [Validators.required]],
+                name: [{value: user.name, disabled: true}, [Validators.required]],
+                email: [user.email, [Validators.email]],
+                gender: [user.gender, [Validators.required]],
+                birthday: [user.birthday, [Validators.required]],
+                organization: [user.organization, [Validators.required]],
+                country: [user.country, [Validators.required]],
+                province: [user.province, [Validators.required]],
+                city: [user.city, [Validators.required]],
+                county: [user.county, [Validators.required]],
+                township: [user.township, [Validators.required]],
+            });
         });
     }
 
@@ -400,12 +398,12 @@ export class ProfileComponent implements OnInit {
             })
             .subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
-                const user = res.data.user;
-                user.token = res.data.token;
-                this.userSrv.setUser(user);
-                this.msg.success('更新成功');
+                this.userSrv.updateUser(Object.assign(res.data.user, {
+                    token: res.data.token
+                }));
+                this.msgSrv.success('更新成功');
             } else {
-                this.msg.error('更新失败');
+                this.msgSrv.error('更新失败');
             }
         });
     }

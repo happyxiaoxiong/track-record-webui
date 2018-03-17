@@ -102,7 +102,7 @@ import {NzDatePickerComponent} from 'ng-zorro-antd';
         </div>      `,
     styles: [``]
 })
-export class StatComponent implements OnInit, AfterViewInit {
+export class StatComponent implements AfterViewInit {
 
     private defaultOption;
 
@@ -130,9 +130,6 @@ export class StatComponent implements OnInit, AfterViewInit {
     @ViewChild('datePicker') datePicker: NzDatePickerComponent;
 
     constructor(private http: HttpClient) {
-    }
-
-    ngOnInit() {
     }
 
     ngAfterViewInit(): void {

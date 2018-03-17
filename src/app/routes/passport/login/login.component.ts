@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, OnDestroy} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzMessageService } from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
 
 @Component({
@@ -9,7 +8,7 @@ import {UserService} from '@core/service/user.service';
     templateUrl: './login.component.html',
     styleUrls: [ './login.component.less' ],
 })
-export class UserLoginComponent implements OnDestroy {
+export class UserLoginComponent {
 
     redirectUrl: string;
     form: FormGroup;
@@ -20,7 +19,6 @@ export class UserLoginComponent implements OnDestroy {
         fb: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        public msg: NzMessageService,
         public userService: UserService) {
         this.form = fb.group({
             account: [null, [Validators.required]],
@@ -51,8 +49,5 @@ export class UserLoginComponent implements OnDestroy {
             this.error = '账号或者密码不正确';
             this.loading = false;
         });
-    }
-
-    ngOnDestroy(): void {
     }
 }

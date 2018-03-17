@@ -2,7 +2,9 @@ import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ListComponent} from './list/list.component';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
+import {MapService} from '@core/service/map.service';
 import {QqMapComponent} from './qq-map/qq-map.component';
+import {GoogleMapComponent} from './google-map/google-map.component';
 
 @Component({
     selector: 'app-history',
@@ -30,7 +32,7 @@ import {QqMapComponent} from './qq-map/qq-map.component';
                             <i class="fa fa-list-alt"></i>
                             列表
                         </ng-template>
-                        <app-track-history-list #historyList fixWindow [minWidth]="0"></app-track-history-list>
+                        <app-track-history-list fixWindow [minWidth]="0"></app-track-history-list>
                     </nz-tab>
                     <nz-tab>
                         <ng-template #nzTabHeading>
@@ -42,7 +44,8 @@ import {QqMapComponent} from './qq-map/qq-map.component';
                                 </nz-tooltip>
                             </nz-tag>
                         </ng-template>
-                        <app-track-history-google-map #historyMap></app-track-history-google-map>
+                        <app-track-history-google-map *ngIf="mapSrv.isGoogle()" #historyMap></app-track-history-google-map>
+                        <app-track-history-qq-map *ngIf="mapSrv.isQq()" #historyMap></app-track-history-qq-map>
                     </nz-tab>
                 </nz-tabset>
             </nz-row>
@@ -56,25 +59,23 @@ import {QqMapComponent} from './qq-map/qq-map.component';
         `
     ]
 })
-export class HistoryComponent implements OnInit, AfterViewInit {
+export class HistoryComponent implements AfterViewInit {
 
     fullScreen = false;
-    @ViewChild('historyMap') mapComp: QqMapComponent;
-    @ViewChild('historyList') listComp: ListComponent;
+    mapComp: any = {
+    };
+    @ViewChild('historyMap') historyMap;
+    @ViewChild(ListComponent) listComp;
     @ViewChild(FixWindowDirective) fixWindowDirective;
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, private mapSrv: MapService) {
     }
 
-    ngOnInit() {
-
-    }
-
-    _onReuseInit() {
-        // this.listComp.search();
-    }
-
-    ngAfterViewInit(): void {
+    ngAfterViewInit() {
+        // FIXED: Expression has changed after it was checked. Previous value: 'undefined'. Current value: '[object Object]'.
+        setTimeout(() => {
+            this.mapComp = this.historyMap;
+        }, 500);
     }
 
     fullToggle() {
@@ -96,8 +97,4 @@ export class HistoryComponent implements OnInit, AfterViewInit {
         this.mapComp.clear();
         $event.stopPropagation();
     }
-    //
-    // _onReuseDestroy() {
-    //     this.mapComp.ngOnDestroy();
-    // }
 }

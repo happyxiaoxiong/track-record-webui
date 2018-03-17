@@ -9,12 +9,15 @@ import {SettingsService} from '@delon/theme';
 import {NzModalService} from 'ng-zorro-antd';
 import {ReuseTabService} from '@delon/abc';
 import * as moment from 'moment';
+import {TimerObservable} from 'rxjs/observable/TimerObservable';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
     private readonly userKey = 'user';
     private storage: Storage = localStorage;
-
+    private tokenRefreshTimer;
+    private timerAlive;
 
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
                 private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService,
@@ -27,12 +30,12 @@ export class UserService {
             password: password
         }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
-                    const user = res.data.user;
-                    user.token = res.data.token;
-                    // 设置登录系统时间
-                    user.loginSysTime = moment().format('YYYY-MM-DD HH:mm:ss');
-                    this.setUser(user);
+                    this.updateUser(Object.assign(res.data.user, {
+                        token: res.data.token,
+                        webLoginTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    }));
                     this.appService.onlineError = false;
+                    this.startRefreshTokenTimer();
                     success();
                 } else {
                     fail();
@@ -40,10 +43,47 @@ export class UserService {
             });
     }
 
+    private startRefreshTokenTimer() {
+        this.timerAlive = true;
+        const refreshTime = this.appService.getTokenConfig().expiration - 1000 * 5;
+        this.tokenRefreshTimer = TimerObservable.create(refreshTime, refreshTime).takeWhile(() => this.timerAlive)
+            .subscribe(() => {
+                this.http.get(server.apis.user.refreshToken).subscribe((res: HttpRes) => {
+                    if (res.code === server.successCode) {
+                        this.updateUser({
+                            token: res.data.token,
+                            refreshTokenTime: moment().valueOf()
+                        });
+                    }
+                });
+            });
+    }
+
+    private stopRefreshTokenTimer() {
+        this.timerAlive = false;
+        if (this.tokenRefreshTimer) {
+            this.tokenRefreshTimer.unsubscribe();
+        }
+    }
+
+    verifyToken(): Observable<any> {
+        return Observable.fromPromise(new Promise((resolve, reject) => {
+            const user = this.getUser();
+            if (user.refreshTokenTime && user.refreshTokenTime + this.appService.getTokenConfig().expiration < moment().valueOf()) {
+                this.http.get(server.apis.user.verifyToken).subscribe(() => {
+                    resolve(user);
+                });
+            } else {
+                resolve(user);
+            }
+        }));
+    }
+
     logout(redirectUrl?: string) {
         // clear cache
         // localStorage.clear();
-        this.removeUser();
+        this.storage.removeItem(this.userKey);
+        this.stopRefreshTokenTimer();
         this.router.navigate(['passport/login'], {
             queryParams: {redirectUrl: redirectUrl || this.router.url},
             relativeTo: this.route
@@ -97,14 +137,10 @@ export class UserService {
         return params;
     }
 
-    setUser(user: any) {
+    updateUser(user: any) {
         user = Object.assign(this.getUser(), user);
         this.settingsService.setUser(user);
         this.storage.setItem(this.userKey, JSON.stringify(user));
-    }
-
-    private removeUser() {
-        this.storage.removeItem(this.userKey);
     }
 
     getUser(): any {

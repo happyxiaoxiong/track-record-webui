@@ -98,7 +98,7 @@ declare const qq: any;
         </full-content>`,
     styles: []
 })
-export class QqMapComponent implements OnInit, AfterViewInit, OnDestroy {
+export class QqMapComponent implements OnDestroy {
     lastTimes = [
         { value: 5, label: '显示最近5分钟在线', disabled: false },
         { value: 10, label: '显示最近10分钟在线', disabled: false },
@@ -124,12 +124,6 @@ export class QqMapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     constructor(private http: HttpClient, private mapSrv: MapService, private colorSrv: ColorService,
                 private msgSrv: NzMessageService, private zone: NgZone) {
-    }
-
-    ngOnInit() {
-    }
-
-    ngAfterViewInit(): void {
     }
 
     onReady(mapNative: any) {

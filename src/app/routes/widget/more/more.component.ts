@@ -12,14 +12,11 @@ import {Component, Input, OnInit} from '@angular/core';
   </ng-container> 
   <span *ngIf="text.length <= cutLen">{{ text }}</span>`,
 })
-export class MoreComponent implements OnInit {
+export class MoreComponent  {
 
     @Input() cutLen = 8;
     @Input() text: string;
     constructor(
     ) { }
-
-    ngOnInit() {
-    }
 
 }

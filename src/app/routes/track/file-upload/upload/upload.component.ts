@@ -90,12 +90,8 @@ export class UploadComponent implements OnInit, AfterViewInit {
                 prevent_duplicates: true
             },
             init: {
-                PostInit: function() {
-                },
                 Error: function(up, err) {
                     me.msg.error(err.message);
-                },
-                UploadComplete: function(up, files) {
                 },
                 FileUploaded: function(up, file, info) {
                     // Called when file has finished uploading
