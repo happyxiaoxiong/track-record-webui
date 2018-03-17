@@ -22,6 +22,7 @@ export class UserService {
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
                 private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService,
                 private reuseTabSrv: ReuseTabService) {
+        this.startRefreshTokenTimer();
     }
 
     login(account: string, password: string, success: Function, fail: Function): void {
@@ -30,9 +31,11 @@ export class UserService {
             password: password
         }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
+                    const time = moment();
                     this.updateUser(Object.assign(res.data.user, {
                         token: res.data.token,
-                        webLoginTime: moment().format('YYYY-MM-DD HH:mm:ss'),
+                        webLoginTime: time.format('YYYY-MM-DD HH:mm:ss'),
+                        refreshTokenTime: time.valueOf()
                     }));
                     this.appService.onlineError = false;
                     this.startRefreshTokenTimer();
@@ -44,19 +47,24 @@ export class UserService {
     }
 
     private startRefreshTokenTimer() {
-        this.timerAlive = true;
-        const refreshTime = this.appService.getTokenConfig().expiration - 1000 * 5;
-        this.tokenRefreshTimer = TimerObservable.create(refreshTime, refreshTime).takeWhile(() => this.timerAlive)
-            .subscribe(() => {
-                this.http.get(server.apis.user.refreshToken).subscribe((res: HttpRes) => {
-                    if (res.code === server.successCode) {
-                        this.updateUser({
-                            token: res.data.token,
-                            refreshTokenTime: moment().valueOf()
-                        });
-                    }
+        const user = this.getUser();
+        if (user.refreshTokenTime) {
+            this.timerAlive = true;
+            const refreshTime = this.appService.getTokenConfig().expiration - 1000 * 5;
+            const initDelay = Math.max(500, refreshTime - moment().valueOf() + user.refreshTokenTime);
+            this.tokenRefreshTimer = TimerObservable.create(initDelay, refreshTime).takeWhile(() => this.timerAlive)
+                .subscribe(() => {
+                    this.http.get(server.apis.user.refreshToken).subscribe((res: HttpRes) => {
+                        if (res.code === server.successCode) {
+                            this.updateUser({
+                                token: res.data.token,
+                                refreshTokenTime: moment().valueOf()
+                            });
+                        }
+                    });
                 });
-            });
+        }
+
     }
 
     private stopRefreshTokenTimer() {
