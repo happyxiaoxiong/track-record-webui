@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import {UserService} from '@core/service/user.service';

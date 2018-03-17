@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';

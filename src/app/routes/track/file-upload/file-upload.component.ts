@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 
 @Component({
     selector: 'app-file-upload',
@@ -11,11 +11,6 @@ import {Component, OnInit} from '@angular/core';
 })
 export class FileUploadComponent {
 
-    // @ViewChild(LastWeekStateComponent) lastWeekStateComp: LastWeekStateComponent;
     constructor() {
     }
-
-    // _onReuseDestroy() {
-    //     this.lastWeekStateComp.ngOnDestroy();
-    // }
 }

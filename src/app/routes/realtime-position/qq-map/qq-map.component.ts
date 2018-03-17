@@ -1,5 +1,5 @@
 /*/<reference path="../../../../node_modules/@angular/core/src/metadata/lifecycle_hooks.d.ts"/>*/
-import {AfterViewInit, Component, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {HttpClient} from '@angular/common/http';
 import {DEFAULT_MAP_CENTER, server} from '@core/service/app.service';

@@ -1,10 +1,8 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {ListComponent} from './list/list.component';
 import {FixWindowDirective} from '@core/directive/fix-window.directive';
 import {MapService} from '@core/service/map.service';
-import {QqMapComponent} from './qq-map/qq-map.component';
-import {GoogleMapComponent} from './google-map/google-map.component';
 
 @Component({
     selector: 'app-history',
@@ -68,7 +66,7 @@ export class HistoryComponent implements AfterViewInit {
     @ViewChild(ListComponent) listComp;
     @ViewChild(FixWindowDirective) fixWindowDirective;
 
-    constructor(private http: HttpClient, private mapSrv: MapService) {
+    constructor(private http: HttpClient, mapSrv: MapService) {
     }
 
     ngAfterViewInit() {

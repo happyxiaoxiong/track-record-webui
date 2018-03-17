@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, NgZone, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, NgZone, OnDestroy, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
 import {ColorService} from '@core/service/color.service';

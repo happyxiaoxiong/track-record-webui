@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NzMessageService} from 'ng-zorro-antd';
@@ -256,8 +256,8 @@ export class ProfileComponent {
         pool: 'exception'
     };
     active = 1;
-    pwdForm;
-    profileForm;
+    pwdForm: FormGroup;
+    profileForm: FormGroup;
 
     constructor(private fb: FormBuilder, private msgSrv: NzMessageService, private http: HttpClient, private userSrv: UserService) {
         this.userSrv.verifyToken().subscribe((user) => {

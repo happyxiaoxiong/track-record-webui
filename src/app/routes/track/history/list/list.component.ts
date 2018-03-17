@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import {HistoryService} from '../history.service';
 import {saveAs} from 'file-saver/FileSaver';
 import 'rxjs/add/operator/map';
-import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
+import {NzSelectComponent} from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
 import {MapService} from '@core/service/map.service';
 import {Utils} from '@shared/utils';
@@ -36,8 +36,7 @@ export class ListComponent implements OnInit {
     constructor(private http: HttpClient,
                 private userSrv: UserService,
                 private historySrv: HistoryService,
-                private mapSrc: MapService,
-                private msg: NzMessageService) {
+                private mapSrc: MapService) {
     }
 
     ngOnInit() {
