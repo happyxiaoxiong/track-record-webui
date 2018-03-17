@@ -11,7 +11,7 @@ import {Component} from '@angular/core';
 })
 export class RealtimePositionComponent {
 
-    constructor(mapSrv: MapService) {
+    constructor(public mapSrv: MapService) {
     }
 
 }

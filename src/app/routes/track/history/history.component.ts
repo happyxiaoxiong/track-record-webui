@@ -66,7 +66,7 @@ export class HistoryComponent implements AfterViewInit {
     @ViewChild(ListComponent) listComp;
     @ViewChild(FixWindowDirective) fixWindowDirective;
 
-    constructor(private http: HttpClient, mapSrv: MapService) {
+    constructor(private http: HttpClient, public mapSrv: MapService) {
     }
 
     ngAfterViewInit() {
