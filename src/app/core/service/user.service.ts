@@ -22,7 +22,6 @@ export class UserService {
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
                 private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService,
                 private reuseTabSrv: ReuseTabService) {
-        this.startRefreshTokenTimer();
     }
 
     login(account: string, password: string, success: Function, fail: Function): void {
