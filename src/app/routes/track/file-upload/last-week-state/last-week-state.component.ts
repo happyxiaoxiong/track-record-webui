@@ -133,29 +133,13 @@ export class LastWeekStateComponent implements AfterViewInit, OnDestroy {
                             this.ngOnDestroy();
                         }
                     }).subscribe(((res: HttpRes) => {
-                        res.data = res.data || [];
-                        // 验证数据有无更新
-                        if (this.trackFiles.length === res.data.length || this.trackFiles.length === 0) {
-                            let needSync = false, hasUpdate = false;
-                            for (let i = 0; i < this.trackFiles.length; i++) {
-                                if (res.data[i].state.endsWith('...')) {
-                                    needSync = true; // track need wait update
-                                }
-                                if (this.trackFiles.length !== 0 && res.data[i].state !== this.trackFiles[i].state) {
-                                    // trackFiles add tips, track file state update
-                                    hasUpdate = true;
-                                }
-                            }
-                            if (!needSync) {// 不需要在同步了
-                                this.ngOnDestroy();
-                            }
-                            if (!hasUpdate && this.trackFiles.length === res.data.length) {// 无更新
-                                return;
-                            }
-                        }
-                        this.trackFiles = res.data;
+                        this.trackFiles = res.data || [];
                         this.search();
                         err = false;
+                        // 验证数据有无更新
+                        if (!this.trackFiles.some(trackFile => trackFile.tries)) {
+                            this.ngOnDestroy();
+                        }
                     }));
                 });
         }
