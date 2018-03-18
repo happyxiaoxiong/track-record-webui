@@ -32,6 +32,7 @@ import {FileUploadService} from '../file-upload.service';
                       [nzIsPagination]="true" [nzShowSizeChanger]="true" [nzShowTotal]="true" [nzIsPageIndexReset]="false">
                 <thead nz-thead>
                 <tr>
+                    <th nz-th><span>上传人<nz-table-sort [nzValue]="sortMap.userName" (nzValueChange)="sortChange('userName', $event)"></nz-table-sort></span></th>
                     <th nz-th><span>文件名称<nz-table-sort [nzValue]="sortMap.filename" (nzValueChange)="sortChange('filename', $event)"></nz-table-sort></span></th>
                     <th nz-th><span>文件大小<nz-table-sort [nzValue]="sortMap.fileSize" (nzValueChange)="sortChange('fileSize', $event)"></nz-table-sort></span></th>
                     <th nz-th><span>文件md5</span></th>
@@ -42,6 +43,7 @@ import {FileUploadService} from '../file-upload.service';
                 </thead>
                 <tbody nz-tbody>
                 <tr nz-tbody-tr *ngFor="let trackFile of nzTable.data">
+                    <td nz-td>{{ trackFile.userName }}</td>
                     <td nz-td><strong>{{ trackFile.filename }}</strong></td>
                     <td nz-td>{{ trackFile.fileSize | byteFormat }}</td>
                     <td nz-td>{{ trackFile.md5 }}</td>
@@ -84,6 +86,7 @@ export class LastWeekStateComponent implements AfterViewInit, OnDestroy {
 
     searchValue = '';
     sortMap = {
+        userName: null,
         filename: null,
         fileSize: null,
         state: null,
