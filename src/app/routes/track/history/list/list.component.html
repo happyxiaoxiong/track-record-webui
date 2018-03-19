@@ -66,13 +66,14 @@
                 </nz-dropdown>
             </th>
             <th nz-th><span>轨迹名称</span></th>
-            <th nz-th><span>上传人</span></th>
+            <th nz-th><span>记录人</span></th>
             <th nz-th><span>开始时间</span></th>
             <th nz-th><span>结束时间</span></th>
             <th nz-th><span>长度</span></th>
             <th nz-th><span>最高海拔</span></th>
             <th nz-th><span>关键地点说明</span></th>
             <th nz-th><span>文件大小</span></th>
+            <th nz-th><span>上传人</span></th>
             <th nz-th><span>上传时间</span></th>
             <th nz-th><span>注释说明</span></th>
             <th nz-th><span>下载</span></th>
@@ -96,6 +97,7 @@
                 <td nz-td><app-more [text]="track.maxAltitude"></app-more></td>
                 <td nz-td><app-more [text]="track.keySitesList"></app-more></td>
                 <td nz-td>{{ track.fileSize | byteFormat }}</td>
+                <td nz-td>{{ track.uploadName }}</td>
                 <td nz-td>{{ track.uploadTime }}</td>
                 <td nz-td><app-more [text]="track.annotation"></app-more></td>
                 <td nz-td>
