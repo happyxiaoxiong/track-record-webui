@@ -20,7 +20,7 @@ export class WelcomeComponent {
     }
 
     description() {
-        return `本次登录系统时间是:${this.user.webLoginTime}`;
+        return `本次登录系统时间是:${this.user.webLoginTime || ''}`;
     }
 }
 
