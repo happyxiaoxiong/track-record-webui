@@ -9,97 +9,112 @@ import {NzDatePickerComponent} from 'ng-zorro-antd';
 @Component({
     selector: 'app-stat',
     template: `
-        <div nz-row nzGutter="16" class="pt-lg">
-            <div nz-col [nzLg]="12" [nzXs]="24">
-                <nz-card [nzTitle]="monthChartTitle">
-                    <ng-template #monthChartTitle> 月份
-                        <nz-datepicker #datePicker [nzSize]="'small'" [(ngModel)]="selectedMonth" [nzMode]="'month'"
-                                       [nzDisabledDate]="_disabledMonth" [nzFormat]="'YYYY-MM'"></nz-datepicker>
+        <nz-row nzGutter="16" class="pt-sm" >
+            <nz-tabset [nzType]="'line'">
+                <ng-template #nzTabBarExtraContent>
+                    <span>月份选择: </span>
+                    <nz-datepicker #datePicker [nzSize]="'default'" [(ngModel)]="selectedMonth" [nzMode]="'month'"
+                                   [nzDisabledDate]="_disabledMonth" [nzFormat]="'YYYY-MM'"></nz-datepicker>
+                </ng-template>
+                <nz-tab>
+                    <ng-template #nzTabHeading>
+                        <i class="fa fa-bar-chart"></i>
+                        图表
                     </ng-template>
-                    <div echarts [ngStyle]="initOpts" [options]="usersMonthOption" [initOpts]="initOpts" [loading]="monthLoading"
-                         (chartClick)="monthChartClick($event)"></div>
-                </nz-card>
-            </div>
-            <div nz-col [nzLg]="12" [nzXs]="24">
-                <nz-card [nzTitle]="dayChartTitle">
-                    <ng-template #dayChartTitle> 用户名
-                        <small>{{selectedUser}}</small>
-                    </ng-template>
-                    <div *ngIf="userDayOption" echarts [options]="userDayOption" [initOpts]="initOpts"
-                         [loading]="dayLoading"></div>
-                    <div *ngIf="!userDayOption" class="text-center" [ngStyle]="initOpts"> 未选择用户</div>
-                </nz-card>                  <!--<echarts [initOpts]="initOpts" [options]="userDayOption"></echarts>-->
-            </div>
-        </div>
-        <div nz-row>
-            <div nz-col [nzSpan]="24">
-                <nz-card [nzTitle]="table">
-                    <ng-template #table>
-                        {{selectedMonthFormat()}}月数据
-                    </ng-template>
-                    <nz-table #nzTable [nzDataSource]="displayMonthStats" [nzSize]="'small'" [nzCustomNoResult]="false"
-                              [nzLoading]="monthLoading" [nzIsPagination]="true" [nzShowSizeChanger]="true"
-                              [nzShowTotal]="true" [nzIsPageIndexReset]="false">
-                        <thead nz-thead>
-                        <tr>
-                            <th nz-th nzExpand></th>
-                            <th nz-th>
-                                <span>用户名<nz-table-sort [nzValue]="sortMap.userName" (nzValueChange)="sortChange('userName', $event)"></nz-table-sort></span>
-                                <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
-                                    <i class="anticon anticon-filter" nz-dropdown></i>
-                                    <div nz-dropdown-custom class="custom-filter-dropdown">
-                                        <nz-input [(ngModel)]="searchValue" [nzPlaceHolder]="'用户名搜索'" [nzType]="'search'" (nzOnSearch)="search()"></nz-input>
-                                    </div>
-                                </nz-dropdown>
-                            </th>
-                            <th nz-th>
-                                <span>巡护长度<nz-table-sort [nzValue]="sortMap.totalLength" (nzValueChange)="sortChange('totalLength', $event)"></nz-table-sort></span>
-                            </th>
-                            <th nz-th>
-                                <span>巡护时间<nz-table-sort [nzValue]="sortMap.totalTime" (nzValueChange)="sortChange('totalTime', $event)"></nz-table-sort></span>
-                            </th>
-                            <th nz-th>
-                                <span>巡护天数<nz-table-sort [nzValue]="sortMap.totalDay" (nzValueChange)="sortChange('totalDay', $event)"></nz-table-sort></span>
-                            </th>
-                            <th nz-th>
-                                <span>巡护次数<nz-table-sort [nzValue]="sortMap.totalCount" (nzValueChange)="sortChange('totalCount', $event)"></nz-table-sort></span>
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody nz-tbody>
-                        <ng-template ngFor let-stat [ngForOf]="nzTable.data">
-                            <tr nz-tbody-tr>
-                                <td nz-td nzExpand>
-                                    <nz-spin *ngIf="stat.exist" [nzSpinning]="stat.loading">
-                                        <nz-row-expand-icon (nzExpandChange)="collapse($event, stat)"
-                                                            [(nzExpand)]="stat.expand"></nz-row-expand-icon>
-                                    </nz-spin>
-                                    
-                                </td>
-                                <td nz-td><strong>{{ stat.userName }}</strong></td>
-                                <td nz-td>{{ stat.totalLength | meterFormat }}</td>
-                                <td nz-td>{{ stat.totalTime | timeFormat }}</td>
-                                <td nz-td>{{ stat.totalDay }}</td>
-                                <td nz-td>{{ stat.totalCount }}</td>
-                            </tr>
-                            <ng-template *ngIf="stat.exist && stat.expand" ngFor let-stat [ngForOf]="stat.days">
-                                <tr nz-tbody-tr>
-                                    <td nz-td>
-                                        <nz-row-indent [nzIndentSize]="1"></nz-row-indent>
-                                    </td>
-                                    <td nz-td class="text-center">{{stat.date}}</td>
-                                    <td nz-td>{{ stat.totalLength | meterFormat }}</td>
-                                    <td nz-td>{{ stat.totalTime | timeFormat }}</td>
-                                    <td nz-td>1</td>
-                                    <td nz-td>{{ stat.totalCount }}</td>
-                                </tr>
+                    <div nz-col [nzLg]="12" [nzXs]="24">
+                        <nz-card [nzTitle]="monthChartTitle">
+                            <ng-template #monthChartTitle> {{selectedMonthFormat()}}月数据 </ng-template>
+                            <div echarts [ngStyle]="initOpts" [options]="usersMonthOption" [initOpts]="initOpts" [loading]="monthLoading"
+                                 (chartClick)="monthChartClick($event)" (chartMouseOver)="monthChartClick($event)"></div>
+                        </nz-card>
+                    </div>
+                    <div nz-col [nzLg]="12" [nzXs]="24">
+                        <nz-card [nzTitle]="dayChartTitle">
+                            <ng-template #dayChartTitle> 用户名
+                                <small>{{selectedUser}}</small>
                             </ng-template>
-                        </ng-template>
-                        </tbody>
-                    </nz-table>
-                </nz-card>
-            </div>
-        </div>      `,
+                            <div *ngIf="userDayOption" echarts [options]="userDayOption" [initOpts]="initOpts"
+                                 [loading]="dayLoading"></div>
+                            <div *ngIf="!userDayOption" class="text-center" [ngStyle]="initOpts"> 未选择用户</div>
+                        </nz-card>                  <!--<echarts [initOpts]="initOpts" [options]="userDayOption"></echarts>-->
+                    </div>
+                </nz-tab>
+                <nz-tab>
+                    <ng-template #nzTabHeading>
+                        <i class="fa fa-list-alt"></i>
+                        列表
+                    </ng-template>
+                    <div nz-col [nzSpan]="24">
+                        <nz-card [nzTitle]="table">
+                            <ng-template #table>
+                                {{selectedMonthFormat()}}月数据
+                            </ng-template>
+                            <nz-table #nzTable [nzDataSource]="displayMonthStats" [nzSize]="'small'" [nzCustomNoResult]="false"
+                                      [nzLoading]="monthLoading" [nzIsPagination]="true" [nzShowSizeChanger]="true"
+                                      [nzShowTotal]="true" [nzIsPageIndexReset]="false">
+                                <thead nz-thead>
+                                <tr>
+                                    <th nz-th nzExpand></th>
+                                    <th nz-th>
+                                        <span>用户名<nz-table-sort [nzValue]="sortMap.userName" (nzValueChange)="sortChange('userName', $event)"></nz-table-sort></span>
+                                        <nz-dropdown [nzTrigger]="'click'" [nzClickHide]="false">
+                                            <i class="anticon anticon-filter" nz-dropdown></i>
+                                            <div nz-dropdown-custom class="custom-filter-dropdown">
+                                                <nz-input [(ngModel)]="searchValue" [nzPlaceHolder]="'用户名搜索'" [nzType]="'search'" (nzOnSearch)="search()"></nz-input>
+                                            </div>
+                                        </nz-dropdown>
+                                    </th>
+                                    <th nz-th>
+                                        <span>巡护长度<nz-table-sort [nzValue]="sortMap.totalLength" (nzValueChange)="sortChange('totalLength', $event)"></nz-table-sort></span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>巡护时间<nz-table-sort [nzValue]="sortMap.totalTime" (nzValueChange)="sortChange('totalTime', $event)"></nz-table-sort></span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>巡护天数<nz-table-sort [nzValue]="sortMap.totalDay" (nzValueChange)="sortChange('totalDay', $event)"></nz-table-sort></span>
+                                    </th>
+                                    <th nz-th>
+                                        <span>巡护次数<nz-table-sort [nzValue]="sortMap.totalCount" (nzValueChange)="sortChange('totalCount', $event)"></nz-table-sort></span>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody nz-tbody>
+                                <ng-template ngFor let-stat [ngForOf]="nzTable.data">
+                                    <tr nz-tbody-tr>
+                                        <td nz-td nzExpand>
+                                            <nz-spin *ngIf="stat.exist" [nzSpinning]="stat.loading">
+                                                <nz-row-expand-icon (nzExpandChange)="collapse($event, stat)"
+                                                                    [(nzExpand)]="stat.expand"></nz-row-expand-icon>
+                                            </nz-spin>
+
+                                        </td>
+                                        <td nz-td><strong>{{ stat.userName }}</strong></td>
+                                        <td nz-td>{{ stat.totalLength | meterFormat }}</td>
+                                        <td nz-td>{{ stat.totalTime | timeFormat }}</td>
+                                        <td nz-td>{{ stat.totalDay }}</td>
+                                        <td nz-td>{{ stat.totalCount }}</td>
+                                    </tr>
+                                    <ng-template *ngIf="stat.exist && stat.expand" ngFor let-stat [ngForOf]="stat.days">
+                                        <tr nz-tbody-tr>
+                                            <td nz-td>
+                                                <nz-row-indent [nzIndentSize]="1"></nz-row-indent>
+                                            </td>
+                                            <td nz-td class="text-center">{{stat.date}}</td>
+                                            <td nz-td>{{ stat.totalLength | meterFormat }}</td>
+                                            <td nz-td>{{ stat.totalTime | timeFormat }}</td>
+                                            <td nz-td>1</td>
+                                            <td nz-td>{{ stat.totalCount }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </ng-template>
+                                </tbody>
+                            </nz-table>
+                        </nz-card>
+                    </div>
+                </nz-tab>
+            </nz-tabset>
+        </nz-row>
+    `,
     styles: [``]
 })
 export class StatComponent implements AfterViewInit {
