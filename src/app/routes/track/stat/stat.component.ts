@@ -260,6 +260,7 @@ export class StatComponent implements AfterViewInit {
         }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
                     if (res.data.length === 0) {// 无数据
+                        this.monthStats = [];
                         this.usersMonthOption = null;
                         return;
                     }
