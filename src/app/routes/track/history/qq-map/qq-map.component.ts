@@ -169,6 +169,7 @@ export class QqMapComponent implements OnDestroy, AfterViewInit {
                 }
             }
             if (bounds) {
+                this.map.panTo(bounds.getCenter());
                 this.map.fitBounds(bounds);
             }
         }

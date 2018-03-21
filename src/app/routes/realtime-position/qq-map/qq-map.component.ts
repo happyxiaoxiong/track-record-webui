@@ -328,6 +328,7 @@ export class QqMapComponent implements OnDestroy {
             });
             if (bounds) {
                 try {
+                    this.map.panTo(bounds.getCenter());
                     this.map.fitBounds(bounds);
                 } catch (ex) {
                 }

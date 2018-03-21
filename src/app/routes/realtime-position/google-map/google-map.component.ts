@@ -59,7 +59,7 @@ declare const google: any;
                           </div>
                           <div class="py-sm px-sm bg-grey-lighter-h">
                               <strong>经度:</strong>
-                              <p>{{curUser.lat}}&nbsp;</p>
+                              <p>{{curUser.lng}}&nbsp;</p>
                           </div>
                           <div class="py-sm px-sm bg-grey-lighter-h">
                               <strong>纬度:</strong>
@@ -333,6 +333,7 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
             });
             if (bounds) {
                 try {
+                    this.map.panTo(bounds.getCenter());
                     this.map.fitBounds(bounds);
                 } catch (ex) {
                 }
