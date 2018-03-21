@@ -259,23 +259,20 @@ export class StatComponent implements AfterViewInit {
             this.monthLoading = false;
         }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
-                    if (res.data.length === 0) {// 无数据
-                        this.monthStats = [];
-                        this.usersMonthOption = null;
-                        return;
-                    }
                     const stats = [];
-                    this.sort(res.data, 'userId');
-                    for (let i = 0, j = 0; i < this.users.length; i++) {
-                        if (j >= res.data.length || res.data[j].userId !== this.users[i].id) {
-                            stats.push({
-                                ...this.emptyStat,
-                                userId: this.users[i].id,
-                                userName: this.users[i].name,
-                                exist: false
-                            });
-                        } else {
-                            stats.push({...res.data[j++], exist: true});
+                    if (res.data.length > 0) {// 无数据
+                        this.sort(res.data, 'userId');
+                        for (let i = 0, j = 0; i < this.users.length; i++) {
+                            if (j >= res.data.length || res.data[j].userId !== this.users[i].id) {
+                                stats.push({
+                                    ...this.emptyStat,
+                                    userId: this.users[i].id,
+                                    userName: this.users[i].name,
+                                    exist: false
+                                });
+                            } else {
+                                stats.push({...res.data[j++], exist: true});
+                            }
                         }
                     }
                     this.monthStats = stats;
@@ -287,26 +284,22 @@ export class StatComponent implements AfterViewInit {
 
     setUsersMonthOption(stats) {
         const monthStats = stats.filter(stat => this.showEmpty || (!this.showEmpty && stat.exist));
-        if (monthStats.length > 0) {
-            this.usersMonthOption = {
-                ...this.defaultOption,
-                legend: this.baseLegend(this.baseLegendData.concat('巡护天数')),
-                xAxis: [{
-                    type: 'category',
-                    boundaryGap: true,
-                    data: this.showEmpty ? this.users.map(user => user.name) : monthStats.map(stat => stat.userName)
-                }],
-                series: this.baseSeries(monthStats, 'userName').concat({
-                    name: '巡护天数',
-                    type: 'bar',
-                    data: this.statMap(monthStats, 'totalDay', 'userName')
-                }),
-                dataZoom: this.dataZoom(this.showEmpty ? this.users : monthStats)
-            };
-            this.search();
-        } else {
-            this.usersMonthOption = null;
-        }
+        this.usersMonthOption = monthStats.length > 0 ? {
+            ...this.defaultOption,
+            legend: this.baseLegend(this.baseLegendData.concat('巡护天数')),
+            xAxis: [{
+                type: 'category',
+                boundaryGap: true,
+                data: this.showEmpty ? this.users.map(user => user.name) : monthStats.map(stat => stat.userName)
+            }],
+            series: this.baseSeries(monthStats, 'userName').concat({
+                name: '巡护天数',
+                type: 'bar',
+                data: this.statMap(monthStats, 'totalDay', 'userName')
+            }),
+            dataZoom: this.dataZoom(this.showEmpty ? this.users : monthStats)
+        } : null;
+        this.search();
     }
 
     monthChartClick(evt) {
