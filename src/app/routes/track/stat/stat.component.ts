@@ -22,8 +22,8 @@ import {Observable} from 'rxjs/Observable';
                                [nzDisabledDate]="_disabledMonth" [nzFormat]="'YYYY-MM'"></nz-datepicker>
                 <nz-button-group class="ml-sm">
                     <button nz-button [nzLoading]="monthLoading" (click)="addMonth(-12)">上一年</button>
-                    <button nz-button [nzLoading]="monthLoading" (click)="addMonth(-1)">上个月</button>
-                    <button nz-button [nzLoading]="monthLoading" (click)="addMonth(1)">下个月</button>
+                    <button nz-button [nzLoading]="monthLoading" (click)="addMonth(-1)">上月</button>
+                    <button nz-button [nzLoading]="monthLoading" (click)="addMonth(1)">下月</button>
                     <button nz-button [nzLoading]="monthLoading" (click)="addMonth(12)">下一年</button>
                 </nz-button-group>
             </ng-template>
