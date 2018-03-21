@@ -91,10 +91,8 @@ export class QqMapComponent implements OnDestroy, AfterViewInit {
                 this.setOverlaysMap(trackOverlay.overlays, this.map);
                 this.fitBounds();
                 this.count++;
-                track.loading = false;
             }
         } else {
-            track.loading = true;
             this.getTrackRoute(track);
         }
     }
@@ -106,7 +104,9 @@ export class QqMapComponent implements OnDestroy, AfterViewInit {
     getTrackRoute(track) {
         const me = this;
         track.loading = true;
-        this.http.get(server.apis.track.route, {params: {id: track.id}}).subscribe((res: HttpRes) => {
+        this.http.get(server.apis.track.route, {params: {id: track.id}})
+            .finally(() => track.loading = false)
+            .subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
                 const placeMarks = res.data.placeMarks || [];
                 this.gps2Tx(placeMarks).subscribe(() => {
