@@ -9,6 +9,7 @@ import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
 import * as moment from 'moment';
 import {MapService} from '@core/service/map.service';
+import {Utils} from '@shared/utils';
 
 declare const qq: any;
 
@@ -271,7 +272,7 @@ export class QqMapComponent implements OnDestroy {
             for (; i < this.onlineUsers.length; ++i) {
                 const onlineUser = this.onlineUsers[i];
                 if (user.userId === onlineUser.userId) {
-                    if (user.lat === onlineUser.lat && user.lat === onlineUser.lat) {
+                    if (Utils.equals(user, onlineUser)) {
                         return;
                     }
                     // 位置更新

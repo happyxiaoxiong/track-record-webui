@@ -10,6 +10,7 @@ import * as moment from 'moment';
 import {GoogleMapsService} from 'google-maps-angular2';
 import {MapService} from '@core/service/map.service';
 import 'rxjs/add/operator/finally';
+import {Utils} from '@shared/utils';
 
 declare const google: any;
 
@@ -281,7 +282,7 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
             for (; i < this.onlineUsers.length; ++i) {
                 const onlineUser = this.onlineUsers[i];
                 if (user.userId === onlineUser.userId) {
-                    if (user.lat === onlineUser.lat && user.lat === onlineUser.lat) {
+                    if (Utils.equals(user, onlineUser)) {
                         return;
                     }
                     // 位置更新
