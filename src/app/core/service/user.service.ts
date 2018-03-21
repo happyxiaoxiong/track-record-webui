@@ -31,11 +31,11 @@ export class UserService {
         }).subscribe((res: HttpRes) => {
                 if (server.successCode === res.code) {
                     const time = moment();
-                    this.updateUser(Object.assign(res.data.user, {
+                    this.updateUser({...res.data.user,
                         token: res.data.token,
                         webLoginTime: time.format('YYYY-MM-DD HH:mm:ss'),
                         refreshTokenTime: time.valueOf()
-                    }));
+                    });
                     this.appService.onlineError = false;
                     this.startRefreshTokenTimer();
                     success();
@@ -145,7 +145,7 @@ export class UserService {
     }
 
     updateUser(user: any) {
-        user = Object.assign(this.getUser(), user);
+        user = {...this.getUser(), ...user};
         this.settingsService.setUser(user);
         this.storage.setItem(this.userKey, JSON.stringify(user));
     }

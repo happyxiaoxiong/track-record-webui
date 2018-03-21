@@ -48,7 +48,7 @@ export class ListComponent implements OnInit {
         this.params.startTime = this.dateRange[0] ? moment(this.dateRange[0]).format('YYYY-MM-DD HH:mm:ss') : '';
         this.params.endTime = this.dateRange[1] ? moment(this.dateRange[1]).format('YYYY-MM-DD HH:mm:ss') : '';
 
-        const params = Object.assign({}, this.params);
+        const params = {...this.params};
         if (!this.positionExpand) {
             delete params.lat;
             delete params.lng;

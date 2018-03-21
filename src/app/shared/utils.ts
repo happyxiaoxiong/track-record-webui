@@ -26,13 +26,13 @@ export class Utils {
 
     private static format(units: Array<String>, num: number, unit: number, fixed: number): string {
         let i = 0;
-        for (; i < units.length; ++i) {
+        for (; i < units.length - 1; ++i) {
             if (num < unit) {
                 break;
             }
             num /= unit;
         }
-        return (num <= 0 ? '0' : num.toFixed(fixed).replace(/\.0+$/, '')) + units[i === units.length ? i - 1 : i];
+        return (num <= 0 ? '0' : num.toFixed(fixed).replace(/\.0+$/, '')) + units[i];
     }
 
     static isImage(name: string): boolean {

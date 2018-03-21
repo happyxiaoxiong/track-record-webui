@@ -398,9 +398,9 @@ export class ProfileComponent {
             })
             .subscribe((res: HttpRes) => {
             if (server.successCode === res.code) {
-                this.userSrv.updateUser(Object.assign(res.data.user, {
+                this.userSrv.updateUser({ ...res.data.user,
                     token: res.data.token
-                }));
+                });
                 this.msgSrv.success('更新成功');
             } else {
                 this.msgSrv.error('更新失败');
