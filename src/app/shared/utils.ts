@@ -32,7 +32,7 @@ export class Utils {
             }
             num /= unit;
         }
-        return (num <= 0 ? '0' : num.toFixed(fixed).replace(/\.0+$/, '')) + units[i];
+        return parseFloat((num <= 0 ? '0' : num.toFixed(fixed))).toString() + units[i];
     }
 
     static isImage(name: string): boolean {

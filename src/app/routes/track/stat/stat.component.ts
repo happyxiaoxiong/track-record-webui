@@ -157,8 +157,7 @@ export class StatComponent implements AfterViewInit {
     monthStats: Array<any> = [];
     displayMonthStats: Array<any> = [];
 
-    private baseLegendData = ['巡护长度', '巡护时间', '巡护次数'];
-
+    private readonly baseLegendData = [{ch: '巡护长度(km)', en: 'totalLength', div: 1000}, {ch: '巡护时间(h)', en: 'totalTime', div: 3600}, {ch: '巡护次数', en: 'totalCount'}, {ch: '巡护天数', en: 'totalDay'}];
     private readonly emptyStat = {
         totalLength: 0,
         totalTime: 0,
@@ -185,35 +184,7 @@ export class StatComponent implements AfterViewInit {
                             label: {
                                 show: true
                             }
-                        },
-                        formatter: function (params) {
-                            let text = params[0].name + '<br/>';
-                            params = params.filter(param => param.data[1] > 0);
-                            if (params.length > 0) {
-                                for (let i = 0; i < params.length; i++) {
-                                    if (i !== 0) {
-                                        text += '<br/>';
-                                    }
-                                    text += '<span style="display:inline-block;margin-right:5px;border-radius:10px;width:10px;height:10px;background-color:'
-                                        + params[i].color + ';"></span>' + params[i].seriesName + ': ';
-                                    const val = params[i].data[1];
-                                    if (params[i].seriesName === '巡护长度') {
-                                        text += Utils.formatMeterCn(val);
-                                    } else if (params[i].seriesName === '巡护时间') {
-                                        text += Utils.formatTimeCn(val);
-                                    } else if (params[i].seriesName === '巡护天数') {
-                                        text += val + '天';
-                                    } else if (params[i].seriesName === '巡护次数') {
-                                        text += val + '次';
-                                    } else {
-                                        text += val;
-                                    }
-                                }
-                            } else {
-                                text += '当月无数据';
-                            }
-                            return text;
-                        },
+                        }
                     },
                     toolbox: {
                         show: true,
@@ -286,17 +257,13 @@ export class StatComponent implements AfterViewInit {
         const monthStats = stats.filter(stat => this.showEmpty || (!this.showEmpty && stat.exist));
         this.usersMonthOption = monthStats.length > 0 ? {
             ...this.defaultOption,
-            legend: this.baseLegend(this.baseLegendData.concat('巡护天数')),
+            legend: this.baseLegend(this.baseLegendData.map(legend => legend.ch)),
             xAxis: [{
                 type: 'category',
                 boundaryGap: true,
                 data: this.showEmpty ? this.users.map(user => user.name) : monthStats.map(stat => stat.userName)
             }],
-            series: this.baseSeries(monthStats, 'userName').concat({
-                name: '巡护天数',
-                type: 'bar',
-                data: this.statMap(monthStats, 'totalDay', 'userName')
-            }),
+            series: this.baseSeries(monthStats, 'userName'),
             dataZoom: this.dataZoom(this.showEmpty ? this.users : monthStats)
         } : null;
         this.search();
@@ -328,13 +295,13 @@ export class StatComponent implements AfterViewInit {
     setUserDayOption(stats) {
         this.userDayOption = {
             ...this.defaultOption,
-            legend: this.baseLegend(this.baseLegendData),
+            legend: this.baseLegend(this.baseLegendData.map(legend => legend.ch).slice(0, 3)),
             xAxis: [{
                 type: 'category',
                 boundaryGap: true,
                 data: stats.map(stat => stat.date)
             }],
-            series: this.baseSeries(stats, 'date'),
+            series: this.baseSeries(stats, 'date').slice(0, 3),
             dataZoom: this.dataZoom(stats),
         };
     }
@@ -381,21 +348,12 @@ export class StatComponent implements AfterViewInit {
         };
     }
 
-    baseSeries(stats, legend: string) {
-        return [{
-            name: '巡护长度',
-            type: 'bar',
-            data: this.statMap(stats, 'totalLength', legend)
-        }, {
-            name: '巡护时间',
-            type: 'bar',
-            data: this.statMap(stats, 'totalTime', legend)
-        }, {
-            name: '巡护次数',
-            type: 'bar',
-            data: this.statMap(stats, 'totalCount', legend),
-        }
-        ];
+    baseSeries(stats, xAxisKey: string) {
+        return this.baseLegendData.map(legend => ({
+                name: legend.ch,
+                type: 'bar',
+                data: this.statMap(stats, legend.en, xAxisKey, legend.div || 1)
+        }));
     }
 
     dataZoom(data: Array<any>) {
@@ -422,8 +380,8 @@ export class StatComponent implements AfterViewInit {
         ];
     }
 
-    statMap(stats: Array<any>, key: string, legend: string) {
-        return stats.map(stat => [stat[legend], stat[key], stat.userId]);
+    statMap(stats: Array<any>, key: string, xAxisKey: string, div = 1) {
+        return stats.map(stat => [stat[xAxisKey], parseFloat((stat[key] / div).toFixed(2)), stat.userId]);
     }
 
     selectedMonthFormat() {
