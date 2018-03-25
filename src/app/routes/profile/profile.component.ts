@@ -6,6 +6,7 @@ import {UserService} from '@core/service/user.service';
 import {server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
 import * as moment from 'moment';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'app-profile',

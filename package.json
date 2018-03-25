@@ -65,7 +65,7 @@
     "ng2-img-cropper": "^0.9.0",
     "ngx-color-picker": "^5.0.0",
     "ngx-countdown": "^2.0.0",
-    "ngx-echarts": "^2.0.2",
+    "ngx-echarts": "^2.1.0",
     "ngx-filesaver": "^1.0.0",
     "ngx-logger": "^1.1.2",
     "ngx-tinymce": "^1.0.1",

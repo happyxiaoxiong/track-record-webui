@@ -11,6 +11,7 @@ import {GoogleMapsService} from 'google-maps-angular2';
 import {MapService} from '@core/service/map.service';
 import 'rxjs/add/operator/finally';
 import {Utils} from '@shared/utils';
+import 'rxjs/add/operator/takeWhile';
 
 declare const google: any;
 

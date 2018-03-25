@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import {Utils} from '@shared/utils';
 import {NzDatePickerComponent} from 'ng-zorro-antd';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'app-stat',

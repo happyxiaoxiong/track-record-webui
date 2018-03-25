@@ -10,6 +10,7 @@ import {NzSelectComponent} from 'ng-zorro-antd';
 import {UserService} from '@core/service/user.service';
 import {MapService} from '@core/service/map.service';
 import {Utils} from '@shared/utils';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'app-track-history-list',
@@ -54,7 +55,8 @@ export class ListComponent implements OnInit {
             delete params.lng;
             delete params.distance;
         }
-        this.http.get(server.apis.track.search, {params: params}).finally(() => this.loading = false)
+        this.http.get(server.apis.track.search, {params: params})
+            .finally(() => this.loading = false)
             .subscribe(
                 (res: HttpRes) => {
                     const data = res.data || {};

@@ -9,6 +9,7 @@ import {HttpRes} from '@core/model/http-res';
 import {DescComponent} from '../desc/desc.component';
 import {MapService} from '@core/service/map.service';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/finally';
 
 declare const qq: any;
 

@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {HttpRes} from '@core/model/http-res';
 import {server} from '@core/service/app.service';
 import * as moment from 'moment';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'passport-register',

@@ -5,6 +5,7 @@ import {AppService, server} from '@core/service/app.service';
 import {HttpRes} from '@core/model/http-res';
 import 'rxjs/add/operator/takeWhile';
 import {FileUploadService} from '../file-upload.service';
+import 'rxjs/add/operator/finally';
 
 @Component({
     selector: 'app-last-week-state',

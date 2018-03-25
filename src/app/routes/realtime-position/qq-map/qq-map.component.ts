@@ -10,6 +10,8 @@ import {NzMessageService, NzSelectComponent} from 'ng-zorro-antd';
 import * as moment from 'moment';
 import {MapService} from '@core/service/map.service';
 import {Utils} from '@shared/utils';
+import 'rxjs/add/operator/takeWhile';
+import 'rxjs/add/operator/finally';
 
 declare const qq: any;
 

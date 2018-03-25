@@ -8,6 +8,7 @@ import {HttpRes} from '@core/model/http-res';
 import {DescComponent} from '../desc/desc.component';
 import {GoogleMapsService} from 'google-maps-angular2';
 import {MapService} from '@core/service/map.service';
+import 'rxjs/add/operator/finally';
 
 declare const google: any;
 

@@ -11,6 +11,7 @@ import {ReuseTabService} from '@delon/abc';
 import * as moment from 'moment';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {Observable} from 'rxjs/Observable';
+import 'rxjs/add/operator/takeWhile';
 
 @Injectable()
 export class UserService {
