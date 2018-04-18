@@ -61,9 +61,9 @@ export class QqMapComponent implements OnDestroy, AfterViewInit {
 
     ngOnDestroy(): void {
         this.clear();
-        ['click'].forEach(eventName => {
-            qq.maps.event.clearListeners(this.map, eventName);
-        });
+        // ['click'].forEach(eventName => {
+        //     qq.maps.event.clearListeners(this.map, eventName);
+        // });
     }
 
     clear() {

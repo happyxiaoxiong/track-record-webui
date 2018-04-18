@@ -66,9 +66,9 @@ export class GoogleMapComponent implements OnDestroy, AfterViewInit {
 
     ngOnDestroy(): void {
         this.clear();
-        ['click'].forEach(eventName => {
-            google.maps.event.clearListeners(this.map, eventName);
-        });
+        // ['click'].forEach(eventName => {
+        //     google.maps.event.clearListeners(this.map, eventName);
+        // });
     }
 
     clear() {
