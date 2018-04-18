@@ -88,8 +88,8 @@ export class UserService {
     }
 
     logout(redirectUrl?: string) {
-        // clear cache
-        // localStorage.clear();
+        // 退出状态，不需要报错
+        this.appService.onlineError = true;
         this.storage.removeItem(this.userKey);
         this.stopRefreshTokenTimer();
         this.router.navigate(['passport/login'], {
