@@ -98,10 +98,9 @@ import {
     AdFullContentModule,
     AdGlobalFooterModule,
     AdSidebarNavModule,
-    AdReuseTabModule, AdExceptionModule,
+    AdExceptionModule,
 } from '@delon/abc';
 export const ABCMODULES = [
-    AdReuseTabModule,
     AdSidebarNavModule,
     AdGlobalFooterModule,
     AdFullContentModule,
@@ -122,7 +121,6 @@ import { AlainThemeModule } from '@delon/theme';
         AlainThemeModule.forRoot(),
         // abc
         AdSidebarNavModule.forRoot(),
-        AdReuseTabModule.forRoot(),
         AdGlobalFooterModule.forRoot(),
         AdFullContentModule.forRoot(),
         AdExceptionModule.forRoot(),

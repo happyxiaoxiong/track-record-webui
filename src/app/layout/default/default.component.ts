@@ -11,7 +11,6 @@ import { ScrollService, MenuService, SettingsService } from '@delon/theme';
             <app-header class="header"></app-header>
             <app-sidebar class="aside"></app-sidebar>
             <section class="content">
-                <reuse-tab></reuse-tab>
                 <router-outlet></router-outlet>
             </section>
         </div>

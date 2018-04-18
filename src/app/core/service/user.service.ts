@@ -7,7 +7,6 @@ import {isString} from 'util';
 import {ActivatedRoute, Router} from '@angular/router';
 import {SettingsService} from '@delon/theme';
 import {NzModalService} from 'ng-zorro-antd';
-import {ReuseTabService} from '@delon/abc';
 import * as moment from 'moment';
 import {TimerObservable} from 'rxjs/observable/TimerObservable';
 import {Observable} from 'rxjs/Observable';
@@ -21,8 +20,7 @@ export class UserService {
     private timerAlive;
 
     constructor(private http: HttpClient, private appService: AppService, private settingsService: SettingsService,
-                private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService,
-                private reuseTabSrv: ReuseTabService) {
+                private router: Router, private route: ActivatedRoute, private modalSrv: NzModalService) {
     }
 
     login(account: string, password: string, success: Function, fail: Function): void {
@@ -96,9 +94,6 @@ export class UserService {
             queryParams: {redirectUrl: redirectUrl || this.router.url},
             relativeTo: this.route
         });
-        setTimeout(() => {
-            this.reuseTabSrv.clear();
-        }, 500);
     }
 
     needLogin() {
