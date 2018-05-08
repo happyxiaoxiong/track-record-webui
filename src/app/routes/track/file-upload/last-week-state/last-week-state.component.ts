@@ -83,7 +83,7 @@ export class LastWeekStateComponent implements AfterViewInit, OnDestroy {
     trackFiles: any = [];
 
     timer;
-    interval = 5000;
+    interval = 30000;
 
     searchValue = '';
     sortMap = {
