@@ -23,7 +23,10 @@ import 'rxjs/add/operator/finally';
 })
 export class ListComponent implements OnInit {
 
-    dateRange = [null, null];
+    dateRange = {
+        startTime: null,
+        endTime: null
+    };
     params: any = {
         pageSize: 10,
         distance: 0.5
@@ -45,9 +48,14 @@ export class ListComponent implements OnInit {
     }
 
     search() {
+        this.params.pageNum = 1;
+        this._search();
+    }
+
+    _search() {
         this.loading = true;
-        this.params.startTime = this.dateRange[0] ? moment(this.dateRange[0]).format('YYYY-MM-DD HH:mm:ss') : '';
-        this.params.endTime = this.dateRange[1] ? moment(this.dateRange[1]).format('YYYY-MM-DD HH:mm:ss') : '';
+        this.params.startTime = this.dateRange.startTime ? moment(this.dateRange.startTime).format('YYYY-MM-DD HH:mm:ss') : '';
+        this.params.endTime = this.dateRange.endTime ? moment(this.dateRange.endTime).format('YYYY-MM-DD HH:mm:ss') : '';
 
         const params = {...this.params};
         if (!this.positionExpand) {
@@ -70,18 +78,18 @@ export class ListComponent implements OnInit {
             pageSize: this.params.pageSize,
             distance: 0.5
         };
-        this.search();
+        this._search();
     }
 
 
     pageSizeChange(pageSize) {
         this.params.pageSize = pageSize;
-        this.search();
+        this._search();
     }
 
     pageIndexChangeClick(pageNum) {
         this.params.pageNum = pageNum;
-        this.search();
+        this._search();
     }
 
     toggle(track, checked) {
@@ -147,5 +155,33 @@ export class ListComponent implements OnInit {
                 });
             }, 1000);
         }
+    }
+
+    startTimeChange(time) {
+        this.dateRange.startTime = time;
+        if (this.dateRange.startTime > this.dateRange.endTime) {
+            this.dateRange.endTime = null;
+        }
+    }
+
+    endTimeChange(time) {
+        this.dateRange.endTime = time;
+        if (this.dateRange.startTime > this.dateRange.endTime) {
+            this.dateRange.startTime = null;
+        }
+    }
+
+    disabledStartTime = (time) => {
+        if (!time || !this.dateRange.endTime) {
+            return false;
+        }
+        return time.getTime() >= this.dateRange.endTime.getTime();
+    }
+
+    disabledEndTime = (time) => {
+        if (!time || !this.dateRange.startTime) {
+            return false;
+        }
+        return time.getTime() <= this.dateRange.startTime.getTime();
     }
 }

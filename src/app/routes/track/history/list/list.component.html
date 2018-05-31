@@ -4,8 +4,11 @@
             <nz-input [(ngModel)]="params.keyword" name="keyword" [nzId]="'keyword'" [nzPlaceHolder]="'关键字(轨迹名称、记录人、关键地点、说明)'" (keydown.enter)="search()">
             </nz-input>
         </div>
-        <div nz-col [nzSm]="positionExpand ? 12 : 8" [nzXs]="24" class="pr-sm mb-sm">
-            <nz-rangepicker [(ngModel)]="dateRange" name="dataRange" [nzPlaceholder]="['开始时间', ['结束时间']]"></nz-rangepicker>
+        <div nz-col [nzSm]="positionExpand ? 6 : 4" [nzXs]="12" class="pr-sm mb-sm">
+            <nz-datepicker (ngModelChange)="startTimeChange($event)" [ngModel]="dateRange.startTime" [nzDisabledDate]="disabledStartTime" [nzFormat]="'YYYY-MM-DD'" [nzPlaceHolder]="'开始时间'"></nz-datepicker>
+        </div>
+        <div nz-col [nzSm]="positionExpand ? 6 : 4" [nzXs]="12" class="pr-sm mb-sm">
+            <nz-datepicker (ngModelChange)="endTimeChange($event)" [ngModel]="dateRange.endTime" [nzDisabledDate]="disabledEndTime" [nzFormat]="'YYYY-MM-DD'" [nzPlaceHolder]="'结束时间'"></nz-datepicker>
         </div>
         <div *ngIf="positionExpand" nz-col [nzSm]="12" [nzXs]="24" class="pr-sm mb-sm">
             <nz-select #mapAddressSelect style="width: 100%" nzAllowClear [nzPlaceHolder]="'地点'" (nzSearchChange)="addressSearchChange($event)" [nzNotFoundContent]="searchTip" nzShowSearch>
